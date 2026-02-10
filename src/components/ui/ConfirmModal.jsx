@@ -1,4 +1,4 @@
-function ConfirmModal({ isOpen, title, message, confirmLabel, onConfirm, onCancel }) {
+function ConfirmModal({ isOpen, title, message, confirmLabel, cancelLabel, onConfirm, onCancel }) {
   if (!isOpen) return null
 
   return (
@@ -21,7 +21,7 @@ function ConfirmModal({ isOpen, title, message, confirmLabel, onConfirm, onCance
             onClick={onCancel}
             className="rounded-full px-3 py-1 text-sm font-semibold text-slate-600 hover:text-slate-700 dark:text-slate-300"
           >
-            Cancel
+            {cancelLabel || 'Cancel'}
           </button>
           <button
             type="button"

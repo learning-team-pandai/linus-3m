@@ -4,6 +4,7 @@ import { loadProgress, resetCategoryProgress, setCurrentLesson } from '../utils/
 import PathMap from '../components/path/PathMap.jsx'
 import Skeleton from '../components/ui/Skeleton.jsx'
 import ConfirmModal from '../components/ui/ConfirmModal.jsx'
+import { getStrings } from '../utils/i18n.js'
 
 function CategoryPath({ categoryId }) {
   const [progress, setProgress] = useState(() => loadProgress())
@@ -11,6 +12,7 @@ function CategoryPath({ categoryId }) {
   const [showResetModal, setShowResetModal] = useState(false)
   const [isSticky, setIsSticky] = useState(false)
   const stickySentinelRef = useRef(null)
+  const strings = getStrings()
 
   const category = useMemo(
     () => MODULES.find((cat) => cat.id === categoryId),
@@ -76,16 +78,16 @@ function CategoryPath({ categoryId }) {
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
         <div className="mx-auto max-w-3xl px-4 py-10">
           <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-            Category not found
+            {strings.pathNotFound}
           </h1>
-          <button
-            type="button"
-            onClick={() => {
-              window.location.hash = '#/'
-            }}
-            className="mt-4 rounded-full p-2 text-emerald-500 dark:text-emerald-300"
-            aria-label="Back"
-          >
+            <button
+              type="button"
+              onClick={() => {
+                window.location.hash = '#/'
+              }}
+              className="mt-4 rounded-full p-2 text-emerald-500 dark:text-emerald-300"
+              aria-label={strings.back}
+            >
             <svg
               viewBox="0 0 24 24"
               className="h-4 w-4"
@@ -111,7 +113,7 @@ function CategoryPath({ categoryId }) {
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 font-playpen">
-                Linus 3M
+                {strings.appName}
               </p>
               <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 font-playpen">
                 {category.name}
@@ -150,9 +152,9 @@ function CategoryPath({ categoryId }) {
         <section className="sticky top-0 z-10 mb-6 rounded-xl border border-slate-200 bg-white/95 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
           <div className="flex items-center gap-4">
             <div>
-              <p className="text-sm text-slate-500 dark:text-slate-400">Progress</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{strings.progress}</p>
               <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                {completedInCategory.length} of {lessons.length} completed
+                {completedInCategory.length} of {lessons.length} {strings.completed}
               </p>
             </div>
             <div className="ml-auto flex items-center gap-2">
@@ -235,9 +237,10 @@ function CategoryPath({ categoryId }) {
 
       <ConfirmModal
         isOpen={showResetModal}
-        title="Reset this path?"
-        message={`This will clear progress for ${category?.name || 'this path'} only.`}
-        confirmLabel="Reset"
+        title={strings.resetPathTitle}
+                message={`${strings.resetPathMessage} ${category?.name || ''}`}
+        confirmLabel={strings.reset}
+        cancelLabel={strings.cancel}
         onConfirm={handleReset}
         onCancel={() => setShowResetModal(false)}
       />

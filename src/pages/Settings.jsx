@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { applyTheme, loadSettings, setSoundEnabled, setTheme } from '../utils/settings.js'
+import { applyTheme, loadSettings, setLanguage, setSoundEnabled, setTheme } from '../utils/settings.js'
+import { getStrings } from '../utils/i18n.js'
 
 function Settings() {
   const [settings, setSettings] = useState(() => loadSettings())
+  const strings = getStrings()
 
   const handleSoundToggle = () => {
     const next = setSoundEnabled(!settings.soundEnabled)
@@ -16,15 +18,21 @@ function Settings() {
     applyTheme(next.theme)
   }
 
+  const handleLanguageSelect = (lang) => {
+    const next = setLanguage(lang)
+    setSettings(next)
+    window.location.reload()
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-              Settings
+              {strings.settings}
             </p>
-            <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Preferences</h1>
+            <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">{strings.preferences}</h1>
           </div>
           <button
             type="button"
@@ -32,7 +40,7 @@ function Settings() {
               window.location.hash = '#/'
             }}
             className="rounded-full p-2 text-emerald-500 dark:text-emerald-300"
-            aria-label="Back"
+            aria-label={strings.back}
           >
             <svg
               viewBox="0 0 24 24"
@@ -55,10 +63,49 @@ function Settings() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                Dark mode
+                {strings.language}
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Switch between light and dark theme.
+                {strings.languageDesc}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleLanguageSelect('bm')}
+                className={
+                  'rounded-full px-3 py-1 text-xs font-semibold ' +
+                  (settings.language === 'bm'
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300')
+                }
+              >
+                BM
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLanguageSelect('en')}
+                className={
+                  'rounded-full px-3 py-1 text-xs font-semibold ' +
+                  (settings.language === 'en'
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300')
+                }
+              >
+                EN
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                {strings.darkMode}
+              </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                {strings.darkModeDesc}
               </p>
             </div>
             <button
@@ -84,10 +131,10 @@ function Settings() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                Sound effects
+                {strings.soundEffects}
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Toggle celebration and feedback sounds.
+                {strings.soundEffectsDesc}
               </p>
             </div>
             <button

@@ -3,6 +3,7 @@ const SETTINGS_KEY = 'linus3m-settings'
 const defaultSettings = {
   soundEnabled: true,
   theme: 'light',
+  language: 'bm',
 }
 
 export const loadSettings = () => {
@@ -18,6 +19,7 @@ export const loadSettings = () => {
           ? parsed.soundEnabled
           : true,
       theme: parsed.theme === 'dark' ? 'dark' : 'light',
+      language: parsed.language === 'en' ? 'en' : 'bm',
     }
   } catch (error) {
     console.error('Settings read error:', error)
@@ -51,6 +53,10 @@ export const setSoundEnabled = (soundEnabled) => {
 
 export const setTheme = (theme) => {
   return saveSettings({ theme: theme === 'dark' ? 'dark' : 'light' })
+}
+
+export const setLanguage = (language) => {
+  return saveSettings({ language: language === 'en' ? 'en' : 'bm' })
 }
 
 export const isSoundEnabled = () => {

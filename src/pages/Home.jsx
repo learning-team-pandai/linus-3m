@@ -3,11 +3,13 @@ import { MODULES, ORDERED_LESSONS } from '../data/content.js'
 import { loadProgress, resetProgress } from '../utils/storage.js'
 import Skeleton from '../components/ui/Skeleton.jsx'
 import ConfirmModal from '../components/ui/ConfirmModal.jsx'
+import { getStrings } from '../utils/i18n.js'
 
 function Home() {
   const [progress, setProgress] = useState(() => loadProgress())
   const [isLoading, setIsLoading] = useState(true)
   const [showResetModal, setShowResetModal] = useState(false)
+  const strings = getStrings()
 
   const completedStarsByLesson = useMemo(() => {
     const completedResources = progress.completedResources || {}
@@ -41,10 +43,10 @@ function Home() {
           <div className="flex items-center justify-between gap-4">
             <div className="flex-1 text-center">
               <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 font-playpen">
-                Linus 3M
+                {strings.appName}
               </h1>
               <p className="text-sm text-slate-600 dark:text-slate-400">
-                Tap lesson nodes to start. Progress is saved locally.
+                {strings.homeSubtitle}
               </p>
             </div>
             <button
@@ -77,11 +79,11 @@ function Home() {
         <section className="mb-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-500 dark:text-slate-400">Progress</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{strings.progress}</p>
               <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                {progress.completedLessons.length} of {ORDERED_LESSONS.length} completed
+                {progress.completedLessons.length} of {ORDERED_LESSONS.length} {strings.completed}
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Total stars: {totalStars}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{strings.totalStars}: {totalStars}</p>
             </div>
             <button
               type="button"
@@ -151,16 +153,14 @@ function Home() {
               ))}
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
-          Select a path to start learning.
-        </section>
       </main>
 
       <ConfirmModal
         isOpen={showResetModal}
-        title="Reset progress?"
-        message="This will clear all progress across both paths."
-        confirmLabel="Reset"
+        title={strings.resetAllTitle}
+        message={strings.resetAllMessage}
+        confirmLabel={strings.reset}
+        cancelLabel={strings.cancel}
         onConfirm={handleReset}
         onCancel={() => setShowResetModal(false)}
       />

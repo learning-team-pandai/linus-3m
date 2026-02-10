@@ -1,12 +1,14 @@
 import { useState } from 'react'
+import { getStrings } from '../../utils/i18n.js'
 
 function ResourceLinks({ sections, completedSections, onSectionComplete }) {
   const [openSection, setOpenSection] = useState(null)
+  const strings = getStrings()
 
   if (!sections || sections.length === 0) {
     return (
       <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
-        Resources are coming soon.
+        {strings.resourcesSoon}
       </div>
     )
   }
@@ -40,7 +42,7 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
               >
                 {section.title}
                 <span className="text-xs text-slate-400">
-                  {isOpen ? 'Hide' : 'View'}
+                  {isOpen ? strings.hide : strings.view}
                 </span>
               </button>
               <button
@@ -53,7 +55,7 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
                     : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300')
                 }
               >
-                {isCompleted ? 'Completed' : 'Mark Complete'}
+                {isCompleted ? strings.completedSection : strings.markCompleteSection}
               </button>
             </div>
 
@@ -71,7 +73,7 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
                   </div>
                 ) : (
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    No embeddable content available.
+                    {strings.noEmbed}
                   </p>
                 )}
               </div>

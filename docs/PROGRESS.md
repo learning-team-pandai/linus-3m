@@ -65,29 +65,29 @@
 - [x] Accessibility audit
 - [x] Performance optimization
 
-## Phase 7: Content Population 🔄 IN PROGRESS
+## Phase 7: Content Population ✅ COMPLETE
 - [x] Membaca module content (all lessons)
 - [x] Menulis module content (all lessons)
 - [x] Mengira module content (all lessons)
 - [x] Asset optimization (images, audio, video)
-- [ ] BM/EN string localization
+- [x] BM/EN string localization
 
-## Phase 8: Deployment 📋 PLANNED
-- [ ] Production build
-- [ ] Static hosting setup
+## Phase 8: Deployment 🔄 IN PROGRESS
+- [x] Production build
+- [x] Static hosting setup (GitHub Pages workflow)
 - [ ] Domain configuration (if needed)
 - [ ] Analytics (optional)
 
 ---
 
-## Current Sprint: Phase 6
+## Current Sprint: Phase 8
 
-**Goal:** Polish and optimize
+**Goal:** Deployment readiness
 
 **Tasks:**
-1. Mobile responsiveness testing
-2. Tablet optimization
-3. Loading states
+1. Production build
+2. Static hosting setup
+3. Analytics (optional)
 
 **Definition of Done:**
 - Open app → see learning path

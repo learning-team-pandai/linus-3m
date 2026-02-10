@@ -18,6 +18,7 @@ import ResourceLinks from '../components/lesson/ResourceLinks.jsx'
 import Celebration from '../components/celebration/Celebration.jsx'
 import { playCelebrate } from '../utils/sfx.js'
 import Skeleton from '../components/ui/Skeleton.jsx'
+import { getStrings } from '../utils/i18n.js'
 
 const buildTabs = (content) => {
   const tabs = []
@@ -29,6 +30,7 @@ const buildTabs = (content) => {
 
 function Lesson({ lessonId }) {
   const [progress, setProgress] = useState(() => loadProgress())
+  const strings = getStrings()
 
   const lesson = useMemo(() => getLessonById(lessonId), [lessonId])
   const module = useMemo(
@@ -41,7 +43,7 @@ function Lesson({ lessonId }) {
       <div className="min-h-screen bg-slate-50">
         <div className="mx-auto max-w-2xl px-4 py-10">
           <h1 className="text-xl font-semibold text-slate-900">
-            Lesson not found
+            {strings.lessonNotFound}
           </h1>
           <button
             type="button"
@@ -50,7 +52,7 @@ function Lesson({ lessonId }) {
             }}
             className="mt-4 text-sm font-semibold text-blue-500"
           >
-            Back to path
+            {strings.backToPath}
           </button>
         </div>
       </div>
@@ -63,6 +65,8 @@ function Lesson({ lessonId }) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || 'slides')
   const [showCelebration, setShowCelebration] = useState(false)
   const hasCelebratedRef = useRef(false)
+  const prevCollectedRef = useRef(0)
+  const hasMountedRef = useRef(false)
   const [isTabLoading, setIsTabLoading] = useState(false)
 
   const resourceSections = lesson.content?.resources || []
@@ -104,11 +108,21 @@ function Lesson({ lessonId }) {
   }
 
   useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true
+      return
+    }
     if (!isCompleted || hasCelebratedRef.current) return
-    hasCelebratedRef.current = true
-    setShowCelebration(true)
-    playCelebrate()
-  }, [isCompleted])
+    if (collectedStars > 0 && prevCollectedRef.current < collectedStars) {
+      hasCelebratedRef.current = true
+      setShowCelebration(true)
+      playCelebrate()
+    }
+  }, [isCompleted, collectedStars])
+
+  useEffect(() => {
+    prevCollectedRef.current = collectedStars
+  }, [collectedStars])
 
   const handleContinue = () => {
     if (!nextLessonId) {
@@ -152,10 +166,10 @@ function Lesson({ lessonId }) {
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 font-playpen">
               {module ? module.name : 'Module'}
             </p>
-            <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100 font-playpen">
-              {lesson.title}
-            </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400">{lesson.duration}</p>
+          <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100 font-playpen">
+            {lesson.title}
+          </h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{lesson.duration}</p>
           </div>
           <button
             type="button"
@@ -163,7 +177,7 @@ function Lesson({ lessonId }) {
               window.location.hash = `#/path/${lesson.moduleId}`
             }}
             className="rounded-full p-2 text-emerald-500 dark:text-emerald-300"
-            aria-label="Back"
+            aria-label={strings.backToPath}
           >
             <svg
               viewBox="0 0 24 24"
@@ -244,7 +258,7 @@ function Lesson({ lessonId }) {
 
         <section className="mt-6 flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-            Stars:
+            {strings.stars}:
             <div className="flex items-center gap-1">
               {Array.from({ length: totalStars }).map((_, index) => {
                 const isCollected = index < collectedStars
@@ -261,7 +275,7 @@ function Lesson({ lessonId }) {
                 )
               })}
               {totalStars === 0 && (
-                <span className="text-[11px] text-slate-400">No stars</span>
+                <span className="text-[11px] text-slate-400">{strings.noStars}</span>
               )}
             </div>
           </div>
@@ -273,14 +287,14 @@ function Lesson({ lessonId }) {
               (isCompleted ? 'bg-emerald-400' : 'bg-emerald-500')
             }
           >
-            {isCompleted ? 'Completed' : 'Mark Complete'}
+            {isCompleted ? strings.lessonCompleted : strings.markComplete}
           </button>
           <button
             type="button"
             onClick={handleContinue}
             className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-slate-800 dark:text-slate-300"
           >
-            {nextLessonId ? 'Next Lesson' : 'Back to Path'}
+            {nextLessonId ? strings.nextLesson : strings.backToPath}
           </button>
         </section>
 
@@ -290,17 +304,16 @@ function Lesson({ lessonId }) {
             role="status"
             aria-live="polite"
           >
-            Great job! You earned {collectedStars} stars.
+            {strings.greatJob} {collectedStars} {strings.stars}.
           </section>
         )}
 
         <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-            Progress Snapshot
+            {strings.progressSnapshot}
           </h2>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-            Completed lessons: {progress.completedLessons.length} of{' '}
-            {ORDERED_LESSONS.length}
+            {progress.completedLessons.length} / {ORDERED_LESSONS.length} {strings.completed}
           </p>
         </section>
       </main>
