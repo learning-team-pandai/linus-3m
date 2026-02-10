@@ -220,10 +220,7 @@ function Lesson({ lessonId }) {
 
         {videoSection && (
           <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-              Video
-            </h2>
-            <div className="mt-3 aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
+            <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
               <iframe
                 title={`${lesson.title} video`}
                 src={videoSection.links?.[0]?.url}
