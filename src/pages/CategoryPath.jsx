@@ -135,25 +135,6 @@ function CategoryPath({ categoryId }) {
               <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                 {completedInCategory.length} of {lessons.length} completed
               </p>
-              <div className="mt-2 flex items-center gap-1">
-                {Array.from({ length: starsInCategory.total }).map((_, index) => {
-                  const isCollected = index < starsInCategory.collected
-                  return (
-                    <svg
-                      key={`category-star-${index}`}
-                      viewBox="0 0 24 24"
-                      className={`h-4 w-4 ${isCollected ? 'text-amber-400' : 'text-slate-300 dark:text-slate-600'}`}
-                      aria-hidden="true"
-                      fill="currentColor"
-                    >
-                      <path d="M12 2l2.9 6.1 6.7.6-5 4.5 1.5 6.6L12 16.9 5.9 19.8 7.4 13 2.4 8.7l6.7-.6L12 2z" />
-                    </svg>
-                  )
-                })}
-                {starsInCategory.total === 0 && (
-                  <span className="text-[11px] text-slate-400">No stars</span>
-                )}
-              </div>
             </div>
             <button
               type="button"
