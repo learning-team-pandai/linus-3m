@@ -27,6 +27,28 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
   }
 
   const isCanvaUrl = (url) => url && url.includes('canva.com/design/')
+  const isYouTubeUrl = (url) =>
+    url && (url.includes('youtube.com') || url.includes('youtu.be'))
+
+  const buildYouTubeEmbedUrl = (url) => {
+    try {
+      const parsed = new URL(url)
+      if (parsed.hostname === 'youtu.be') {
+        const id = parsed.pathname.replace('/', '').trim()
+        return id ? `https://www.youtube.com/embed/${id}` : null
+      }
+      if (parsed.hostname.includes('youtube.com')) {
+        const id = parsed.searchParams.get('v')
+        if (id) return `https://www.youtube.com/embed/${id}`
+        const pathMatch = parsed.pathname.match(/\/embed\/(.+)$/)
+        if (pathMatch) return `https://www.youtube.com/embed/${pathMatch[1]}`
+        return null
+      }
+      return null
+    } catch {
+      return null
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -35,7 +57,13 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
         const currentUrl = section.links[0]?.url
         const isCompleted = completedSections?.[section.title]
         const isCanva = isCanvaUrl(currentUrl)
-        const embedUrl = isCanva ? buildCanvaEmbedUrl(currentUrl) : currentUrl
+        const isYouTube = isYouTubeUrl(currentUrl)
+        const embedUrl = isCanva
+          ? buildCanvaEmbedUrl(currentUrl)
+          : isYouTube
+            ? buildYouTubeEmbedUrl(currentUrl)
+            : currentUrl
+        const shouldEmbed = Boolean(embedUrl)
 
         return (
           <div
@@ -93,16 +121,25 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
                         {section.title}
                       </a>
                     </div>
-                  ) : (
+                  ) : shouldEmbed ? (
                     <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
                       <iframe
                         title={`${section.title} content`}
-                        src={currentUrl}
+                        src={embedUrl}
                         className="h-full w-full"
                         loading="lazy"
-                        allow="fullscreen"
+                        allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
                       />
                     </div>
+                  ) : (
+                    <a
+                      href={currentUrl}
+                      target="_blank"
+                      rel="noopener"
+                      className="text-sm font-semibold text-emerald-500 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
+                    >
+                      {section.title}
+                    </a>
                   )
                 ) : (
                   <p className="text-xs text-slate-500 dark:text-slate-400">

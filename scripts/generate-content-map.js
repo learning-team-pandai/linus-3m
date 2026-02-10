@@ -64,6 +64,26 @@ const trimRow = (row) => row.map((cell) => (cell || '').trim())
 
 const rows = readCsv(fs.readFileSync(csvPath, 'utf8')).map(trimRow)
 
+const normalizeYouTube = (value) => {
+  if (!value) return ''
+  try {
+    const parsed = new URL(value)
+    if (parsed.hostname === 'youtu.be') {
+      const id = parsed.pathname.replace('/', '').trim()
+      return id ? `https://www.youtube.com/embed/${id}` : value
+    }
+    if (parsed.hostname.includes('youtube.com')) {
+      const id = parsed.searchParams.get('v')
+      if (id) return `https://www.youtube.com/embed/${id}`
+      const match = parsed.pathname.match(/\/embed\/(.+)$/)
+      if (match) return `https://www.youtube.com/embed/${match[1]}`
+    }
+    return value
+  } catch {
+    return value
+  }
+}
+
 let bmHeader = null
 let mgHeader = null
 let mgStart = null
@@ -112,9 +132,9 @@ bmRows.forEach((row) => {
     pembelajaran: row[2] || '',
     latihanMembaca: row[3] || '',
     latihanMenulis: row[4] || '',
-    video1: row[5] || '',
-    video2: row[6] || '',
-    video3: row[7] || '',
+    video1: normalizeYouTube(row[5] || ''),
+    video2: normalizeYouTube(row[6] || ''),
+    video3: normalizeYouTube(row[7] || ''),
   }
 })
 
@@ -124,7 +144,7 @@ mgRows.forEach((row) => {
     title: row[1] || '',
     github: row[2] || '',
     canva: row[3] || '',
-    video1: row[4] || '',
+    video1: normalizeYouTube(row[4] || ''),
   }
 })
 
