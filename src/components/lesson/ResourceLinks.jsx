@@ -21,12 +21,21 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
     setOpenSection(section.title)
   }
 
+  const buildCanvaEmbedUrl = (url) => {
+    if (!url) return ''
+    return url.includes('?') ? `${url}&embed` : `${url}?embed`
+  }
+
+  const isCanvaUrl = (url) => url && url.includes('canva.com/design/')
+
   return (
     <div className="space-y-4">
       {sections.map((section) => {
         const isOpen = openSection === section.title
         const currentUrl = section.links[0]?.url
         const isCompleted = completedSections?.[section.title]
+        const isCanva = isCanvaUrl(currentUrl)
+        const embedUrl = isCanva ? buildCanvaEmbedUrl(currentUrl) : currentUrl
 
         return (
           <div
@@ -62,15 +71,39 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
             {isOpen && (
               <div className="mt-4 space-y-3">
                 {currentUrl ? (
-                  <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
-                    <iframe
-                      title={`${section.title} content`}
-                      src={currentUrl}
-                      className="h-full w-full"
-                      loading="lazy"
-                      allow="fullscreen"
-                    />
-                  </div>
+                  isCanva ? (
+                    <div>
+                      <div className="relative w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+                        <div className="relative h-0 w-full pb-[56.25%]">
+                          <iframe
+                            loading="lazy"
+                            title={`${section.title} content`}
+                            src={embedUrl}
+                            allow="fullscreen"
+                            className="absolute left-0 top-0 h-full w-full border-0 p-0"
+                          />
+                        </div>
+                      </div>
+                      <a
+                        href={currentUrl}
+                        target="_blank"
+                        rel="noopener"
+                        className="mt-2 inline-block text-xs font-semibold text-emerald-500 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
+                      >
+                        {section.title}
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
+                      <iframe
+                        title={`${section.title} content`}
+                        src={currentUrl}
+                        className="h-full w-full"
+                        loading="lazy"
+                        allow="fullscreen"
+                      />
+                    </div>
+                  )
                 ) : (
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {strings.noEmbed}

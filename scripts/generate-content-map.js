@@ -64,24 +64,6 @@ const trimRow = (row) => row.map((cell) => (cell || '').trim())
 
 const rows = readCsv(fs.readFileSync(csvPath, 'utf8')).map(trimRow)
 
-const normalizeUrl = (value) => {
-  if (!value) return ''
-  try {
-    const url = new URL(value)
-    const keepParams = []
-    url.searchParams.forEach((val, key) => {
-      if (!key.toLowerCase().startsWith('utm_') && key.toLowerCase() !== 'utlid') {
-        keepParams.push([key, val])
-      }
-    })
-    url.search = ''
-    keepParams.forEach(([key, val]) => url.searchParams.append(key, val))
-    return url.toString()
-  } catch {
-    return value
-  }
-}
-
 let bmHeader = null
 let mgHeader = null
 let mgStart = null
@@ -127,12 +109,12 @@ bmRows.forEach((row) => {
   const no = row[0]
   mapping['membaca-menulis'][no] = {
     title: row[1] || '',
-    pembelajaran: normalizeUrl(row[2] || ''),
-    latihanMembaca: normalizeUrl(row[3] || ''),
-    latihanMenulis: normalizeUrl(row[4] || ''),
-    video1: normalizeUrl(row[5] || ''),
-    video2: normalizeUrl(row[6] || ''),
-    video3: normalizeUrl(row[7] || ''),
+    pembelajaran: row[2] || '',
+    latihanMembaca: row[3] || '',
+    latihanMenulis: row[4] || '',
+    video1: row[5] || '',
+    video2: row[6] || '',
+    video3: row[7] || '',
   }
 })
 
@@ -140,9 +122,9 @@ mgRows.forEach((row) => {
   const no = row[0]
   mapping.mengira[no] = {
     title: row[1] || '',
-    github: normalizeUrl(row[2] || ''),
-    canva: normalizeUrl(row[3] || ''),
-    video1: normalizeUrl(row[4] || ''),
+    github: row[2] || '',
+    canva: row[3] || '',
+    video1: row[4] || '',
   }
 })
 
