@@ -300,11 +300,23 @@ START (Flag icon)
 - Current lesson pulse: `scale(1) → scale(1.08) → scale(1)`, 2s loop
 - Completion checkmark: Pop-in with bounce
 - Unlock: Shake + color flash
+- Celebration: Rive confetti overlay (2.5s), fallback card if asset missing
 
 ### Accessibility
 - Respect `prefers-reduced-motion`
 - Sufficient color contrast (WCAG AA)
 - Focus states for keyboard navigation
+
+## Settings
+
+### Sound Effects
+- Toggle stored in localStorage (`linus3m-settings`)
+- Default: enabled
+- Affects celebration and feedback audio (Howler.js)
+
+### Celebration Fallback
+- If Rive asset fails to load, show simple overlay card
+- Message: "Great job! Lesson completed"
 
 ## Component Examples
 
