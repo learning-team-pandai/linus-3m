@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rive-app/react-canvas": "^4.26.2",
+    "howler": "^2.2.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

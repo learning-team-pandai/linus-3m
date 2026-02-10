@@ -7,6 +7,10 @@ function Home() {
   const [progress, setProgress] = useState(() => loadProgress())
 
   const lessons = useMemo(() => ORDERED_LESSONS, [])
+  const totalStars = Object.values(progress.stars || {}).reduce(
+    (sum, value) => sum + value,
+    0
+  )
 
   const handleSelectLesson = (lessonId) => {
     const nextProgress = setCurrentLesson(lessonId)
@@ -23,13 +27,26 @@ function Home() {
     <div className="min-h-screen bg-slate-50">
       <header className="bg-white border-b border-slate-200">
         <div className="mx-auto max-w-3xl px-4 py-6">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-            Linus 3M
-          </p>
-          <h1 className="text-2xl font-bold text-slate-900">Learning Path</h1>
-          <p className="text-sm text-slate-600">
-            Tap lesson nodes to start. Progress is saved locally.
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                Linus 3M
+              </p>
+              <h1 className="text-2xl font-bold text-slate-900">Learning Path</h1>
+              <p className="text-sm text-slate-600">
+                Tap lesson nodes to start. Progress is saved locally.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                window.location.hash = '#/settings'
+              }}
+              className="rounded-lg border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600"
+            >
+              Settings
+            </button>
+          </div>
         </div>
       </header>
 
@@ -41,6 +58,7 @@ function Home() {
               <p className="text-lg font-semibold text-slate-900">
                 {progress.completedLessons.length} of {lessons.length} completed
               </p>
+              <p className="text-xs text-slate-500">Total stars: {totalStars}</p>
             </div>
             <button
               type="button"

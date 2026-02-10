@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Home from './pages/Home.jsx'
 import Lesson from './pages/Lesson.jsx'
 import Profile from './pages/Profile.jsx'
+import Settings from './pages/Settings.jsx'
 
 const parseRoute = () => {
   const hash = window.location.hash.replace('#', '')
@@ -25,6 +26,9 @@ function Router() {
 
   if (route === '/profile') {
     return <Profile />
+  }
+  if (route === '/settings') {
+    return <Settings />
   }
 
   return <Home />

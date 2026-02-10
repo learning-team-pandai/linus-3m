@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   getLessonById,
   getModuleById,
@@ -8,11 +8,14 @@ import {
 import {
   loadProgress,
   markLessonComplete,
+  setLessonStars,
   setCurrentLesson,
 } from '../utils/storage.js'
 import VideoPlayer from '../components/lesson/VideoPlayer.jsx'
 import SlideViewer from '../components/lesson/SlideViewer.jsx'
 import Exercise from '../components/lesson/Exercise.jsx'
+import Celebration from '../components/celebration/Celebration.jsx'
+import { playCelebrate } from '../utils/sfx.js'
 
 const buildTabs = (content) => {
   const tabs = []
@@ -56,11 +59,27 @@ function Lesson({ lessonId }) {
   const nextLessonId = getNextLessonId(lesson.id)
   const tabs = buildTabs(lesson.content)
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || 'slides')
+  const [selectedStars, setSelectedStars] = useState(3)
+  const [showCelebration, setShowCelebration] = useState(false)
+  const hasCelebratedRef = useRef(false)
+
+  useEffect(() => {
+    const storedStars = progress.stars?.[lesson.id]
+    setSelectedStars(storedStars || 3)
+  }, [lesson.id, progress.stars])
 
   const handleComplete = () => {
+    const withStars = setLessonStars(lesson.id, selectedStars)
     const nextProgress = markLessonComplete(lesson.id)
-    setProgress(nextProgress)
+    setProgress({ ...nextProgress, stars: withStars.stars })
   }
+
+  useEffect(() => {
+    if (!isCompleted || hasCelebratedRef.current) return
+    hasCelebratedRef.current = true
+    setShowCelebration(true)
+    playCelebrate()
+  }, [isCompleted])
 
   const handleContinue = () => {
     if (!nextLessonId) {
@@ -143,7 +162,25 @@ function Lesson({ lessonId }) {
           {renderTab()}
         </section>
 
-        <section className="mt-6 flex flex-wrap gap-3">
+        <section className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600">
+            Stars:
+            {[1, 2, 3].map((value) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setSelectedStars(value)}
+                className={
+                  'rounded-full px-2 py-1 text-xs font-semibold transition ' +
+                  (selectedStars === value
+                    ? 'bg-amber-400 text-white'
+                    : 'bg-slate-100 text-slate-600')
+                }
+              >
+                {value}
+              </button>
+            ))}
+          </div>
           <button
             type="button"
             onClick={handleComplete}
@@ -163,6 +200,13 @@ function Lesson({ lessonId }) {
           </button>
         </section>
 
+        {isCompleted && (
+          <section className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm font-semibold text-emerald-700">
+            Great job! You earned {progress.stars?.[lesson.id] || selectedStars}{' '}
+            stars.
+          </section>
+        )}
+
         <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4">
           <h2 className="text-sm font-semibold text-slate-900">
             Progress Snapshot
@@ -173,6 +217,11 @@ function Lesson({ lessonId }) {
           </p>
         </section>
       </main>
+
+      <Celebration
+        isVisible={showCelebration}
+        onDone={() => setShowCelebration(false)}
+      />
     </div>
   )
 }
