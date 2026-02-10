@@ -10,6 +10,17 @@ import {
   markLessonComplete,
   setCurrentLesson,
 } from '../utils/storage.js'
+import VideoPlayer from '../components/lesson/VideoPlayer.jsx'
+import SlideViewer from '../components/lesson/SlideViewer.jsx'
+import Exercise from '../components/lesson/Exercise.jsx'
+
+const buildTabs = (content) => {
+  const tabs = []
+  if (content?.video) tabs.push({ id: 'video', label: 'Video' })
+  if (content?.slides) tabs.push({ id: 'slides', label: 'Slides' })
+  if (content?.exercise) tabs.push({ id: 'exercise', label: 'Exercise' })
+  return tabs
+}
 
 function Lesson({ lessonId }) {
   const [progress, setProgress] = useState(() => loadProgress())
@@ -43,6 +54,8 @@ function Lesson({ lessonId }) {
 
   const isCompleted = progress.completedLessons.includes(lesson.id)
   const nextLessonId = getNextLessonId(lesson.id)
+  const tabs = buildTabs(lesson.content)
+  const [activeTab, setActiveTab] = useState(tabs[0]?.id || 'slides')
 
   const handleComplete = () => {
     const nextProgress = markLessonComplete(lesson.id)
@@ -57,6 +70,27 @@ function Lesson({ lessonId }) {
     const nextProgress = setCurrentLesson(nextLessonId)
     setProgress(nextProgress)
     window.location.hash = `#/lesson/${nextLessonId}`
+  }
+
+  const renderTab = () => {
+    if (activeTab === 'video') {
+      return (
+        <VideoPlayer
+          src={lesson.content?.video?.src}
+          poster={lesson.content?.video?.poster}
+          onComplete={lesson.completion?.type === 'watch' ? handleComplete : null}
+        />
+      )
+    }
+    if (activeTab === 'exercise') {
+      return (
+        <Exercise
+          exercise={lesson.content?.exercise}
+          onComplete={lesson.completion?.type === 'interact' ? handleComplete : null}
+        />
+      )
+    }
+    return <SlideViewer slides={lesson.content?.slides} />
   }
 
   return (
@@ -85,31 +119,48 @@ function Lesson({ lessonId }) {
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-6">
-        <section className="rounded-xl border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-600">
-            Lesson content will be added here in Phase 4. For now, this is a
-            placeholder view for navigation and progress testing.
-          </p>
-
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={handleComplete}
-              className={
-                'rounded-lg px-4 py-2 text-sm font-semibold text-white ' +
-                (isCompleted ? 'bg-emerald-400' : 'bg-emerald-500')
-              }
-            >
-              {isCompleted ? 'Completed' : 'Mark Complete'}
-            </button>
-            <button
-              type="button"
-              onClick={handleContinue}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700"
-            >
-              {nextLessonId ? 'Next Lesson' : 'Back to Path'}
-            </button>
+        <section className="mb-4 rounded-xl border border-slate-200 bg-white p-4">
+          <div className="flex flex-wrap gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={
+                  'rounded-full px-4 py-1 text-xs font-semibold transition ' +
+                  (activeTab === tab.id
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-slate-100 text-slate-600')
+                }
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-5">
+          {renderTab()}
+        </section>
+
+        <section className="mt-6 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={handleComplete}
+            className={
+              'rounded-lg px-4 py-2 text-sm font-semibold text-white ' +
+              (isCompleted ? 'bg-emerald-400' : 'bg-emerald-500')
+            }
+          >
+            {isCompleted ? 'Completed' : 'Mark Complete'}
+          </button>
+          <button
+            type="button"
+            onClick={handleContinue}
+            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700"
+          >
+            {nextLessonId ? 'Next Lesson' : 'Back to Path'}
+          </button>
         </section>
 
         <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4">

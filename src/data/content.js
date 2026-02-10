@@ -1,4 +1,4 @@
-// Sample content for Phase 2 (dummy lessons for path skeleton)
+// Sample content for Phase 2/4 (dummy lessons for path and content system)
 
 export const MODULES = [
   {
@@ -31,6 +31,25 @@ export const LESSONS = [
     duration: '5 min',
     type: 'lesson',
     requires: [],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Kenal Huruf A', text: 'Ini adalah huruf A.' },
+        { type: 'example', title: 'A untuk Api', text: 'A seperti Api.' },
+      ],
+      exercise: {
+        question: 'Manakah huruf A?',
+        options: [
+          { id: 'a', label: 'A', correct: true },
+          { id: 'b', label: 'B', correct: false },
+          { id: 'c', label: 'C', correct: false },
+        ],
+        feedback: {
+          correct: 'Tahniah! Betul.',
+          wrong: 'Cuba lagi.',
+        },
+      },
+    },
+    completion: { type: 'interact' },
   },
   {
     id: 'membaca-02',
@@ -41,6 +60,16 @@ export const LESSONS = [
     duration: '5 min',
     type: 'lesson',
     requires: ['membaca-01'],
+    content: {
+      video: {
+        src: '/videos/sample.mp4',
+        poster: '/images/sample-poster.jpg',
+      },
+      slides: [
+        { type: 'intro', title: 'Kenal Huruf B', text: 'Ini adalah huruf B.' },
+      ],
+    },
+    completion: { type: 'watch' },
   },
   {
     id: 'membaca-03',
@@ -51,6 +80,12 @@ export const LESSONS = [
     duration: '6 min',
     type: 'lesson',
     requires: ['membaca-02'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Ka Ku', text: 'Mari belajar suku kata.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
   {
     id: 'membaca-04',
@@ -61,6 +96,12 @@ export const LESSONS = [
     duration: '6 min',
     type: 'lesson',
     requires: ['membaca-03'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Perkataan', text: 'Bina perkataan ringkas.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
   {
     id: 'menulis-01',
@@ -71,6 +112,12 @@ export const LESSONS = [
     duration: '5 min',
     type: 'lesson',
     requires: ['membaca-04'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Garisan', text: 'Latih tangan menulis.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
   {
     id: 'menulis-02',
@@ -81,6 +128,12 @@ export const LESSONS = [
     duration: '6 min',
     type: 'lesson',
     requires: ['menulis-01'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Menulis A', text: 'Latihan menulis A.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
   {
     id: 'menulis-03',
@@ -91,6 +144,12 @@ export const LESSONS = [
     duration: '6 min',
     type: 'lesson',
     requires: ['menulis-02'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Suku Kata', text: 'Gabungkan suku kata.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
   {
     id: 'mengira-01',
@@ -101,6 +160,12 @@ export const LESSONS = [
     duration: '6 min',
     type: 'lesson',
     requires: ['menulis-03'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Nombor 1-5', text: 'Mari kira bersama.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
   {
     id: 'mengira-02',
@@ -111,6 +176,12 @@ export const LESSONS = [
     duration: '6 min',
     type: 'lesson',
     requires: ['mengira-01'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Nombor 6-10', text: 'Teruskan mengira.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
   {
     id: 'mengira-03',
@@ -121,6 +192,12 @@ export const LESSONS = [
     duration: '7 min',
     type: 'lesson',
     requires: ['mengira-02'],
+    content: {
+      slides: [
+        { type: 'intro', title: 'Tambah', text: 'Mari belajar tambah.' },
+      ],
+    },
+    completion: { type: 'manual' },
   },
 ]
 
