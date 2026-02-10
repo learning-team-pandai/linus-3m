@@ -149,10 +149,10 @@ function Lesson({ lessonId }) {
       <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-5">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 font-playpen">
               {module ? module.name : 'Module'}
             </p>
-            <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+            <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100 font-playpen">
               {lesson.title}
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">{lesson.duration}</p>

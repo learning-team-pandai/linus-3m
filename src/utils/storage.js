@@ -102,3 +102,19 @@ export const resetProgress = () => {
   }
   return { ...defaultProgress }
 }
+
+export const resetCategoryProgress = (lessonIds) => {
+  const progress = loadProgress()
+  const idSet = new Set(lessonIds)
+  const nextCompleted = progress.completedLessons.filter((id) => !idSet.has(id))
+  const nextResources = { ...(progress.completedResources || {}) }
+  lessonIds.forEach((id) => {
+    delete nextResources[id]
+  })
+
+  return saveProgress({
+    ...progress,
+    completedLessons: nextCompleted,
+    completedResources: nextResources,
+  })
+}

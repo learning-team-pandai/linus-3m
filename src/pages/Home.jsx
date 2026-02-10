@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { MODULES, ORDERED_LESSONS } from '../data/content.js'
 import { loadProgress, resetProgress } from '../utils/storage.js'
 import Skeleton from '../components/ui/Skeleton.jsx'
+import ConfirmModal from '../components/ui/ConfirmModal.jsx'
 
 function Home() {
   const [progress, setProgress] = useState(() => loadProgress())
   const [isLoading, setIsLoading] = useState(true)
+  const [showResetModal, setShowResetModal] = useState(false)
 
   const completedStarsByLesson = useMemo(() => {
     const completedResources = progress.completedResources || {}
@@ -29,6 +31,7 @@ function Home() {
   const handleReset = () => {
     const nextProgress = resetProgress()
     setProgress(nextProgress)
+    setShowResetModal(false)
   }
 
   return (
@@ -82,10 +85,23 @@ function Home() {
             </div>
             <button
               type="button"
-              onClick={handleReset}
-              className="text-sm font-semibold text-red-500 hover:text-red-600"
+              onClick={() => setShowResetModal(true)}
+              className="rounded-full p-2 text-red-500 hover:text-red-600"
+              aria-label="Reset progress"
             >
-              Reset
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 12a9 9 0 1 0 3-6.7" />
+                <path d="M3 4v4h4" />
+              </svg>
             </button>
           </div>
           <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
@@ -115,28 +131,23 @@ function Home() {
                 </div>
               ))
             : MODULES.map((module) => (
-                <div
+                <button
                   key={module.id}
-                  className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+                  type="button"
+                  onClick={() => {
+                    window.location.hash = `#/path/${module.id}`
+                  }}
+                  className="rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:-translate-y-0.5 hover:shadow-sm dark:border-slate-800 dark:bg-slate-900"
                 >
                   <div
                     className="h-2 w-10 rounded-full"
                     style={{ backgroundColor: module.color }}
                   />
-                  <h2 className="mt-3 text-sm font-semibold text-slate-900 dark:text-slate-100 font-playpen">
+                  <h2 className="mt-3 text-lg font-semibold text-slate-900 dark:text-slate-100 font-playpen">
                     {module.name}
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400">{module.description}</p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      window.location.hash = `#/path/${module.id}`
-                    }}
-                    className="mt-3 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white"
-                  >
-                    Open Path
-                  </button>
-                </div>
+                </button>
               ))}
         </section>
 
@@ -144,6 +155,15 @@ function Home() {
           Select a path to start learning.
         </section>
       </main>
+
+      <ConfirmModal
+        isOpen={showResetModal}
+        title="Reset progress?"
+        message="This will clear all progress across both paths."
+        confirmLabel="Reset"
+        onConfirm={handleReset}
+        onCancel={() => setShowResetModal(false)}
+      />
     </div>
   )
 }
