@@ -17,15 +17,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Kenali Huruf Besar (A-Z)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaPublic: "https://www.canva.com/design/DAG_kYO30XE/zqjNTVY9TL02eFyLI336jA/view",
+      canvaPublic: "https://www.canva.com/design/DAG_kYO30XE/zqjNTVY9TL02eFyLI336jA/view?utm_content=DAG_kYO30XE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hfdace09982",
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-01",
-      canvaPublic: "https://www.canva.com/design/DAG_rMT_6Xk/v2ZlbkZpr1749u21cpBVjA/view",
+      canvaPublic: "https://www.canva.com/design/DAG_rMT_6Xk/v2ZlbkZpr1749u21cpBVjA/view?utm_content=DAG_rMT_6Xk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd96fa05952",
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-01",
-      canvaPublic: "https://www.canva.com/design/DAHAWEXencI/8BNYvUTHSxAViw1ljEqCzQ/view",
+      canvaPublic: "https://www.canva.com/design/DAHAWEXencI/8BNYvUTHSxAViw1ljEqCzQ/view?utm_content=DAHAWEXencI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha1a5ad05cf",
     }
   },
   {
@@ -34,15 +34,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Kenali Huruf Kecil (a-z)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaPublic: "https://www.canva.com/design/DAG_l9nmj94/8bTngWc8muqAP6V336qf1w/view",
+      canvaPublic: "https://www.canva.com/design/DAG_l9nmj94/8bTngWc8muqAP6V336qf1w/view?utm_content=DAG_l9nmj94&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hfa29aaef7b",
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-02",
-      canvaPublic: "https://www.canva.com/design/DAG_fyxVIXY/taipvS3mQDBPjMtUS__FBg/view",
+      canvaPublic: "https://www.canva.com/design/DAG_fyxVIXY/taipvS3mQDBPjMtUS__FBg/view?utm_content=DAG_fyxVIXY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h69a3698528",
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-02",
-      canvaPublic: "https://www.canva.com/design/DAHAWM7X6wU/fK5W_FXPfeBiFuoqWK2MBQ/view",
+      canvaPublic: "https://www.canva.com/design/DAHAWM7X6wU/fK5W_FXPfeBiFuoqWK2MBQ/view?utm_content=DAHAWM7X6wU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2d290a5b71",
     }
   },
   {
@@ -51,15 +51,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Suku Kata Terbuka KV",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaPublic: "https://www.canva.com/design/DAG_mMxA4xM/cUgWcoxrW6aXTrjtPbbq-Q/view",
+      canvaPublic: "https://www.canva.com/design/DAG_mMxA4xM/cUgWcoxrW6aXTrjtPbbq-Q/view?utm_content=DAG_mMxA4xM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h572c90404f",
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-03",
-      canvaPublic: "https://www.canva.com/design/DAG_rNciy70/O0WB7gG6yugew5e7sXicmQ/view",
+      canvaPublic: "https://www.canva.com/design/DAG_rNciy70/O0WB7gG6yugew5e7sXicmQ/view?utm_content=DAG_rNciy70&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0c3a143938",
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-03",
-      canvaPublic: "https://www.canva.com/design/DAHAWJ0Py8k/JZOBtKs_ua-a6TA_q4Itzg/view",
+      canvaPublic: "https://www.canva.com/design/DAHAWJ0Py8k/JZOBtKs_ua-a6TA_q4Itzg/view?utm_content=DAHAWJ0Py8k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb43e0a095d",
     }
   },
   {
@@ -68,15 +68,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Perkataan 2 Suku Kata (Bahagian 1)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaPublic: "https://www.canva.com/design/DAG_mD6tgbs/kqyFlx-xmSkJmnPNLkZL1w/view",
+      canvaPublic: "https://www.canva.com/design/DAG_mD6tgbs/kqyFlx-xmSkJmnPNLkZL1w/view?utm_content=DAG_mD6tgbs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6537cb987a",
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-04",
-      canvaPublic: "https://www.canva.com/design/DAG_rGmlxBk/oYnzaSiLr1QtQlMJX8G0HQ/view",
+      canvaPublic: "https://www.canva.com/design/DAG_rGmlxBk/oYnzaSiLr1QtQlMJX8G0HQ/view?utm_content=DAG_rGmlxBk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf4a01358df",
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-04",
-      canvaPublic: "https://www.canva.com/design/DAHAWAedoqI/94_awDok4zgQ0dEEuZuZvQ/view",
+      canvaPublic: "https://www.canva.com/design/DAHAWAedoqI/94_awDok4zgQ0dEEuZuZvQ/view?utm_content=DAHAWAedoqI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h584bc3fd59",
     }
   },
   {
@@ -85,15 +85,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Perkataan 2 Suku Kata (Bahagian 2)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaPublic: "https://www.canva.com/design/DAG_mMqMNZA/IhAac_AzUvOmGQHCw2H3SQ/view",
+      canvaPublic: "https://www.canva.com/design/DAG_mMqMNZA/IhAac_AzUvOmGQHCw2H3SQ/view?utm_content=DAG_mMqMNZA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2382a47a9d",
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-05",
-      canvaPublic: "https://www.canva.com/design/DAG_rPMZqQQ/hcPFushSwkkakmcnMSlbog/view",
+      canvaPublic: "https://www.canva.com/design/DAG_rPMZqQQ/hcPFushSwkkakmcnMSlbog/view?utm_content=DAG_rPMZqQQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb5d2ec3c03",
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-05",
-      canvaPublic: "https://www.canva.com/design/DAHAWRzpx2c/Kkcjz0Us5UGXShpRP-sLaA/view",
+      canvaPublic: "https://www.canva.com/design/DAHAWRzpx2c/Kkcjz0Us5UGXShpRP-sLaA/view?utm_content=DAHAWRzpx2c&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf7c018fdbd",
     }
   }
 ];
@@ -129,11 +129,11 @@ export const MENGIRA_LESSONS = [
     title: "Warna & Saiz",
     category: "mengira",
     pembelajaran: {
-      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-1/"
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-1/",
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-01",
-      canvaPublic: "https://www.canva.com/design/DAHAa8vG9dg/0kump8Jq6-jD45QS8PJpuQ/view"
+      canvaPublic: "https://www.canva.com/design/DAHAa8vG9dg/0kump8Jq6-jD45QS8PJpuQ/view?utm_content=DAHAa8vG9dg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha2bd499734",
     }
   },
   {
@@ -142,11 +142,11 @@ export const MENGIRA_LESSONS = [
     title: "Bentuk & Jenis",
     category: "mengira",
     pembelajaran: {
-      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-2/"
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-2/",
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-02",
-      canvaPublic: "https://www.canva.com/design/DAHAa1EGrL0/UMZok3UPgVhIXB2lcjYYhA/view"
+      canvaPublic: "https://www.canva.com/design/DAHAa1EGrL0/UMZok3UPgVhIXB2lcjYYhA/view?utm_content=DAHAa1EGrL0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h551836c7a9",
     }
   },
   {
@@ -155,11 +155,11 @@ export const MENGIRA_LESSONS = [
     title: "Lebih & Kurang",
     category: "mengira",
     pembelajaran: {
-      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-3/"
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-3/",
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-03",
-      canvaPublic: "https://www.canva.com/design/DAHAbJ-Hh0M/rN4iqGwxfXMxNfgbMF0lNg/view"
+      canvaPublic: "https://www.canva.com/design/DAHAbJ-Hh0M/rN4iqGwxfXMxNfgbMF0lNg/view?utm_content=DAHAbJ-Hh0M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6bfc11d5cf",
     }
   },
   {
@@ -168,11 +168,11 @@ export const MENGIRA_LESSONS = [
     title: "Perbandingan dan Susunan Objek",
     category: "mengira",
     pembelajaran: {
-      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-4/"
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-4/",
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-04",
-      canvaPublic: "https://www.canva.com/design/DAHAbOSp3YA/lUyc1FsiT_Igsnky6RdLDw/view"
+      canvaPublic: "https://www.canva.com/design/DAHAbOSp3YA/lUyc1FsiT_Igsnky6RdLDw/view?utm_content=DAHAbOSp3YA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf79fc57541",
     }
   },
   {
@@ -181,11 +181,11 @@ export const MENGIRA_LESSONS = [
     title: "Kenali Nombor 0 Hingga 10",
     category: "mengira",
     pembelajaran: {
-      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-5/"
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-5/",
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-05",
-      canvaPublic: "https://www.canva.com/design/DAHAbFpXCOk/F-KJ61SLj5yTWWdC9sajzw/view"
+      canvaPublic: "https://www.canva.com/design/DAHAbFpXCOk/F-KJ61SLj5yTWWdC9sajzw/view?utm_content=DAHAbFpXCOk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h87c6bd03d2",
     }
   }
 ];
