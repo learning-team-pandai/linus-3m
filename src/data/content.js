@@ -1,23 +1,67 @@
 import { ALL_LESSONS, CATEGORIES } from './index.js'
+import contentMap from './content-map.json'
 
 const CATEGORY_ORDER = ['membaca-menulis', 'mengira']
 
 const buildResources = (lesson) => {
   const sections = []
+  const numberKey = String(lesson.number || '').trim()
+  const categoryMap = contentMap[lesson.category] || {}
+  const entry = categoryMap[numberKey]
 
-  const pushLinks = (title, data) => {
-    if (!data) return
-    const links = []
-    if (data.canvaPublic) links.push({ label: 'Canva (View)', url: data.canvaPublic })
-    if (data.pandaiPublic) links.push({ label: 'Pandai (View)', url: data.pandaiPublic })
-    if (data.github) links.push({ label: 'GitHub', url: data.github })
-    if (links.length) sections.push({ title, links })
+  if (!entry) return sections
+
+  if (lesson.category === 'membaca-menulis') {
+    if (entry.pembelajaran) {
+      sections.push({
+        title: 'Pembelajaran',
+        links: [{ label: 'Pembelajaran', url: entry.pembelajaran }],
+      })
+    }
+    if (entry.latihanMembaca) {
+      sections.push({
+        title: 'Latihan Membaca',
+        links: [{ label: 'Latihan Membaca', url: entry.latihanMembaca }],
+      })
+    }
+    if (entry.latihanMenulis) {
+      sections.push({
+        title: 'Latihan Menulis',
+        links: [{ label: 'Latihan Menulis', url: entry.latihanMenulis }],
+      })
+    }
+    const videoLinks = [entry.video1, entry.video2, entry.video3].filter(Boolean)
+    if (videoLinks.length) {
+      sections.push({
+        title: 'Video',
+        links: videoLinks.map((url, index) => ({
+          label: `Video ${index + 1}`,
+          url,
+        })),
+      })
+    }
   }
 
-  pushLinks('Pembelajaran', lesson.pembelajaran)
-  pushLinks('Latihan Membaca', lesson.latihanMembaca)
-  pushLinks('Latihan Menulis', lesson.latihanMenulis)
-  pushLinks('Latihan Mengira', lesson.latihanMengira)
+  if (lesson.category === 'mengira') {
+    if (entry.github) {
+      sections.push({
+        title: 'Pembelajaran',
+        links: [{ label: 'Pembelajaran', url: entry.github }],
+      })
+    }
+    if (entry.canva) {
+      sections.push({
+        title: 'Latihan Mengira',
+        links: [{ label: 'Latihan Mengira', url: entry.canva }],
+      })
+    }
+    if (entry.video1) {
+      sections.push({
+        title: 'Video',
+        links: [{ label: 'Video', url: entry.video1 }],
+      })
+    }
+  }
 
   return sections
 }

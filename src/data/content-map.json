@@ -1,0 +1,471 @@
+{
+  "membaca-menulis": {
+    "1": {
+      "title": "Kenali Huruf Besar (A-Z)",
+      "pembelajaran": "https://www.canva.com/design/DAG_kYO30XE/zqjNTVY9TL02eFyLI336jA/view?utm_content=DAG_kYO30XE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hfdace09982",
+      "latihanMembaca": "https://www.canva.com/design/DAG_rMT_6Xk/v2ZlbkZpr1749u21cpBVjA/view?utm_content=DAG_rMT_6Xk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd96fa05952",
+      "latihanMenulis": "https://www.canva.com/design/DAHAWEXencI/8BNYvUTHSxAViw1ljEqCzQ/view?utm_content=DAHAWEXencI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha1a5ad05cf",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "2": {
+      "title": "Kenali Huruf Kecil (a-z)",
+      "pembelajaran": "https://www.canva.com/design/DAG_l9nmj94/8bTngWc8muqAP6V336qf1w/view?utm_content=DAG_l9nmj94&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hfa29aaef7b",
+      "latihanMembaca": "https://www.canva.com/design/DAG_fyxVIXY/taipvS3mQDBPjMtUS__FBg/view?utm_content=DAG_fyxVIXY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h69a3698528",
+      "latihanMenulis": "https://www.canva.com/design/DAHAWM7X6wU/fK5W_FXPfeBiFuoqWK2MBQ/view?utm_content=DAHAWM7X6wU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2d290a5b71",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "3": {
+      "title": "Suku Kata Terbuka",
+      "pembelajaran": "https://www.canva.com/design/DAG_mMxA4xM/cUgWcoxrW6aXTrjtPbbq-Q/view?utm_content=DAG_mMxA4xM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h572c90404f",
+      "latihanMembaca": "https://www.canva.com/design/DAG_rNciy70/O0WB7gG6yugew5e7sXicmQ/view?utm_content=DAG_rNciy70&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0c3a143938",
+      "latihanMenulis": "https://www.canva.com/design/DAHAWJ0Py8k/JZOBtKs_ua-a6TA_q4Itzg/view?utm_content=DAHAWJ0Py8k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb43e0a095d",
+      "video1": "https://youtu.be/MvtSVTGd6Bo",
+      "video2": "https://youtu.be/5MXJpjcegrk",
+      "video3": "https://www.youtube.com/watch?v=syGSXy2RhS4"
+    },
+    "4": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 1)",
+      "pembelajaran": "https://www.canva.com/design/DAG_mD6tgbs/kqyFlx-xmSkJmnPNLkZL1w/view?utm_content=DAG_mD6tgbs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6537cb987a",
+      "latihanMembaca": "https://www.canva.com/design/DAG_rGmlxBk/oYnzaSiLr1QtQlMJX8G0HQ/view?utm_content=DAG_rGmlxBk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf4a01358df",
+      "latihanMenulis": "https://www.canva.com/design/DAHAWAedoqI/94_awDok4zgQ0dEEuZuZvQ/view?utm_content=DAHAWAedoqI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h584bc3fd59",
+      "video1": "https://www.youtube.com/watch?v=1ycsTx5oUkM",
+      "video2": "",
+      "video3": ""
+    },
+    "5": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 2)",
+      "pembelajaran": "https://www.canva.com/design/DAG_mMqMNZA/IhAac_AzUvOmGQHCw2H3SQ/view?utm_content=DAG_mMqMNZA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2382a47a9d",
+      "latihanMembaca": "https://www.canva.com/design/DAG_rPMZqQQ/hcPFushSwkkakmcnMSlbog/view?utm_content=DAG_rPMZqQQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb5d2ec3c03",
+      "latihanMenulis": "https://www.canva.com/design/DAHAWRzpx2c/Kkcjz0Us5UGXShpRP-sLaA/view?utm_content=DAHAWRzpx2c&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf7c018fdbd",
+      "video1": "https://www.youtube.com/watch?v=uayq8tlgZqM",
+      "video2": "https://www.youtube.com/watch?v=3xY39r_3byM",
+      "video3": "https://www.youtube.com/watch?v=TbNjB2iJg_E"
+    },
+    "6": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 1)",
+      "pembelajaran": "https://www.canva.com/design/DAG_mTOF7eY/aJ_VUgTmlSOtAEPiDkoxSg/view?utm_content=DAG_mTOF7eY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb5c69fd4be",
+      "latihanMembaca": "https://www.canva.com/design/DAHAcCpIGeQ/jgjEocr-NAE0CvBCqJUAAw/view?utm_content=DAHAcCpIGeQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he5af78125b",
+      "latihanMenulis": "https://www.canva.com/design/DAHAae-tah8/lc28dE86G9bdTJZ7keMqJg/view?utm_content=DAHAae-tah8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0a367556aa",
+      "video1": "https://www.youtube.com/watch?v=fcSSSLkTWJE",
+      "video2": "",
+      "video3": ""
+    },
+    "7": {
+      "title": "Perkataan 1 Suku Kata (Bahagian 1)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qXKi5cw/L2NKztE5cflwtEFpJ1rdcQ/view?utm_content=DAG_qXKi5cw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h73dc0db5a0",
+      "latihanMembaca": "https://www.canva.com/design/DAHAcBTsw6A/fhP4O-J7Sav21LMGFAxrJQ/view?utm_content=DAHAcBTsw6A&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hda1392bee3",
+      "latihanMenulis": "https://www.canva.com/design/DAHAajCu2ew/kLXwkpgdsjkH-Vt301KiGQ/view?utm_content=DAHAajCu2ew&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h72b2275656",
+      "video1": "https://www.youtube.com/watch?v=ZaDLQ4u1okU",
+      "video2": "",
+      "video3": ""
+    },
+    "8": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 3)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qfcFwz8/tzCmpkAFME16dTJgIzJ6Pw/view?utm_content=DAG_qfcFwz8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h55e8e21ee1",
+      "latihanMembaca": "https://www.canva.com/design/DAHAcMbP69s/-K2KuJHy6PTkn9OTxEalCg/view?utm_content=DAHAcMbP69s&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb60ca912d8",
+      "latihanMenulis": "https://www.canva.com/design/DAHAajRuBM4/O7JAPMzlCHEr_R02z4e9Jw/view?utm_content=DAHAajRuBM4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha9f4ebae03",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "9": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 2)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qaIpLgk/dtaCJG0j_IT6TfVU2jw-5w/view?utm_content=DAG_qaIpLgk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6b0a088494",
+      "latihanMembaca": "https://www.canva.com/design/DAHAcN2cprk/jS8lZwz87w6IyLmdma0vMQ/view?utm_content=DAHAcN2cprk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h7473ede5d1",
+      "latihanMenulis": "https://www.canva.com/design/DAHAaoiafsk/yEiVu9dyeU1aEhBKOuniaQ/view?utm_content=DAHAaoiafsk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hfcac38dc48",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "10": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 4)",
+      "pembelajaran": "https://www.canva.com/design/DAGxDtCKrlQ/m6PaUS0QK5SI45adz6-0og/view?utm_content=DAGxDtCKrlQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h21d7d7b496",
+      "latihanMembaca": "https://www.canva.com/design/DAHAcPtO-sU/-KDuU54HXN2anr-P2EdCjQ/view?utm_content=DAHAcPtO-sU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb5e9efc589",
+      "latihanMenulis": "https://www.canva.com/design/DAHAa3IMj_8/BjgwLHXfyIHnlbbGt3tbtA/view?utm_content=DAHAa3IMj_8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he66e9b0979",
+      "video1": "https://www.youtube.com/watch?v=teBBmM61cWI",
+      "video2": "https://www.youtube.com/watch?v=QE1bq17lang",
+      "video3": "https://www.youtube.com/watch?v=LD9Diq3HX8c&feature=youtu.be"
+    },
+    "11": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 5)",
+      "pembelajaran": "https://www.canva.com/design/DAGxDt1twu8/jpMbu7d6vBqAGRPsebFt0A/view?utm_content=DAGxDt1twu8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha7cfe9c586",
+      "latihanMembaca": "https://www.canva.com/design/DAHAcAMvFh4/saJxO9f0zYJZ6DYiLmyG2g/view?utm_content=DAHAcAMvFh4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4aeb261f64",
+      "latihanMenulis": "https://www.canva.com/design/DAHAa8PMQwU/AqyoMRoD2aFqEzoIXxldVA/view?utm_content=DAHAa8PMQwU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9f3695af75",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "12": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 6)",
+      "pembelajaran": "https://www.canva.com/design/DAGxDq7Fuo8/RH3nCKInHyDQIhHSVpKnzA/view?utm_content=DAGxDq7Fuo8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hee4616911c",
+      "latihanMembaca": "https://www.canva.com/design/DAHAcG8qXWw/Ai4Cwki_XuO932KVEZYd8w/view?utm_content=DAHAcG8qXWw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb9801d60f0",
+      "latihanMenulis": "https://www.canva.com/design/DAHAa-FdjTM/3qNgTHnp7oN-JCHIvHKRTA/view?utm_content=DAHAa-FdjTM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf01acefb5f",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "13": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 3)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qqbD_4k/4D8xdi46TowCWBrj22qr9g/view?utm_content=DAG_qqbD_4k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc6b413d23e",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4rVDLXs/uwk6pqe_pZbMN3jpENZlQA/view?utm_content=DAHA4rVDLXs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h52b6fd3c29",
+      "latihanMenulis": "https://www.canva.com/design/DAHAa7OekMk/O6UWxw9_CMVMqzVNunNwGQ/view?utm_content=DAHAa7OekMk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8df2b198fc",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "14": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 4)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qmJvBaI/nhHX6aWLkdAsP7h64IiGZg/view?utm_content=DAG_qmJvBaI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9069bec3c1",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4o12gtg/AcFb_pdfBwA5FfsTfPuK-A/view?utm_content=DAHA4o12gtg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h1917928555",
+      "latihanMenulis": "https://www.canva.com/design/DAHA0FVoWlg/pwt_WU0UeMGJ6uD0QTaEkg/view?utm_content=DAHA0FVoWlg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbf0d17eb3c",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "15": {
+      "title": "Perkataan 1 Suku Kata (Bahagian 2)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qqXj33s/_zfGiqOlsTQxHXLdcNM8pQ/view?utm_content=DAG_qqXj33s&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h211e8e7f3d",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4s2CPtA/WgRDdPt-nbTyLqe93luSdg/view?utm_content=DAHA4s2CPtA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha8b1d1776b",
+      "latihanMenulis": "https://www.canva.com/design/DAHA0bGh21k/BvSIp0-leavDFePQYkf-zw/view?utm_content=DAHA0bGh21k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h03b764749d",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "16": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 7)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qmrJBnc/daOlhHJWqZt3LC7IHOI0FA/view?utm_content=DAG_qmrJBnc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h647c1f64b0",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4u4HNxo/s0bAMlHDJFxnU9xs4j81uQ/view?utm_content=DAHA4u4HNxo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h578d259996",
+      "latihanMenulis": "https://www.canva.com/design/DAHA0ZoCXHw/nR8M1mg3ND0aorvz9Xe5KQ/view?utm_content=DAHA0ZoCXHw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h822160daad",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "17": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 8)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qtWTyGw/CHaUKY94ULgrd6BpPHQC3A/view?utm_content=DAG_qtWTyGw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h87f6fc2f3b",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4vmpFs4/ZK-JMOjviB398BA1b5P6BA/view?utm_content=DAHA4vmpFs4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h7d9a867f03",
+      "latihanMenulis": "https://www.canva.com/design/DAHA0dLS7xk/RUtHfb08oH0ZwXzgZHYSvA/view?utm_content=DAHA0dLS7xk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h92de96a03a",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "18": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 9)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qs-7EJo/fyoBCWhOe6gE8XzQ7P7iKA/view?utm_content=DAG_qs-7EJo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he4221f6458",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4s62P4s/7AKZTrIl4h2lQkx9Ls9yPg/view?utm_content=DAHA4s62P4s&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h28a502d500",
+      "latihanMenulis": "https://www.canva.com/design/DAHA0auP4ps/IsRthGw0CQMvOVayiska8Q/view?utm_content=DAHA0auP4ps&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4717076c0b",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "19": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 10)",
+      "pembelajaran": "https://www.canva.com/design/DAGxDrRmgQ4/WtHSj1nSqJMtPPEoV_q85Q/view?utm_content=DAGxDrRmgQ4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3bd125d4ab",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4q1OfoA/-AYe5C2dLWJMOLXnflAb6w/view?utm_content=DAHA4q1OfoA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6a1b7d6236",
+      "latihanMenulis": "https://www.canva.com/design/DAHA0ZnZ6o8/U2YXLMrPYLbHYyULrPZoMw/view?utm_content=DAHA0ZnZ6o8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc26d177b09",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "20": {
+      "title": "Perkataan 2 Suku Kata (Bahagian 11)",
+      "pembelajaran": "https://www.canva.com/design/DAGxDtuheQc/N7s7HMBuQ20_TsDxUEMIeQ/view?utm_content=DAGxDtuheQc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h578840d66e",
+      "latihanMembaca": "https://www.canva.com/design/DAHA4mrWGyk/X6g06pTfRrZe62SyDFGsrw/view?utm_content=DAHA4mrWGyk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc0a8b9d632",
+      "latihanMenulis": "https://www.canva.com/design/DAHA0X9DW18/ivfCzeyo93OGbcMJw-JmJw/view?utm_content=DAHA0X9DW18&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h660f1787e4",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "21": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 5)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qrU--tY/z3U86puFKGP3zFs5p1Mipw/view?utm_content=DAG_qrU--tY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8dbf372d92",
+      "latihanMembaca": "https://www.canva.com/design/DAHAhxDhUow/toJy-jNhFVdfx3VDYZtH7g/view?utm_content=DAHAhxDhUow&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbc5aa1b762",
+      "latihanMenulis": "https://www.canva.com/design/DAHA45_zC7k/kS-Pxt3Ev9WLZbR--S_IoA/view?utm_content=DAHA45_zC7k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc662b5e415",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "22": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 6)",
+      "pembelajaran": "https://www.canva.com/design/DAG_q-oZ_3o/7qVrA3o5yOGThGbzLJBryg/view?utm_content=DAG_q-oZ_3o&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0911740ed6",
+      "latihanMembaca": "https://www.canva.com/design/DAHAh3CIio8/qGXl8QQNcStOAtsVrI446g/view?utm_content=DAHAh3CIio8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hae3795e80f",
+      "latihanMenulis": "https://www.canva.com/design/DAHA4wuevjc/bpIgF7D5Z_MyxgbKpNjaJw/view?utm_content=DAHA4wuevjc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h572b910c46",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "23": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 7)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qySuOiw/mOZY4LG4aGZp31rgqKuODA/view?utm_content=DAG_qySuOiw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h129874a880",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiItg9rE/yMiOQbQZRnbBbqgWPw2BHg/view?utm_content=DAHAiItg9rE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h344569843e",
+      "latihanMenulis": "https://www.canva.com/design/DAHA4xE8N9I/tqvvO8uRiXaMd9yFqvxBsQ/view?utm_content=DAHA4xE8N9I&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h677c60c771",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "24": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 8)",
+      "pembelajaran": "https://www.canva.com/design/DAG_q2AV20c/h6SY3mEcE6LaSVHkYsgbCQ/view?utm_content=DAG_q2AV20c&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hfd255da993",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiFMOmYk/SeeNFziNGrLgQNVkSGud4w/view?utm_content=DAHAiFMOmYk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h96110d845d",
+      "latihanMenulis": "https://www.canva.com/design/DAHA40pLLkI/hit7BQByD6N7i6kWGhCuWg/view?utm_content=DAHA40pLLkI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h134fd59f05",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "25": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 9)",
+      "pembelajaran": "https://www.canva.com/design/DAG_qzA-MVw/TRG-A-DyiC16XwQ5fQUUVA/view?utm_content=DAG_qzA-MVw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3c71489b46",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiBps3o0/8zSi5YcTedXJ5Nc_1SxzCA/view?utm_content=DAHAiBps3o0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=haba3dd0a11",
+      "latihanMenulis": "https://www.canva.com/design/DAHA48wf7lg/nOyH00AyExHGlG6l2jyfZA/view?utm_content=DAHA48wf7lg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcd499c2ad2",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "26": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 10)",
+      "pembelajaran": "https://www.canva.com/design/DAG_q2mhb9g/84Drcuq44EhEepqfkdBV9A/view?utm_content=DAG_q2mhb9g&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5b9631e0c9",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiIddxRQ/QSq8VyuiIVNGDjIVV5Yr-A/view?utm_content=DAHAiIddxRQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hecbe9cc2ca",
+      "latihanMenulis": "https://www.canva.com/design/DAHA417ddyI/5AlUgX1rfu4HzBawY4JBGg/view?utm_content=DAHA417ddyI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h00327ac0d2",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "27": {
+      "title": "Perkataan 3 Suku Kata (Bahagian 11)",
+      "pembelajaran": "https://www.canva.com/design/DAG_q392Ono/WMyiYs2AnrAv6uZ-TLB3Xw/view?utm_content=DAG_q392Ono&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3bf7f94eb0",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiKEPLUg/RR1iePAE_eKWlTd0dO0QJg/view?utm_content=DAHAiKEPLUg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3f3aebcbcb",
+      "latihanMenulis": "https://www.canva.com/design/DAHA46Od53c/DCORJI7mKg-q4jZ7FFB5AQ/view?utm_content=DAHA46Od53c&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd66e60ff1b",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "28": {
+      "title": "Diftong",
+      "pembelajaran": "https://www.canva.com/design/DAG_q3Ebwwk/aP4wf_qA8AkuLRMEj67lug/view?utm_content=DAG_q3Ebwwk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5780dccb99",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiNxMAMo/mpA7hXreYVHLNWf-wxaAdQ/view?utm_content=DAHAiNxMAMo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0fee1ed214",
+      "latihanMenulis": "https://www.canva.com/design/DAHA47_-Jjs/wgxbViW3lg2xT8I5bnQYTA/view?utm_content=DAHA47_-Jjs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf4825a9277",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "29": {
+      "title": "Vokal Berganding",
+      "pembelajaran": "https://www.canva.com/design/DAG_q4iR7N8/gvxsHufZhjO4CdM5Z6xHpA/view?utm_content=DAG_q4iR7N8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hdde0275f15",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiOGN8_8/iZvnVdJAGImZG66TCFEABA/view?utm_content=DAHAiOGN8_8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=haae0070e86",
+      "latihanMenulis": "https://www.canva.com/design/DAHA4_pNAuQ/UzoBq3PRj-eJcyNBWR4dAg/view?utm_content=DAHA4_pNAuQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha5dd813c69",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "30": {
+      "title": "Konsonan Bergabung",
+      "pembelajaran": "https://www.canva.com/design/DAG_q3ut5qA/rSLbwEojeXqPyns9CiXEgg/view?utm_content=DAG_q3ut5qA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbbc96a29f8",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiMJIeFA/ajTA6yfQrqHAC7XJqbYDww/view?utm_content=DAHAiMJIeFA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf21ac628a8",
+      "latihanMenulis": "https://www.canva.com/design/DAHA49bGsUU/G_vkvSIX2_LLkfK94vxfww/view?utm_content=DAHA49bGsUU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h070f698cf0",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    },
+    "31": {
+      "title": "Awalan Vokal Konsonan",
+      "pembelajaran": "https://www.canva.com/design/DAG_q64Pcww/1c4pAy9gdzwZgeuNH6GVMg/view?utm_content=DAG_q64Pcww&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6715b9a895",
+      "latihanMembaca": "https://www.canva.com/design/DAHAiBPMbiI/rL9nLwsG9iOrhqjSpPIKaQ/view?utm_content=DAHAiBPMbiI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9eb92c9901",
+      "latihanMenulis": "https://www.canva.com/design/DAHA49iscfc/itaa3h06AQTE_YG3uz_5Ww/view?utm_content=DAHA49iscfc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hfc6b6a6ecf",
+      "video1": "",
+      "video2": "",
+      "video3": ""
+    }
+  },
+  "mengira": {
+    "1": {
+      "title": "Warna & Saiz",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-1/",
+      "canva": "https://www.canva.com/design/DAHAa8vG9dg/0kump8Jq6-jD45QS8PJpuQ/view?utm_content=DAHAa8vG9dg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha2bd499734",
+      "video1": "https://www.youtube.com/watch?v=NbTDrYAmdlY"
+    },
+    "2": {
+      "title": "Bentuk & Jenis",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-2/",
+      "canva": "https://www.canva.com/design/DAHAa1EGrL0/UMZok3UPgVhIXB2lcjYYhA/view?utm_content=DAHAa1EGrL0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h551836c7a9",
+      "video1": "https://www.youtube.com/watch?v=JHbxhVRjLd0"
+    },
+    "3": {
+      "title": "Lebih & Kurang",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-3/",
+      "canva": "https://www.canva.com/design/DAHAbJ-Hh0M/rN4iqGwxfXMxNfgbMF0lNg/view?utm_content=DAHAbJ-Hh0M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6bfc11d5cf",
+      "video1": "https://www.youtube.com/watch?v=_3_ZVqAJpOE"
+    },
+    "4": {
+      "title": "Perbandingan dan Susunan Objek",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-4/",
+      "canva": "https://www.canva.com/design/DAHAbOSp3YA/lUyc1FsiT_Igsnky6RdLDw/view?utm_content=DAHAbOSp3YA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf79fc57541",
+      "video1": "https://www.youtube.com/watch?v=9DI32zmikO4"
+    },
+    "5": {
+      "title": "Kenali Nombor 0 Hingga 10",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-5/",
+      "canva": "https://www.canva.com/design/DAHAbFpXCOk/F-KJ61SLj5yTWWdC9sajzw/view?utm_content=DAHAbFpXCOk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h87c6bd03d2",
+      "video1": "https://www.youtube.com/watch?v=0UZD73HROoI&feature=youtu.be"
+    },
+    "6": {
+      "title": "Kenali Nombor 11 Hingga 20",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-6/",
+      "canva": "https://www.canva.com/design/DAHAbNJ1T4Q/_XInjMOYIaCTba4skeDPyg/view?utm_content=DAHAbNJ1T4Q&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcaa760ac9b",
+      "video1": "https://www.youtube.com/watch?v=CHS3UmnPwx4"
+    },
+    "7": {
+      "title": "Perbandingan Nombor Kecil & Besar",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-7/",
+      "canva": "https://www.canva.com/design/DAHAbBkDO6Y/-1g6ltazdE4MnvTDMStmqg/view?utm_content=DAHAbBkDO6Y&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc12cec7980",
+      "video1": ""
+    },
+    "8": {
+      "title": "Kenali Nilai Tempat & Nilai Digit",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-8/",
+      "canva": "https://www.canva.com/design/DAHAbKFiv00/WXvwhjnUR1XTNsLjjdh-0g/view?utm_content=DAHAbKFiv00&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6289eea534",
+      "video1": ""
+    },
+    "9": {
+      "title": "Tambah Dalam Lingkungan 10",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-9/",
+      "canva": "https://www.canva.com/design/DAHAbD2g5bg/yUiIMdkz3Ma3QHlo1P3l9A/view?utm_content=DAHAbD2g5bg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h1cbd1424e8",
+      "video1": ""
+    },
+    "10": {
+      "title": "Tambah Dalam Lingkungan 18",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-11/",
+      "canva": "https://www.canva.com/design/DAHAbbcDvOI/IG_sw1Yc8zaU9GkwkTpSqA/view?utm_content=DAHAbbcDvOI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha33adab6cb",
+      "video1": ""
+    },
+    "11": {
+      "title": "Penyelesaian Masalah Tambah",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-31/",
+      "canva": "https://www.canva.com/design/DAHA41BuBn0/VskRExJC0pw8g1PN6_5drQ/view?utm_content=DAHA41BuBn0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb6f267fc70",
+      "video1": ""
+    },
+    "12": {
+      "title": "Tolak Dalam Lingkungan 10",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-14/",
+      "canva": "https://www.canva.com/design/DAHAbd-YhLY/vHgHVX3wRWjnKq39wMzT-g/view?utm_content=DAHAbd-YhLY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha497711bbb",
+      "video1": ""
+    },
+    "13": {
+      "title": "Tolak Dalam Lingkungan 18",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-16/",
+      "canva": "https://www.canva.com/design/DAHAbQRzAkc/39ytzhpo1MLfIWHXtd6InQ/view?utm_content=DAHAbQRzAkc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h61fc7fc6cf",
+      "video1": ""
+    },
+    "14": {
+      "title": "Penyelesaian Masalah Tolak",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-35/",
+      "canva": "https://www.canva.com/design/DAHA469lDxo/20yM_aOBwVFWqjYl6xWEnw/view?utm_content=DAHA469lDxo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbaff754a9e",
+      "video1": ""
+    },
+    "15": {
+      "title": "Kenali Nombor Hingga 100",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-23/",
+      "canva": "https://www.canva.com/design/DAHAbfqRxfg/QsoZu3ArsEdf8kAk3HZWHA/view?utm_content=DAHAbfqRxfg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h35d7591a36",
+      "video1": ""
+    },
+    "16": {
+      "title": "Nilai Tempat & Nilai Digit Hingga 100",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-24/",
+      "canva": "https://www.canva.com/design/DAHAbdqHpDQ/u5KNuH-977cCb7aORxxhQA/view?utm_content=DAHAbdqHpDQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf3fd85348d",
+      "video1": ""
+    },
+    "17": {
+      "title": "Anggaran & Pembundaran",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-53/",
+      "canva": "https://www.canva.com/design/DAHAblVbdO0/UPx3LicORhheEwg32dOmcg/view?utm_content=DAHAblVbdO0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h002fcbd342",
+      "video1": ""
+    },
+    "18": {
+      "title": "Konsep Darab & Bahagi Asas",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-36/",
+      "canva": "https://www.canva.com/design/DAHA41xJowA/23pWafalbYdny_I-7y-xRQ/view?utm_content=DAHA41xJowA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h32cf7a16d3",
+      "video1": ""
+    },
+    "19": {
+      "title": "Operasi Darab 1 Digit",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-38/",
+      "canva": "https://www.canva.com/design/DAHA5HGER_k/na99EewnqPaXYU-E1vckHw/view?utm_content=DAHA5HGER_k&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd9e5eb590b",
+      "video1": ""
+    },
+    "20": {
+      "title": "Operasi Darab 2 Digit",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-40/",
+      "canva": "https://www.canva.com/design/DAHA5G2TqpI/jfqNpgLjLZGcWegHbC6eTw/view?utm_content=DAHA5G2TqpI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h681a08d853",
+      "video1": ""
+    },
+    "21": {
+      "title": "Operasi Bahagi 1 Digit",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-43/",
+      "canva": "https://www.canva.com/design/DAHA5CWzpxI/0N1ua43Z-H3sIGqURMGsFg/view?utm_content=DAHA5CWzpxI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h358000fd8e",
+      "video1": ""
+    },
+    "22": {
+      "title": "Operasi Bahagi 2 Digit",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-44/",
+      "canva": "https://www.canva.com/design/DAHA5HKFn0s/AJVmvN8zXR-kFrMbcYpjXQ/view?utm_content=DAHA5HKFn0s&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=haa5e429f9b",
+      "video1": ""
+    },
+    "23": {
+      "title": "Gabungan Operasi Tambah & Tolak",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-73/",
+      "canva": "https://www.canva.com/design/DAHA5Ni_ZM0/wJ5bT-0kiHzUwwh41p4yCg/view?utm_content=DAHA5Ni_ZM0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he7bd89924f",
+      "video1": ""
+    },
+    "24": {
+      "title": "Gabungan Operasi Darab & Bahagi",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-74/",
+      "canva": "https://www.canva.com/design/DAHA5HLyH5c/01Nt2rw5oLPBCi8hbxVfkw/view?utm_content=DAHA5HLyH5c&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h7e0278909f",
+      "video1": ""
+    },
+    "25": {
+      "title": "Aplikasi BODMAS",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-75/",
+      "canva": "https://www.canva.com/design/DAHA5D4ls8Y/pEQ0QtUdKpDVM1huHA686g/view?utm_content=DAHA5D4ls8Y&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc3c22e99be",
+      "video1": ""
+    },
+    "26": {
+      "title": "Kenali Mata Wang & Nilai",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-19/",
+      "canva": "https://www.canva.com/design/DAHA5JGvQQs/USrgaBuLr3Dwi0TCyzAsYQ/view?utm_content=DAHA5JGvQQs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h082546941d",
+      "video1": ""
+    },
+    "27": {
+      "title": "Operasi Asas Wang hingga RM10",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-20/",
+      "canva": "https://www.canva.com/design/DAHA5OkAdAw/97d1Uj1RIUjiSLgt9rq_sA/view?utm_content=DAHA5OkAdAw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h696d889287",
+      "video1": ""
+    },
+    "28": {
+      "title": "Nilai dan Tukaran Wang RM100",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-45/",
+      "canva": "https://www.canva.com/design/DAHA5GHJEqg/Z9Q34wN9k6U67v1PsIt7uw/view?utm_content=DAHA5GHJEqg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h14b2133c43",
+      "video1": ""
+    },
+    "29": {
+      "title": "Tambah Tolak Masalah Wang RM100",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-46/",
+      "canva": "https://www.canva.com/design/DAHA5GZYxMg/cEElxlKe0Qv0nSDzN2Rpxw/view?utm_content=DAHA5GZYxMg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h46e1045507",
+      "video1": ""
+    },
+    "30": {
+      "title": "Operasi Tambah Tolak Wang RM1000",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-65/",
+      "canva": "https://www.canva.com/design/DAHA5INWFm4/eZyJaYw9ItbmLITEJeaH6g/view?utm_content=DAHA5INWFm4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h7e80d214d2",
+      "video1": ""
+    },
+    "31": {
+      "title": "Operasi Darab Bahagi Wang RM1000",
+      "github": "https://learning-team-pandai.github.io/linus-mengira/linuslearning-66/",
+      "canva": "https://www.canva.com/design/DAHA5GnXX7U/4-ozKtf1PbX_aQkm2yEKjw/view?utm_content=DAHA5GnXX7U&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h26e0336f57",
+      "video1": ""
+    }
+  }
+}
