@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/linus-3m/',
+  // Cloudflare Pages deploys to root, no base path needed
   plugins: [react()],
 })
