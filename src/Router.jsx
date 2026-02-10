@@ -3,6 +3,7 @@ import Home from './pages/Home.jsx'
 import Lesson from './pages/Lesson.jsx'
 import Profile from './pages/Profile.jsx'
 import Settings from './pages/Settings.jsx'
+import CategoryPath from './pages/CategoryPath.jsx'
 
 const parseRoute = () => {
   const hash = window.location.hash.replace('#', '')
@@ -29,6 +30,10 @@ function Router() {
   }
   if (route === '/settings') {
     return <Settings />
+  }
+  if (route.startsWith('/path/')) {
+    const categoryId = route.split('/')[2]
+    return <CategoryPath categoryId={categoryId} />
   }
 
   return <Home />

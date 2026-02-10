@@ -44,7 +44,15 @@ const icons = {
   ),
 }
 
-function LessonNode({ lesson, status, onClick, style, isMilestone }) {
+function LessonNode({
+  lesson,
+  status,
+  onClick,
+  style,
+  isMilestone,
+  collectedStars = 0,
+  totalStars = 0,
+}) {
   const isClickable = status !== 'locked'
 
   const statusStyles = {
@@ -79,7 +87,7 @@ function LessonNode({ lesson, status, onClick, style, isMilestone }) {
       >
         <span
           className={
-            'relative flex h-12 w-12 items-center justify-center rounded-full border-2 text-sm font-semibold shadow-sm motion-reduce:animate-none ' +
+            'relative flex h-12 w-12 flex-col items-center justify-center gap-0.5 rounded-full border-2 text-xs font-semibold shadow-sm motion-reduce:animate-none ' +
             statusStyles[status] +
             ' ' +
             milestoneRing
@@ -88,7 +96,29 @@ function LessonNode({ lesson, status, onClick, style, isMilestone }) {
           <span className="absolute top-1 right-1 text-white">
             {icons[status]}
           </span>
-          {lesson.order}
+          <span>{lesson.order}</span>
+          {totalStars > 0 && (
+            <span className="flex items-center gap-0.5">
+              {Array.from({ length: totalStars }).map((_, index) => {
+                const isCollected = index < collectedStars
+                return (
+                  <svg
+                    key={`node-star-${lesson.id}-${index}`}
+                    viewBox="0 0 24 24"
+                    className={`h-2.5 w-2.5 ${
+                      isCollected
+                        ? 'text-amber-300'
+                        : 'text-slate-300/70 dark:text-slate-600'
+                    }`}
+                    aria-hidden="true"
+                    fill="currentColor"
+                  >
+                    <path d="M12 2l2.9 6.1 6.7.6-5 4.5 1.5 6.6L12 16.9 5.9 19.8 7.4 13 2.4 8.7l6.7-.6L12 2z" />
+                  </svg>
+                )
+              })}
+            </span>
+          )}
         </span>
         <span className="w-24 text-xs font-semibold leading-tight">
           <span className={labelStyles[status]}>{lesson.title}</span>

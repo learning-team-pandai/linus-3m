@@ -1,29 +1,30 @@
 import { useEffect, useMemo, useState } from 'react'
-import PathMap from '../components/path/PathMap.jsx'
 import { MODULES, ORDERED_LESSONS } from '../data/content.js'
-import { loadProgress, resetProgress, setCurrentLesson } from '../utils/storage.js'
+import { loadProgress, resetProgress } from '../utils/storage.js'
 import Skeleton from '../components/ui/Skeleton.jsx'
 
 function Home() {
   const [progress, setProgress] = useState(() => loadProgress())
   const [isLoading, setIsLoading] = useState(true)
 
-  const lessons = useMemo(() => ORDERED_LESSONS, [])
-  const totalStars = useMemo(
-    () => Object.values(progress.stars || {}).reduce((sum, value) => sum + value, 0),
-    [progress.stars]
-  )
+  const completedStarsByLesson = useMemo(() => {
+    const completedResources = progress.completedResources || {}
+    return Object.entries(completedResources).reduce((acc, [lessonId, lessonMap]) => {
+      if (!lessonMap || typeof lessonMap !== 'object') return acc
+      acc[lessonId] = Object.values(lessonMap).filter(Boolean).length
+      return acc
+    }, {})
+  }, [progress.completedResources])
+
+  const totalStars = useMemo(() => {
+    return Object.values(completedStarsByLesson).reduce((sum, value) => sum + value, 0)
+  }, [completedStarsByLesson])
+
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 250)
     return () => clearTimeout(timer)
   }, [])
-
-  const handleSelectLesson = (lessonId) => {
-    const nextProgress = setCurrentLesson(lessonId)
-    setProgress(nextProgress)
-    window.location.hash = `#/lesson/${lessonId}`
-  }
 
   const handleReset = () => {
     const nextProgress = resetProgress()
@@ -34,12 +35,11 @@ function Home() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <header className="bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
         <div className="mx-auto max-w-3xl px-4 py-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex-1 text-center">
+              <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 font-playpen">
                 Linus 3M
-              </p>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Learning Path</h1>
+              </h1>
               <p className="text-sm text-slate-600 dark:text-slate-400">
                 Tap lesson nodes to start. Progress is saved locally.
               </p>
@@ -76,7 +76,7 @@ function Home() {
             <div>
               <p className="text-sm text-slate-500 dark:text-slate-400">Progress</p>
               <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                {progress.completedLessons.length} of {lessons.length} completed
+                {progress.completedLessons.length} of {ORDERED_LESSONS.length} completed
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400">Total stars: {totalStars}</p>
             </div>
@@ -93,16 +93,16 @@ function Home() {
               className="h-full rounded-full bg-blue-500 transition-all"
               style={{
                 width: `${
-                  lessons.length === 0
+                  ORDERED_LESSONS.length === 0
                     ? 0
-                    : (progress.completedLessons.length / lessons.length) * 100
+                    : (progress.completedLessons.length / ORDERED_LESSONS.length) * 100
                 }%`,
               }}
             />
           </div>
         </section>
 
-        <section className="mb-6 grid gap-3 sm:grid-cols-3">
+        <section className="mb-6 grid gap-3 sm:grid-cols-2">
           {isLoading
             ? Array.from({ length: 3 }).map((_, index) => (
                 <div
@@ -123,34 +123,25 @@ function Home() {
                     className="h-2 w-10 rounded-full"
                     style={{ backgroundColor: module.color }}
                   />
-                  <h2 className="mt-3 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  <h2 className="mt-3 text-sm font-semibold text-slate-900 dark:text-slate-100 font-playpen">
                     {module.name}
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400">{module.description}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.location.hash = `#/path/${module.id}`
+                    }}
+                    className="mt-3 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white"
+                  >
+                    Open Path
+                  </button>
                 </div>
               ))}
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-              Path Nodes
-            </h2>
-          </div>
-          {isLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-5 w-40" />
-              <Skeleton className="h-5 w-56" />
-              <Skeleton className="h-5 w-48" />
-              <Skeleton className="h-5 w-52" />
-            </div>
-          ) : (
-            <PathMap
-              lessons={lessons}
-              progress={progress}
-              onSelectLesson={handleSelectLesson}
-            />
-          )}
+        <section className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+          Select a path to start learning.
         </section>
       </main>
     </div>

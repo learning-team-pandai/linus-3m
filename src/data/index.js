@@ -17,21 +17,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Kenali Huruf Besar (A-Z)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaEditor: "https://www.canva.com/design/DAG_kYO30XE/Tomy3r1CL0YnyzF-aqP4mw/edit",
       canvaPublic: "https://www.canva.com/design/DAG_kYO30XE/zqjNTVY9TL02eFyLI336jA/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-01"
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-01",
-      canvaEditor: "https://www.canva.com/design/DAG_rMT_6Xk/j0Vb8OIycbes3CtTIA5BtQ/edit",
       canvaPublic: "https://www.canva.com/design/DAG_rMT_6Xk/v2ZlbkZpr1749u21cpBVjA/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-01"
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-01",
-      canvaEditor: "https://www.canva.com/design/DAHAWEXencI/lHqFq9a8JY2CjZQ1yynNyQ/edit",
       canvaPublic: "https://www.canva.com/design/DAHAWEXencI/8BNYvUTHSxAViw1ljEqCzQ/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-01"
     }
   },
   {
@@ -40,21 +34,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Kenali Huruf Kecil (a-z)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaEditor: "https://www.canva.com/design/DAG_l9nmj94/KVSkmetr2MwxyIQYLHN6-w/edit",
       canvaPublic: "https://www.canva.com/design/DAG_l9nmj94/8bTngWc8muqAP6V336qf1w/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-02"
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-02",
-      canvaEditor: "https://www.canva.com/design/DAG_fyxVIXY/z5w8p8StWqnuwSkPNpLfig/edit",
       canvaPublic: "https://www.canva.com/design/DAG_fyxVIXY/taipvS3mQDBPjMtUS__FBg/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-02"
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-02",
-      canvaEditor: "https://www.canva.com/design/DAHAWM7X6wU/JwNyScNOJfJujKi7Sw5GnA/edit",
       canvaPublic: "https://www.canva.com/design/DAHAWM7X6wU/fK5W_FXPfeBiFuoqWK2MBQ/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-02"
     }
   },
   {
@@ -63,21 +51,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Suku Kata Terbuka KV",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaEditor: "https://www.canva.com/design/DAG_mMxA4xM/PP_tK-LDuozY13qkZgNLoA/edit",
       canvaPublic: "https://www.canva.com/design/DAG_mMxA4xM/cUgWcoxrW6aXTrjtPbbq-Q/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-03"
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-03",
-      canvaEditor: "https://www.canva.com/design/DAG_rNciy70/L6ezgcZeaqj5KcaheRETSQ/edit",
       canvaPublic: "https://www.canva.com/design/DAG_rNciy70/O0WB7gG6yugew5e7sXicmQ/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-03"
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-03",
-      canvaEditor: "https://www.canva.com/design/DAHAWJ0Py8k/yMJNdGyGuy0NGLtE_5TcVA/edit",
       canvaPublic: "https://www.canva.com/design/DAHAWJ0Py8k/JZOBtKs_ua-a6TA_q4Itzg/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-03"
     }
   },
   {
@@ -86,21 +68,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Perkataan 2 Suku Kata (Bahagian 1)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaEditor: "https://www.canva.com/design/DAG_mD6tgbs/NC4mPRQlhHVyA-gxcZ_ntw/edit",
       canvaPublic: "https://www.canva.com/design/DAG_mD6tgbs/kqyFlx-xmSkJmnPNLkZL1w/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-04"
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-04",
-      canvaEditor: "https://www.canva.com/design/DAG_rGmlxBk/7_j_sd0bNV2QH3QmosFrnw/edit",
       canvaPublic: "https://www.canva.com/design/DAG_rGmlxBk/oYnzaSiLr1QtQlMJX8G0HQ/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-04"
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-04",
-      canvaEditor: "https://www.canva.com/design/DAHAWAedoqI/kDl1Fy7BcTVTexoD7JSGsA/edit",
       canvaPublic: "https://www.canva.com/design/DAHAWAedoqI/94_awDok4zgQ0dEEuZuZvQ/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-04"
     }
   },
   {
@@ -109,24 +85,15 @@ export const MEMBACA_MENULIS_LESSONS = [
     title: "Perkataan 2 Suku Kata (Bahagian 2)",
     category: "membaca-menulis",
     pembelajaran: {
-      canvaEditor: "https://www.canva.com/design/DAG_mMqMNZA/fhwv2TmfgDOm3W7o-Eav-g/edit",
       canvaPublic: "https://www.canva.com/design/DAG_mMqMNZA/IhAac_AzUvOmGQHCw2H3SQ/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-05",
-      pandaiPublic: "https://app.pandai.org/note/read/3m-bm-pembelajaran-05/0/preview"
     },
     latihanMembaca: {
       code: "3m-bm-latihan-membaca-05",
-      canvaEditor: "https://www.canva.com/design/DAG_rPMZqQQ/D752cR7HbsqRNZxe1lxY3A/edit",
       canvaPublic: "https://www.canva.com/design/DAG_rPMZqQQ/hcPFushSwkkakmcnMSlbog/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-05",
-      pandaiPublic: "https://app.pandai.org/note/read/3m-bm-latihan-membaca-05/0/preview"
     },
     latihanMenulis: {
       code: "3m-bm-latihan-menulis-05",
-      canvaEditor: "https://www.canva.com/design/DAHAWRzpx2c/Opg-DN3hhnRBwOEbkPb2ng/edit",
       canvaPublic: "https://www.canva.com/design/DAHAWRzpx2c/Kkcjz0Us5UGXShpRP-sLaA/view",
-      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-05",
-      pandaiPublic: "https://app.pandai.org/note/read/3m-bm-latihan-menulis-05/0/preview"
     }
   }
 ];
@@ -166,7 +133,6 @@ export const MENGIRA_LESSONS = [
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-01",
-      canvaEditor: "https://www.canva.com/design/DAHAa8vG9dg/9VxIitqrsq3NlXUQAYqcEw/edit",
       canvaPublic: "https://www.canva.com/design/DAHAa8vG9dg/0kump8Jq6-jD45QS8PJpuQ/view"
     }
   },
@@ -180,7 +146,6 @@ export const MENGIRA_LESSONS = [
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-02",
-      canvaEditor: "https://www.canva.com/design/DAHAa1EGrL0/dJRH3ZiWVuKolCG7kW5yrw/edit",
       canvaPublic: "https://www.canva.com/design/DAHAa1EGrL0/UMZok3UPgVhIXB2lcjYYhA/view"
     }
   },
@@ -194,7 +159,6 @@ export const MENGIRA_LESSONS = [
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-03",
-      canvaEditor: "https://www.canva.com/design/DAHAbJ-Hh0M/Z0Ha9b8VC-K_y0kuV3Nmqg/edit",
       canvaPublic: "https://www.canva.com/design/DAHAbJ-Hh0M/rN4iqGwxfXMxNfgbMF0lNg/view"
     }
   },
@@ -208,7 +172,6 @@ export const MENGIRA_LESSONS = [
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-04",
-      canvaEditor: "https://www.canva.com/design/DAHAbOSp3YA/GaP14Fgun98XWZq9PBQWPw/edit",
       canvaPublic: "https://www.canva.com/design/DAHAbOSp3YA/lUyc1FsiT_Igsnky6RdLDw/view"
     }
   },
@@ -222,7 +185,6 @@ export const MENGIRA_LESSONS = [
     },
     latihanMengira: {
       code: "3m-mt-latihan-mengira-05",
-      canvaEditor: "https://www.canva.com/design/DAHAbFpXCOk/r9Vh5CIhy3L0u5OLMR3EbA/edit",
       canvaPublic: "https://www.canva.com/design/DAHAbFpXCOk/F-KJ61SLj5yTWWdC9sajzw/view"
     }
   }

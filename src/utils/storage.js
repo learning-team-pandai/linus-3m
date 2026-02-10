@@ -5,6 +5,7 @@ const defaultProgress = {
   currentLessonId: null,
   lastAccessed: null,
   stars: {},
+  completedResources: {},
 }
 
 export const loadProgress = () => {
@@ -20,6 +21,10 @@ export const loadProgress = () => {
         : [],
       stars:
         parsed.stars && typeof parsed.stars === 'object' ? parsed.stars : {},
+      completedResources:
+        parsed.completedResources && typeof parsed.completedResources === 'object'
+          ? parsed.completedResources
+          : {},
     }
   } catch (error) {
     console.error('Storage read error:', error)
@@ -68,6 +73,23 @@ export const setLessonStars = (lessonId, stars) => {
     stars: {
       ...progress.stars,
       [lessonId]: clamped,
+    },
+  })
+}
+
+export const markResourceComplete = (lessonId, resourceKey) => {
+  const progress = loadProgress()
+  const lessonResources = progress.completedResources?.[lessonId] || {}
+  if (lessonResources[resourceKey]) return progress
+
+  return saveProgress({
+    ...progress,
+    completedResources: {
+      ...progress.completedResources,
+      [lessonId]: {
+        ...lessonResources,
+        [resourceKey]: true,
+      },
     },
   })
 }

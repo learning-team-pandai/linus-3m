@@ -8,12 +8,13 @@ import {
 import {
   loadProgress,
   markLessonComplete,
-  setLessonStars,
+  markResourceComplete,
   setCurrentLesson,
 } from '../utils/storage.js'
 import VideoPlayer from '../components/lesson/VideoPlayer.jsx'
 import SlideViewer from '../components/lesson/SlideViewer.jsx'
 import Exercise from '../components/lesson/Exercise.jsx'
+import ResourceLinks from '../components/lesson/ResourceLinks.jsx'
 import Celebration from '../components/celebration/Celebration.jsx'
 import { playCelebrate } from '../utils/sfx.js'
 import Skeleton from '../components/ui/Skeleton.jsx'
@@ -23,6 +24,10 @@ const buildTabs = (content) => {
   if (content?.video) tabs.push({ id: 'video', label: 'Video' })
   if (content?.slides) tabs.push({ id: 'slides', label: 'Slides' })
   if (content?.exercise) tabs.push({ id: 'exercise', label: 'Exercise' })
+  if (content?.resources && content.resources.length > 0) {
+    tabs.push({ id: 'resources', label: 'Resources' })
+  }
+  if (!tabs.length) tabs.push({ id: 'overview', label: 'Overview' })
   return tabs
 }
 
@@ -60,15 +65,17 @@ function Lesson({ lessonId }) {
   const nextLessonId = getNextLessonId(lesson.id)
   const tabs = buildTabs(lesson.content)
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || 'slides')
-  const [selectedStars, setSelectedStars] = useState(3)
   const [showCelebration, setShowCelebration] = useState(false)
   const hasCelebratedRef = useRef(false)
   const [isTabLoading, setIsTabLoading] = useState(false)
 
-  useEffect(() => {
-    const storedStars = progress.stars?.[lesson.id]
-    setSelectedStars(storedStars || 3)
-  }, [lesson.id, progress.stars])
+  const resourceSections = lesson.content?.resources || []
+  const completedSections = progress.completedResources?.[lesson.id] || {}
+  const totalStars = resourceSections.length || 0
+  const collectedStars = resourceSections.reduce(
+    (sum, section) => sum + (completedSections[section.title] ? 1 : 0),
+    0
+  )
 
   useEffect(() => {
     if (!activeTab) return
@@ -78,9 +85,22 @@ function Lesson({ lessonId }) {
   }, [activeTab])
 
   const handleComplete = () => {
-    const withStars = setLessonStars(lesson.id, selectedStars)
     const nextProgress = markLessonComplete(lesson.id)
-    setProgress({ ...nextProgress, stars: withStars.stars })
+    setProgress(nextProgress)
+  }
+
+  const handleSectionComplete = (sectionTitle) => {
+    const nextProgress = markResourceComplete(lesson.id, sectionTitle)
+    setProgress(nextProgress)
+    const nextCompleted = nextProgress.completedResources?.[lesson.id] || {}
+    const doneCount = resourceSections.reduce(
+      (sum, section) => sum + (nextCompleted[section.title] ? 1 : 0),
+      0
+    )
+    if (resourceSections.length > 0 && doneCount === resourceSections.length) {
+      const updated = markLessonComplete(lesson.id)
+      setProgress(updated)
+    }
   }
 
   useEffect(() => {
@@ -116,6 +136,22 @@ function Lesson({ lessonId }) {
           exercise={lesson.content?.exercise}
           onComplete={lesson.completion?.type === 'interact' ? handleComplete : null}
         />
+      )
+    }
+    if (activeTab === 'resources') {
+      return (
+        <ResourceLinks
+          sections={resourceSections}
+          completedSections={completedSections}
+          onSectionComplete={handleSectionComplete}
+        />
+      )
+    }
+    if (activeTab === 'overview') {
+      return (
+        <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
+          Lesson resources will appear here.
+        </div>
       )
     }
     return <SlideViewer slides={lesson.content?.slides} />
@@ -194,22 +230,25 @@ function Lesson({ lessonId }) {
         <section className="mt-6 flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
             Stars:
-            {[1, 2, 3].map((value) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setSelectedStars(value)}
-                aria-pressed={selectedStars === value}
-                className={
-                  'rounded-full px-2 py-1 text-xs font-semibold transition ' +
-                  (selectedStars === value
-                    ? 'bg-amber-400 text-white'
-                    : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300')
-                }
-              >
-                {value}
-              </button>
-            ))}
+            <div className="flex items-center gap-1">
+              {Array.from({ length: totalStars }).map((_, index) => {
+                const isCollected = index < collectedStars
+                return (
+                  <svg
+                    key={`star-${index}`}
+                    viewBox="0 0 24 24"
+                    className={`h-4 w-4 ${isCollected ? 'text-amber-400' : 'text-slate-300 dark:text-slate-600'}`}
+                    aria-hidden="true"
+                    fill="currentColor"
+                  >
+                    <path d="M12 2l2.9 6.1 6.7.6-5 4.5 1.5 6.6L12 16.9 5.9 19.8 7.4 13 2.4 8.7l6.7-.6L12 2z" />
+                  </svg>
+                )
+              })}
+              {totalStars === 0 && (
+                <span className="text-[11px] text-slate-400">No stars</span>
+              )}
+            </div>
           </div>
           <button
             type="button"
@@ -236,8 +275,7 @@ function Lesson({ lessonId }) {
             role="status"
             aria-live="polite"
           >
-            Great job! You earned {progress.stars?.[lesson.id] || selectedStars}{' '}
-            stars.
+            Great job! You earned {collectedStars} stars.
           </section>
         )}
 

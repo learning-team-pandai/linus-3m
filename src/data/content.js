@@ -1,219 +1,82 @@
-// Sample content for Phase 2/4 (dummy lessons for path and content system)
+import { ALL_LESSONS, CATEGORIES } from './index.js'
 
-export const MODULES = [
-  {
-    id: 'membaca',
-    name: 'Membaca',
-    color: '#3B82F6',
-    description: 'Belajar membaca dari huruf A hingga Z',
-  },
-  {
-    id: 'menulis',
-    name: 'Menulis',
-    color: '#22C55E',
-    description: 'Latihan menulis dan ejaan',
-  },
-  {
-    id: 'mengira',
-    name: 'Mengira',
-    color: '#F97316',
-    description: 'Mengenal nombor dan operasi asas',
-  },
-]
+const CATEGORY_ORDER = ['membaca-menulis', 'mengira']
 
-export const LESSONS = [
-  {
-    id: 'membaca-01',
-    moduleId: 'membaca',
-    order: 1,
-    sequence: 1,
-    title: 'Huruf A',
-    duration: '5 min',
+const buildResources = (lesson) => {
+  const sections = []
+
+  const pushLinks = (title, data) => {
+    if (!data) return
+    const links = []
+    if (data.canvaPublic) links.push({ label: 'Canva (View)', url: data.canvaPublic })
+    if (data.pandaiPublic) links.push({ label: 'Pandai (View)', url: data.pandaiPublic })
+    if (data.github) links.push({ label: 'GitHub', url: data.github })
+    if (links.length) sections.push({ title, links })
+  }
+
+  pushLinks('Pembelajaran', lesson.pembelajaran)
+  pushLinks('Latihan Membaca', lesson.latihanMembaca)
+  pushLinks('Latihan Menulis', lesson.latihanMenulis)
+  pushLinks('Latihan Mengira', lesson.latihanMengira)
+
+  return sections
+}
+
+export const MODULES = CATEGORIES.map((category) => ({
+  id: category.id,
+  name: category.name,
+  description: category.description,
+  color: category.color,
+}))
+
+const groupedLessons = CATEGORY_ORDER.map((categoryId) => {
+  const lessons = ALL_LESSONS.filter((lesson) => lesson.category === categoryId)
+  lessons.sort((a, b) => (a.number || 0) - (b.number || 0))
+  return { categoryId, lessons }
+})
+
+let sequence = 1
+
+export const LESSONS = groupedLessons.flatMap(({ categoryId, lessons }) => {
+  return lessons.map((lesson, index) => ({
+    id: lesson.id,
+    moduleId: categoryId,
+    order: lesson.number || index + 1,
+    sequence: sequence++,
+    title: lesson.title,
+    duration: '5-10 min',
     type: 'lesson',
-    requires: [],
+    requires: index === 0 ? [] : [lessons[index - 1].id],
     content: {
-      slides: [
-        { type: 'intro', title: 'Kenal Huruf A', text: 'Ini adalah huruf A.' },
-        { type: 'example', title: 'A untuk Api', text: 'A seperti Api.' },
-      ],
-      exercise: {
-        question: 'Manakah huruf A?',
-        options: [
-          { id: 'a', label: 'A', correct: true },
-          { id: 'b', label: 'B', correct: false },
-          { id: 'c', label: 'C', correct: false },
-        ],
-        feedback: {
-          correct: 'Tahniah! Betul.',
-          wrong: 'Cuba lagi.',
-        },
-      },
-    },
-    completion: { type: 'interact' },
-  },
-  {
-    id: 'membaca-02',
-    moduleId: 'membaca',
-    order: 2,
-    sequence: 2,
-    title: 'Huruf B',
-    duration: '5 min',
-    type: 'lesson',
-    requires: ['membaca-01'],
-    content: {
-      video: {
-        src: '/videos/sample.mp4',
-        poster: '/images/sample-poster.jpg',
-      },
-      slides: [
-        { type: 'intro', title: 'Kenal Huruf B', text: 'Ini adalah huruf B.' },
-      ],
-    },
-    completion: { type: 'watch' },
-  },
-  {
-    id: 'membaca-03',
-    moduleId: 'membaca',
-    order: 3,
-    sequence: 3,
-    title: 'Suku Kata KV',
-    duration: '6 min',
-    type: 'lesson',
-    requires: ['membaca-02'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Ka Ku', text: 'Mari belajar suku kata.' },
-      ],
+      resources: buildResources(lesson),
     },
     completion: { type: 'manual' },
-  },
-  {
-    id: 'membaca-04',
-    moduleId: 'membaca',
-    order: 4,
-    sequence: 4,
-    title: 'Perkataan Mudah',
-    duration: '6 min',
-    type: 'lesson',
-    requires: ['membaca-03'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Perkataan', text: 'Bina perkataan ringkas.' },
-      ],
-    },
-    completion: { type: 'manual' },
-  },
-  {
-    id: 'menulis-01',
-    moduleId: 'menulis',
-    order: 1,
-    sequence: 5,
-    title: 'Menulis Garisan',
-    duration: '5 min',
-    type: 'lesson',
-    requires: ['membaca-04'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Garisan', text: 'Latih tangan menulis.' },
-      ],
-    },
-    completion: { type: 'manual' },
-  },
-  {
-    id: 'menulis-02',
-    moduleId: 'menulis',
-    order: 2,
-    sequence: 6,
-    title: 'Menulis Huruf A',
-    duration: '6 min',
-    type: 'lesson',
-    requires: ['menulis-01'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Menulis A', text: 'Latihan menulis A.' },
-      ],
-    },
-    completion: { type: 'manual' },
-  },
-  {
-    id: 'menulis-03',
-    moduleId: 'menulis',
-    order: 3,
-    sequence: 7,
-    title: 'Menulis Suku Kata',
-    duration: '6 min',
-    type: 'lesson',
-    requires: ['menulis-02'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Suku Kata', text: 'Gabungkan suku kata.' },
-      ],
-    },
-    completion: { type: 'manual' },
-  },
-  {
-    id: 'mengira-01',
-    moduleId: 'mengira',
-    order: 1,
-    sequence: 8,
-    title: 'Kenal Nombor 1-5',
-    duration: '6 min',
-    type: 'lesson',
-    requires: ['menulis-03'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Nombor 1-5', text: 'Mari kira bersama.' },
-      ],
-    },
-    completion: { type: 'manual' },
-  },
-  {
-    id: 'mengira-02',
-    moduleId: 'mengira',
-    order: 2,
-    sequence: 9,
-    title: 'Kenal Nombor 6-10',
-    duration: '6 min',
-    type: 'lesson',
-    requires: ['mengira-01'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Nombor 6-10', text: 'Teruskan mengira.' },
-      ],
-    },
-    completion: { type: 'manual' },
-  },
-  {
-    id: 'mengira-03',
-    moduleId: 'mengira',
-    order: 3,
-    sequence: 10,
-    title: 'Tambah Mudah',
-    duration: '7 min',
-    type: 'lesson',
-    requires: ['mengira-02'],
-    content: {
-      slides: [
-        { type: 'intro', title: 'Tambah', text: 'Mari belajar tambah.' },
-      ],
-    },
-    completion: { type: 'manual' },
-  },
-]
+  }))
+})
 
 export const ORDERED_LESSONS = [...LESSONS].sort(
   (a, b) => a.sequence - b.sequence
 )
 
+const lessonsByModule = MODULES.reduce((acc, module) => {
+  acc[module.id] = LESSONS.filter((lesson) => lesson.moduleId === module.id).sort(
+    (a, b) => a.order - b.order
+  )
+  return acc
+}, {})
+
 export const getLessonById = (lessonId) =>
   LESSONS.find((lesson) => lesson.id === lessonId)
 
 export const getNextLessonId = (lessonId) => {
-  const index = ORDERED_LESSONS.findIndex((lesson) => lesson.id === lessonId)
-  if (index === -1 || index === ORDERED_LESSONS.length - 1) {
+  const current = getLessonById(lessonId)
+  if (!current) return null
+  const list = lessonsByModule[current.moduleId] || []
+  const index = list.findIndex((lesson) => lesson.id === lessonId)
+  if (index === -1 || index === list.length - 1) {
     return null
   }
-  return ORDERED_LESSONS[index + 1].id
+  return list[index + 1].id
 }
 
 export const getModuleById = (moduleId) =>

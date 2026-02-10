@@ -9,8 +9,16 @@
   padding: 0;
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 html.dark {
   color-scheme: dark;
+}
+
+.font-playpen {
+  font-family: "Playpen Sans", cursive;
 }
 
 @media (prefers-reduced-motion: reduce) {

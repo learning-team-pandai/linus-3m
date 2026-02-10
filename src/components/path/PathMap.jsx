@@ -9,6 +9,7 @@ import {
 function PathMap({ lessons, progress, onSelectLesson }) {
   const completedIds = progress.completedLessons
   const currentLessonId = getCurrentLessonId(lessons, completedIds)
+  const completedResources = progress.completedResources || {}
 
   const points = buildNodePositions(lessons)
   const lastPoint = points[points.length - 1]
@@ -39,6 +40,8 @@ function PathMap({ lessons, progress, onSelectLesson }) {
               status={status}
               onClick={() => onSelectLesson(lesson.id)}
               isMilestone={isMilestone}
+              collectedStars={Object.values(completedResources[lesson.id] || {}).filter(Boolean).length}
+              totalStars={lesson.content?.resources?.length || 0}
               style={{
                 left: `${point.x}%`,
                 top: `${point.y}px`,

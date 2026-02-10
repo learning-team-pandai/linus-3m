@@ -6,7 +6,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Poppins"', 'sans-serif'],
+        playpen: ['\"Playpen Sans\"', 'cursive'],
+      },
+    },
   },
   plugins: [],
 }
