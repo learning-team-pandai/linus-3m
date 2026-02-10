@@ -16,6 +16,7 @@ function PathLine({ points, activeCount, height, className }) {
         d={fullD}
         fill="none"
         stroke="#E2E8F0"
+        className="dark:stroke-slate-700"
         strokeWidth="2"
         strokeLinecap="round"
       />
@@ -24,6 +25,7 @@ function PathLine({ points, activeCount, height, className }) {
           d={activeD}
           fill="none"
           stroke="#3B82F6"
+          className="dark:stroke-blue-400"
           strokeWidth="3"
           strokeLinecap="round"
         />

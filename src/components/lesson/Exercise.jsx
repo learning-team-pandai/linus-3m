@@ -22,8 +22,8 @@ function Exercise({ exercise, onComplete }) {
   }
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-5">
-      <p className="text-sm font-semibold text-slate-900">{exercise.question}</p>
+    <div className="rounded-lg border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+      <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{exercise.question}</p>
       <div className="mt-4 space-y-2">
         {exercise.options.map((option) => (
           <button
@@ -33,8 +33,8 @@ function Exercise({ exercise, onComplete }) {
             className={
               'w-full rounded-lg border px-4 py-2 text-left text-sm transition ' +
               (selected?.id === option.id
-                ? 'border-blue-400 bg-blue-50'
-                : 'border-slate-200 hover:border-slate-300')
+                ? 'border-blue-400 bg-blue-50 dark:bg-blue-500/10'
+                : 'border-slate-200 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700')
             }
           >
             {option.label}
@@ -49,7 +49,7 @@ function Exercise({ exercise, onComplete }) {
         Check Answer
       </button>
       {feedback && (
-        <p className="mt-3 text-sm font-semibold text-slate-700">{feedback}</p>
+        <p className="mt-3 text-sm font-semibold text-slate-700 dark:text-slate-200">{feedback}</p>
       )}
     </div>
   )

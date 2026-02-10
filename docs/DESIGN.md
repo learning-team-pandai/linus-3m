@@ -324,7 +324,7 @@ START (Flag icon)
 ```jsx
 // Flat design button
 <button className="
-  bg-blue-500 hover:bg-blue-600
+  bg-emerald-500 hover:bg-emerald-600
   text-white font-poppins font-semibold
   px-6 py-3 rounded-lg
   transition-colors duration-200
@@ -364,3 +364,10 @@ import { IconBook, IconCheck, IconLock } from '@tabler/icons-react';
 // Current lesson
 <IconBook size={24} className="text-white animate-pulse" />
 ```
+
+## Controls & Links
+
+- Primary buttons: Emerald (`#10B981`)
+- Toggles/switches: Emerald (`#10B981`)
+- Links: Emerald (`#10B981`)
+- Active tabs/lines: Blue (`#3B82F6`)

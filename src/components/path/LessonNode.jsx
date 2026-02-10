@@ -48,19 +48,22 @@ function LessonNode({ lesson, status, onClick, style, isMilestone }) {
   const isClickable = status !== 'locked'
 
   const statusStyles = {
-    completed: 'bg-emerald-500 border-emerald-500 text-white',
-    current: 'bg-blue-500 border-blue-500 text-white animate-pulse',
-    locked: 'bg-slate-200 border-slate-300 text-slate-400',
+    completed:
+      'bg-emerald-500 border-emerald-500 text-white dark:bg-emerald-400 dark:border-emerald-400',
+    current:
+      'bg-blue-500 border-blue-500 text-white animate-pulse dark:bg-blue-400 dark:border-blue-400',
+    locked:
+      'bg-slate-200 border-slate-300 text-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-500',
   }
 
   const labelStyles = {
-    completed: 'text-slate-800',
-    current: 'text-slate-900',
-    locked: 'text-slate-400',
+    completed: 'text-slate-800 dark:text-slate-100',
+    current: 'text-slate-900 dark:text-slate-100',
+    locked: 'text-slate-400 dark:text-slate-500',
   }
 
   const milestoneRing = isMilestone
-    ? 'after:absolute after:inset-0 after:rounded-full after:border after:border-dashed after:border-amber-400 after:content-[""]'
+    ? 'after:absolute after:inset-0 after:rounded-full after:border after:border-dashed after:border-amber-400 after:content-[""] dark:after:border-amber-300'
     : ''
 
   return (
@@ -89,11 +92,11 @@ function LessonNode({ lesson, status, onClick, style, isMilestone }) {
         </span>
         <span className="w-24 text-xs font-semibold leading-tight">
           <span className={labelStyles[status]}>{lesson.title}</span>
-          <span className="mt-1 block text-[11px] text-slate-500">
+          <span className="mt-1 block text-[11px] text-slate-500 dark:text-slate-400">
             {lesson.duration}
           </span>
           {isMilestone && (
-            <span className="mt-1 block text-[10px] font-semibold text-amber-500">
+            <span className="mt-1 block text-[10px] font-semibold text-amber-500 dark:text-amber-300">
               Milestone
             </span>
           )}

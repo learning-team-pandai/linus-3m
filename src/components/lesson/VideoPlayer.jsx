@@ -8,7 +8,7 @@ function VideoPlayer({ src, poster, onComplete }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+    <div className="overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
       <video
         controls
         className="w-full"

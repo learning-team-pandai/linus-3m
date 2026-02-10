@@ -74,7 +74,7 @@ function Celebration({ isVisible, onDone }) {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
-      <div className="h-56 w-56 rounded-2xl border border-emerald-200 bg-white/90 p-4 text-center shadow-lg">
+      <div className="h-56 w-56 rounded-2xl border border-emerald-200 bg-white/90 p-4 text-center shadow-lg dark:border-emerald-400/40 dark:bg-slate-900/90">
         {useFallback || !assetReady ? (
           <div className="flex h-full flex-col items-center justify-center">
             <div className="text-3xl font-bold text-emerald-500">!</div>
