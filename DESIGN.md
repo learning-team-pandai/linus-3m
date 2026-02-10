@@ -157,6 +157,98 @@ if (screen.orientation && screen.orientation.lock) {
 - **Tablet**: 640px - 1024px
 - **Desktop**: > 1024px
 
+## Animation
+
+### Animation Platform: Rive
+- **Tool**: Rive (https://rive.app)
+- **Usage**: All animations in the app use Rive
+- **Format**: `.riv` files
+- **Benefits**: Lightweight, interactive, runs at 60fps
+
+### Animation Guidelines
+- Use Rive for:
+  - Character animations
+  - Loading states
+  - Success/check animations
+  - Interactive feedback
+  - Page transitions
+- Keep animations smooth and purposeful
+- Duration: 200-400ms for micro-interactions
+- Duration: 500-800ms for larger transitions
+
+### Implementation
+```bash
+# Install Rive React
+npm install @rive-app/react-canvas
+```
+
+```jsx
+// Usage in React
+import { useRive } from '@rive-app/react-canvas';
+
+const MyComponent = () => {
+  const { RiveComponent } = useRive({
+    src: '/animations/loading.riv',
+    autoplay: true,
+  });
+
+  return <RiveComponent style={{ width: 200, height: 200 }} />;
+};
+```
+
+## Sound
+
+### Audio Library: Howler.js
+- **Library**: Howler.js (https://howlerjs.com)
+- **Usage**: All sound effects and audio playback
+- **Format**: Web Audio API wrapper
+
+### Audio Guidelines
+- **File Size**: Keep each sound file less than 100 KB
+- **Format**: Use `.mp3` or `.ogg` for compatibility
+- **Compression**: Optimize audio files before adding
+
+### Sound Categories
+- **UI Sounds**: Button clicks, toggles, notifications (10-30 KB)
+- **Feedback Sounds**: Success, error, completion (20-50 KB)
+- **Ambient Sounds**: Background music, loops (50-100 KB)
+- **Voice**: Instructions, pronunciations (under 100 KB each)
+
+### Implementation
+```bash
+# Install Howler.js
+npm install howler
+```
+
+```jsx
+// Usage in React
+import { Howl } from 'howler';
+
+const playSound = () => {
+  const sound = new Howl({
+    src: ['/sounds/click.mp3'],
+    volume: 0.5,
+  });
+  sound.play();
+};
+```
+
+### Audio Assets Structure
+```
+public/
+└── sounds/
+    ├── ui/
+    │   ├── click.mp3
+    │   ├── toggle.mp3
+n    │   └── notification.mp3
+    ├── feedback/
+    │   ├── success.mp3
+    │   ├── error.mp3
+    │   └── complete.mp3
+    └── voice/
+        └── instructions/
+```
+
 ## Accessibility
 
 - Minimum contrast ratio: 4.5:1 for text
