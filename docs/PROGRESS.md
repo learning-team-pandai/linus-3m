@@ -69,7 +69,7 @@
 - [x] Membaca module content (all lessons)
 - [x] Menulis module content (all lessons)
 - [x] Mengira module content (all lessons)
-- [ ] Asset optimization (images, audio, video)
+- [x] Asset optimization (images, audio, video)
 - [ ] BM/EN string localization
 
 ## Phase 8: Deployment 📋 PLANNED
