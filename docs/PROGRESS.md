@@ -6,33 +6,33 @@
 - [x] Documentation structure (`docs/`)
 - [x] AGENTS.md for project conventions
 
-## Phase 2: Core Infrastructure 🔄 IN PROGRESS
-- [ ] Data layer (`src/data/content.js`)
-  - [ ] Module structure
-  - [ ] Lesson schema
-  - [ ] Sample content (3-5 lessons)
-- [ ] Storage layer (`src/utils/storage.js`)
-  - [ ] localStorage wrapper with error handling
-  - [ ] Progress tracking
-- [ ] Routing (`src/Router.jsx`)
-  - [ ] Hash-based routing
-  - [ ] Route definitions
+## Phase 2: Core Infrastructure ✅ COMPLETE
+- [x] Data layer (`src/data/content.js`)
+  - [x] Module structure
+  - [x] Lesson schema
+  - [x] Sample content (3-5 lessons)
+- [x] Storage layer (`src/utils/storage.js`)
+  - [x] localStorage wrapper with error handling
+  - [x] Progress tracking
+- [x] Routing (`src/Router.jsx`)
+  - [x] Hash-based routing
+  - [x] Route definitions
 
-## Phase 3: Learning Path UI 📋 PLANNED
-- [ ] Path container (`PathMap.jsx`)
-  - [ ] SVG viewport setup
+## Phase 3: Learning Path UI 🔄 IN PROGRESS
+- [x] Path container (`PathMap.jsx`)
+  - [x] SVG viewport setup
   - [ ] Scroll/pan behavior
-- [ ] Path rendering (`PathLine.jsx`)
-  - [ ] Bezier curve generation
+- [x] Path rendering (`PathLine.jsx`)
+  - [x] Bezier curve generation
   - [ ] Completed vs future styling
-- [ ] Lesson nodes (`LessonNode.jsx`)
+- [x] Lesson nodes (`LessonNode.jsx`)
   - [ ] Locked state (gray + lock icon)
-  - [ ] Current state (pulse animation)
+  - [x] Current state (pulse animation)
   - [ ] Completed state (color + checkmark)
   - [ ] Milestone celebrations
-- [ ] Progress calculation
-  - [ ] Percentage complete
-  - [ ] Current position indicator
+- [x] Progress calculation
+  - [x] Percentage complete
+  - [x] Current position indicator
 
 ## Phase 4: Lesson Content System 📋 PLANNED
 - [ ] Lesson page layout
@@ -80,16 +80,15 @@
 
 ---
 
-## Current Sprint: Phase 2
+## Current Sprint: Phase 3
 
-**Goal:** Get the learning path skeleton working with dummy data
+**Goal:** Polish the learning path visuals and interactions
 
 **Tasks:**
-1. Create `src/data/content.js` with sample lessons
-2. Build `src/utils/storage.js` for progress
-3. Create `src/components/path/LessonNode.jsx` component
-4. Render a vertical path with 5-10 dummy nodes
-5. Make nodes clickable (navigate to lesson)
+1. Style locked/completed nodes with icons
+2. Add completed vs future path styling
+3. Optional: add scroll/pan behavior for long paths
+4. Refine milestone visuals
 
 **Definition of Done:**
 - Open app → see learning path
