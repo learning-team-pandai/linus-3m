@@ -52,8 +52,8 @@ function PathMap({ lessons, progress, onSelectLesson }) {
               status={status}
               onClick={() => onSelectLesson(lesson.id)}
               isMilestone={isMilestone}
-              collectedStars={Object.values(completedResources[lesson.id] || {}).filter(Boolean).length}
-              totalStars={lesson.content?.resources?.length || 0}
+              collectedStars={Object.entries(completedResources[lesson.id] || {}).filter(([key, value]) => value && key !== 'Video').length}
+              totalStars={(lesson.content?.resources || []).filter((section) => section.title !== 'Video').length}
               style={{
                 left: `${point.x}%`,
                 top: `${point.y}px`,

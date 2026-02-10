@@ -75,8 +75,8 @@ function Lesson({ lessonId }) {
     (section) => section.title !== 'Video'
   )
   const completedSections = progress.completedResources?.[lesson.id] || {}
-  const totalStars = resourceSections.length || 0
-  const collectedStars = resourceSections.reduce(
+  const totalStars = nonVideoSections.length || 0
+  const collectedStars = nonVideoSections.reduce(
     (sum, section) => sum + (completedSections[section.title] ? 1 : 0),
     0
   )
@@ -97,11 +97,11 @@ function Lesson({ lessonId }) {
     const nextProgress = markResourceComplete(lesson.id, sectionTitle)
     setProgress(nextProgress)
     const nextCompleted = nextProgress.completedResources?.[lesson.id] || {}
-    const doneCount = resourceSections.reduce(
+    const doneCount = nonVideoSections.reduce(
       (sum, section) => sum + (nextCompleted[section.title] ? 1 : 0),
       0
     )
-    if (resourceSections.length > 0 && doneCount === resourceSections.length) {
+    if (nonVideoSections.length > 0 && doneCount === nonVideoSections.length) {
       const updated = markLessonComplete(lesson.id)
       setProgress(updated)
     }

@@ -15,7 +15,9 @@ function Home() {
     const completedResources = progress.completedResources || {}
     return Object.entries(completedResources).reduce((acc, [lessonId, lessonMap]) => {
       if (!lessonMap || typeof lessonMap !== 'object') return acc
-      acc[lessonId] = Object.values(lessonMap).filter(Boolean).length
+      acc[lessonId] = Object.entries(lessonMap)
+        .filter(([key, value]) => key !== 'Video' && value)
+        .length
       return acc
     }, {})
   }, [progress.completedResources])

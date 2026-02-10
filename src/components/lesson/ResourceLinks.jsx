@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getStrings } from '../../utils/i18n.js'
 
 function ResourceLinks({ sections, completedSections, onSectionComplete }) {
@@ -48,6 +48,56 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
     } catch {
       return null
     }
+  }
+
+  const loadYouTubeApi = () => {
+    if (window.YT && window.YT.Player) {
+      return Promise.resolve(window.YT)
+    }
+    if (window.__ytApiPromise) {
+      return window.__ytApiPromise
+    }
+    window.__ytApiPromise = new Promise((resolve) => {
+      const script = document.createElement('script')
+      script.src = 'https://www.youtube.com/iframe_api'
+      document.body.appendChild(script)
+      window.onYouTubeIframeAPIReady = () => resolve(window.YT)
+    })
+    return window.__ytApiPromise
+  }
+
+  const YouTubeEmbed = ({ url, sectionTitle }) => {
+    const containerId = useMemo(
+      () => `yt-${sectionTitle.replace(/\\s+/g, '-').toLowerCase()}`,
+      [sectionTitle]
+    )
+    const isCompleted = completedSections?.[sectionTitle]
+
+    useEffect(() => {
+      if (!url || isCompleted) return
+      let player
+      loadYouTubeApi().then((YT) => {
+        player = new YT.Player(containerId, {
+          videoId: url.split('/embed/')[1],
+          events: {
+            onStateChange: (event) => {
+              if (event.data === YT.PlayerState.PLAYING) {
+                onSectionComplete?.(sectionTitle)
+              }
+            },
+          },
+        })
+      })
+      return () => {
+        if (player && player.destroy) player.destroy()
+      }
+    }, [url, sectionTitle, isCompleted])
+
+    return (
+      <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
+        <div id={containerId} className="h-full w-full" />
+      </div>
+    )
   }
 
   return (
@@ -121,6 +171,8 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
                         {section.title}
                       </a>
                     </div>
+                  ) : isYouTube ? (
+                    <YouTubeEmbed url={embedUrl} sectionTitle={section.title} />
                   ) : shouldEmbed ? (
                     <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
                       <iframe
