@@ -1,16 +1,23 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import PathMap from '../components/path/PathMap.jsx'
 import { MODULES, ORDERED_LESSONS } from '../data/content.js'
 import { loadProgress, resetProgress, setCurrentLesson } from '../utils/storage.js'
+import Skeleton from '../components/ui/Skeleton.jsx'
 
 function Home() {
   const [progress, setProgress] = useState(() => loadProgress())
+  const [isLoading, setIsLoading] = useState(true)
 
   const lessons = useMemo(() => ORDERED_LESSONS, [])
-  const totalStars = Object.values(progress.stars || {}).reduce(
-    (sum, value) => sum + value,
-    0
+  const totalStars = useMemo(
+    () => Object.values(progress.stars || {}).reduce((sum, value) => sum + value, 0),
+    [progress.stars]
   )
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 250)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleSelectLesson = (lessonId) => {
     const nextProgress = setCurrentLesson(lessonId)
@@ -83,21 +90,32 @@ function Home() {
         </section>
 
         <section className="mb-6 grid gap-3 sm:grid-cols-3">
-          {MODULES.map((module) => (
-            <div
-              key={module.id}
-              className="rounded-xl border border-slate-200 bg-white p-4"
-            >
-              <div
-                className="h-2 w-10 rounded-full"
-                style={{ backgroundColor: module.color }}
-              />
-              <h2 className="mt-3 text-sm font-semibold text-slate-900">
-                {module.name}
-              </h2>
-              <p className="text-xs text-slate-500">{module.description}</p>
-            </div>
-          ))}
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={`module-skeleton-${index}`}
+                  className="rounded-xl border border-slate-200 bg-white p-4"
+                >
+                  <Skeleton className="h-2 w-10" />
+                  <Skeleton className="mt-3 h-4 w-24" />
+                  <Skeleton className="mt-2 h-3 w-32" />
+                </div>
+              ))
+            : MODULES.map((module) => (
+                <div
+                  key={module.id}
+                  className="rounded-xl border border-slate-200 bg-white p-4"
+                >
+                  <div
+                    className="h-2 w-10 rounded-full"
+                    style={{ backgroundColor: module.color }}
+                  />
+                  <h2 className="mt-3 text-sm font-semibold text-slate-900">
+                    {module.name}
+                  </h2>
+                  <p className="text-xs text-slate-500">{module.description}</p>
+                </div>
+              ))}
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-4">
@@ -106,11 +124,20 @@ function Home() {
               Path Nodes
             </h2>
           </div>
-          <PathMap
-            lessons={lessons}
-            progress={progress}
-            onSelectLesson={handleSelectLesson}
-          />
+          {isLoading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-5 w-40" />
+              <Skeleton className="h-5 w-56" />
+              <Skeleton className="h-5 w-48" />
+              <Skeleton className="h-5 w-52" />
+            </div>
+          ) : (
+            <PathMap
+              lessons={lessons}
+              progress={progress}
+              onSelectLesson={handleSelectLesson}
+            />
+          )}
         </section>
       </main>
     </div>

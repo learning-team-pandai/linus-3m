@@ -76,7 +76,7 @@ function LessonNode({ lesson, status, onClick, style, isMilestone }) {
       >
         <span
           className={
-            'relative flex h-12 w-12 items-center justify-center rounded-full border-2 text-sm font-semibold shadow-sm ' +
+            'relative flex h-12 w-12 items-center justify-center rounded-full border-2 text-sm font-semibold shadow-sm motion-reduce:animate-none ' +
             statusStyles[status] +
             ' ' +
             milestoneRing

@@ -16,6 +16,7 @@ import SlideViewer from '../components/lesson/SlideViewer.jsx'
 import Exercise from '../components/lesson/Exercise.jsx'
 import Celebration from '../components/celebration/Celebration.jsx'
 import { playCelebrate } from '../utils/sfx.js'
+import Skeleton from '../components/ui/Skeleton.jsx'
 
 const buildTabs = (content) => {
   const tabs = []
@@ -62,11 +63,19 @@ function Lesson({ lessonId }) {
   const [selectedStars, setSelectedStars] = useState(3)
   const [showCelebration, setShowCelebration] = useState(false)
   const hasCelebratedRef = useRef(false)
+  const [isTabLoading, setIsTabLoading] = useState(false)
 
   useEffect(() => {
     const storedStars = progress.stars?.[lesson.id]
     setSelectedStars(storedStars || 3)
   }, [lesson.id, progress.stars])
+
+  useEffect(() => {
+    if (!activeTab) return
+    setIsTabLoading(true)
+    const timer = setTimeout(() => setIsTabLoading(false), 200)
+    return () => clearTimeout(timer)
+  }, [activeTab])
 
   const handleComplete = () => {
     const withStars = setLessonStars(lesson.id, selectedStars)
@@ -159,7 +168,15 @@ function Lesson({ lessonId }) {
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-5">
-          {renderTab()}
+          {isTabLoading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-4 w-40" />
+              <Skeleton className="h-24 w-full" />
+              <Skeleton className="h-4 w-56" />
+            </div>
+          ) : (
+            renderTab()
+          )}
         </section>
 
         <section className="mt-6 flex flex-wrap items-center gap-3">
@@ -170,6 +187,7 @@ function Lesson({ lessonId }) {
                 key={value}
                 type="button"
                 onClick={() => setSelectedStars(value)}
+                aria-pressed={selectedStars === value}
                 className={
                   'rounded-full px-2 py-1 text-xs font-semibold transition ' +
                   (selectedStars === value
@@ -201,7 +219,11 @@ function Lesson({ lessonId }) {
         </section>
 
         {isCompleted && (
-          <section className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm font-semibold text-emerald-700">
+          <section
+            className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm font-semibold text-emerald-700"
+            role="status"
+            aria-live="polite"
+          >
             Great job! You earned {progress.stars?.[lesson.id] || selectedStars}{' '}
             stars.
           </section>

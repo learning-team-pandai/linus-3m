@@ -19,7 +19,7 @@ function PathMap({ lessons, progress, onSelectLesson }) {
   const activeCount = currentIndex >= 0 ? currentIndex + 1 : 1
 
   return (
-    <div className="relative min-h-[300px]">
+    <div className="relative min-h-[300px] md:min-h-[400px]">
       <PathLine
         points={points}
         activeCount={activeCount}

@@ -5,3 +5,14 @@
   margin: 0 auto;
   padding: 0;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse {
+    animation: none !important;
+  }
+  .transition,
+  .transition-all,
+  .transition-colors {
+    transition: none !important;
+  }
+}
