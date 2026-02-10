@@ -52,6 +52,7 @@ function LessonNode({
   isMilestone,
   collectedStars = 0,
   totalStars = 0,
+  dataLessonId,
 }) {
   const isClickable = status !== 'locked'
 
@@ -75,7 +76,7 @@ function LessonNode({
     : ''
 
   return (
-    <div className="absolute" style={style}>
+    <div className="absolute" style={style} data-lesson-id={dataLessonId}>
       <button
         type="button"
         onClick={isClickable ? onClick : undefined}

@@ -160,7 +160,7 @@ function Lesson({ lessonId }) {
           <button
             type="button"
             onClick={() => {
-              window.location.hash = '#/'
+              window.location.hash = `#/path/${lesson.moduleId}`
             }}
             className="rounded-full p-2 text-emerald-500 dark:text-emerald-300"
             aria-label="Back"

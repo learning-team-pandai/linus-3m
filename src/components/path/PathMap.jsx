@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import LessonNode from './LessonNode.jsx'
 import PathLine from './PathLine.jsx'
 import {
@@ -7,6 +8,7 @@ import {
 } from '../../utils/path.js'
 
 function PathMap({ lessons, progress, onSelectLesson }) {
+  const containerRef = useRef(null)
   const completedIds = progress.completedLessons
   const currentLessonId = getCurrentLessonId(lessons, completedIds)
   const completedResources = progress.completedResources || {}
@@ -19,8 +21,18 @@ function PathMap({ lessons, progress, onSelectLesson }) {
     : lessons.length - 1
   const activeCount = currentIndex >= 0 ? currentIndex + 1 : 1
 
+  useEffect(() => {
+    if (!currentLessonId || !containerRef.current) return
+    const node = containerRef.current.querySelector(
+      `[data-lesson-id="${currentLessonId}"]`
+    )
+    if (node && typeof node.scrollIntoView === 'function') {
+      node.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    }
+  }, [currentLessonId])
+
   return (
-    <div className="relative min-h-[300px] md:min-h-[400px]">
+    <div ref={containerRef} className="relative min-h-[300px] md:min-h-[400px]">
       <PathLine
         points={points}
         activeCount={activeCount}
@@ -47,6 +59,7 @@ function PathMap({ lessons, progress, onSelectLesson }) {
                 top: `${point.y}px`,
                 transform: 'translate(-50%, -50%)',
               }}
+              dataLessonId={lesson.id}
             />
           )
         })}
