@@ -26,9 +26,7 @@ function Home() {
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
             Linus 3M
           </p>
-          <h1 className="text-2xl font-bold text-slate-900">
-            Learning Path
-          </h1>
+          <h1 className="text-2xl font-bold text-slate-900">Learning Path</h1>
           <p className="text-sm text-slate-600">
             Tap lesson nodes to start. Progress is saved locally.
           </p>
@@ -85,9 +83,11 @@ function Home() {
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-4">
-          <h2 className="mb-4 text-base font-semibold text-slate-900">
-            Path Nodes
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-base font-semibold text-slate-900">
+              Path Nodes
+            </h2>
+          </div>
           <PathMap
             lessons={lessons}
             progress={progress}

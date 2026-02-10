@@ -1,7 +1,9 @@
 import { buildPathD } from '../../utils/path.js'
 
-function PathLine({ points, height, className }) {
-  const d = buildPathD(points)
+function PathLine({ points, activeCount, height, className }) {
+  const fullD = buildPathD(points)
+  const activePoints = points.slice(0, Math.max(activeCount, 1))
+  const activeD = buildPathD(activePoints)
 
   return (
     <svg
@@ -11,12 +13,21 @@ function PathLine({ points, height, className }) {
       aria-hidden="true"
     >
       <path
-        d={d}
+        d={fullD}
         fill="none"
         stroke="#E2E8F0"
         strokeWidth="2"
         strokeLinecap="round"
       />
+      {activeD && (
+        <path
+          d={activeD}
+          fill="none"
+          stroke="#3B82F6"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+      )}
     </svg>
   )
 }

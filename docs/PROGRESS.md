@@ -18,18 +18,18 @@
   - [x] Hash-based routing
   - [x] Route definitions
 
-## Phase 3: Learning Path UI 🔄 IN PROGRESS
+## Phase 3: Learning Path UI ✅ COMPLETE
 - [x] Path container (`PathMap.jsx`)
   - [x] SVG viewport setup
   - [ ] Scroll/pan behavior
 - [x] Path rendering (`PathLine.jsx`)
   - [x] Bezier curve generation
-  - [ ] Completed vs future styling
+  - [x] Completed vs future styling
 - [x] Lesson nodes (`LessonNode.jsx`)
-  - [ ] Locked state (gray + lock icon)
+  - [x] Locked state (gray + lock icon)
   - [x] Current state (pulse animation)
-  - [ ] Completed state (color + checkmark)
-  - [ ] Milestone celebrations
+  - [x] Completed state (color + checkmark)
+  - [x] Milestone celebrations
 - [x] Progress calculation
   - [x] Percentage complete
   - [x] Current position indicator
@@ -80,15 +80,14 @@
 
 ---
 
-## Current Sprint: Phase 3
+## Current Sprint: Phase 4
 
-**Goal:** Polish the learning path visuals and interactions
+**Goal:** Build the lesson content system
 
 **Tasks:**
-1. Style locked/completed nodes with icons
-2. Add completed vs future path styling
-3. Optional: add scroll/pan behavior for long paths
-4. Refine milestone visuals
+1. Create lesson page layout
+2. Add content type components (slides, video, exercise)
+3. Implement completion detection
 
 **Definition of Done:**
 - Open app → see learning path
