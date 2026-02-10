@@ -2,6 +2,17 @@
 
 ## Visual Design System
 
+### Design Philosophy: Flat/Simplicity Design
+
+Flat design embraces simplicity and minimalism. This approach focuses on:
+- **Clean, open spaces** - Uncluttered layouts with breathing room
+- **Crisp edges** - Sharp, defined boundaries without bevels or shadows
+- **Bright colors** - Vibrant, solid color palettes
+- **2D illustrations** - Simple, flat graphics without depth effects
+- **Minimalist approach** - Removing unnecessary ornamentation
+
+**Reference:** https://www.canva.com/design/DAG_kYO30XE/Tomy3r1CL0YnyzF-aqP4mw/edit
+
 ### Color Palette
 
 | Module | Primary | Secondary | Accent |
@@ -17,15 +28,104 @@
 - White: `#FFFFFF`
 
 ### Typography
-- **Headings:** Inter or system sans-serif, bold
-- **Body:** Inter or system sans-serif, regular
-- **Kids-friendly:** Rounded, friendly, large touch targets (min 44px)
+
+**Primary Font: Poppins**
+- URL: https://fonts.google.com/specimen/Poppins
+- Usage: Primary font for most use cases
+- Weights: 400 (Regular), 600 (SemiBold), 700 (Bold)
+
+**Secondary Font: Playpen Sans**
+- URL: https://fonts.google.com/specimen/Playpen+Sans
+- Usage: Secondary font for playful/fun usage
+- Weights: 400 (Regular), 600 (SemiBold)
+
+**Implementation:**
+```html
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playpen+Sans:wght@400;600&display=swap" rel="stylesheet">
+```
+
+**Typography Scale:**
+- Headings: Poppins Bold
+- Body: Poppins Regular
+- Playful elements: Playpen Sans
+- Kids-friendly: Rounded, friendly, large touch targets (min 44px)
+
+### Icon & Image Guidelines
+
+**Icons:**
+- **Source:** Tabler Icons - https://tabler.io/icons
+- **Format:** All icons rendered as SVG
+- **Repository:** https://github.com/tabler/tabler-icons
+- **Style:** Simple, flat, consistent line weight
+
+**Images:**
+- **Format:** All images rendered as SVG where possible
+- **Style:** Flat illustrations, no gradients or shadows
+- **NO EMOJI:** No usage of emoji as image/illustration
+
+**Implementation:**
+```jsx
+// Using Tabler Icons (React)
+import { IconBook, IconCalculator, IconLock } from '@tabler/icons-react';
+
+// SVG usage
+<IconBook size={24} stroke={2} />
+```
 
 ### Spacing
 - Base unit: 4px
 - Lesson nodes: 64px diameter
 - Path stroke: 8px
 - Node spacing: 80px vertical
+
+## Orientation
+
+**Default: Landscape**
+
+The app will use **landscape orientation** as default even when the mobile device is tilted to portrait mode.
+
+**Implementation:**
+```css
+/* Force landscape */
+@screen (orientation: portrait) {
+  .app-container {
+    transform: rotate(90deg);
+    transform-origin: center center;
+    width: 100vh;
+    height: 100vw;
+    position: fixed;
+    overflow: hidden;
+  }
+}
+```
+
+**Or using CSS:**
+```css
+html {
+  /* Prevent auto-rotation */
+  orientation: landscape;
+}
+
+@media (orientation: portrait) {
+  body::before {
+    content: "Please rotate your device to landscape mode";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #F8FAFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+  }
+}
+```
 
 ## Learning Path UI
 
@@ -53,7 +153,7 @@ START (Flag icon)
 └─────────────────┘
 ```
 - Circle: 64px, gray fill (`#94A3B8`)
-- Icon: Lock emoji or SVG
+- Icon: Tabler Icon `IconLock`
 - Text: Grayed out, smaller
 
 #### 2. Current (Ready to start)
@@ -81,7 +181,7 @@ START (Flag icon)
 └─────────────────┘
 ```
 - Circle: 64px, module color fill
-- Icon: Checkmark or star
+- Icon: Tabler Icon `IconCheck` or `IconStar`
 - Path behind: Colored stroke connecting completed nodes
 
 #### 4. Milestone (Module complete)
@@ -205,3 +305,50 @@ START (Flag icon)
 - Respect `prefers-reduced-motion`
 - Sufficient color contrast (WCAG AA)
 - Focus states for keyboard navigation
+
+## Component Examples
+
+### Button Component
+```jsx
+// Flat design button
+<button className="
+  bg-blue-500 hover:bg-blue-600
+  text-white font-poppins font-semibold
+  px-6 py-3 rounded-lg
+  transition-colors duration-200
+  active:scale-95
+">
+  Start Lesson
+</button>
+```
+
+### Card Component
+```jsx
+// Flat design card
+<div className="
+  bg-white rounded-xl
+  p-6 shadow-sm
+  border border-slate-100
+">
+  <h3 className="font-poppins font-bold text-slate-800">
+    Lesson Title
+  </h3>
+  <p className="font-poppins text-slate-600 mt-2">
+    Description
+  </p>
+</div>
+```
+
+### Icon Usage
+```jsx
+import { IconBook, IconCheck, IconLock } from '@tabler/icons-react';
+
+// Locked lesson
+<IconLock size={24} className="text-slate-400" />
+
+// Completed lesson
+<IconCheck size={24} className="text-white" />
+
+// Current lesson
+<IconBook size={24} className="text-white animate-pulse" />
+```

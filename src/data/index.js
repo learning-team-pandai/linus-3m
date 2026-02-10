@@ -1,54 +1,363 @@
+// Linus 3M - Complete Lesson Data
 // Hardcoded data - no server needed
+
 export const APP_DATA = {
   title: "Linus 3M",
   version: "1.0.0",
-  description: "A 100% offline-capable progressive web app",
-  author: "Aime & Akmal"
-}
+  description: "Program Literasi 3M - Membaca, Menulis & Mengira",
+  author: "Aime & Akmal",
+  tagline: "Bahan Percuma Literasi 3M untuk Kanak-Kanak"
+};
 
-export const MODULES = [
+// Bahasa Melayu - Membaca dan Menulis (24 lessons)
+export const MEMBACA_MENULIS_LESSONS = [
   {
-    id: 1,
-    name: "Module 1",
-    description: "Getting Started",
-    content: [
-      { type: "text", value: "Welcome to Linus 3M!" },
-      { type: "text", value: "This is sample content stored as JSON." }
-    ]
+    id: "3m-bm-pembelajaran-01",
+    number: 1,
+    title: "Kenali Huruf Besar (A-Z)",
+    category: "membaca-menulis",
+    pembelajaran: {
+      canvaEditor: "https://www.canva.com/design/DAG_kYO30XE/Tomy3r1CL0YnyzF-aqP4mw/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_kYO30XE/zqjNTVY9TL02eFyLI336jA/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-01"
+    },
+    latihanMembaca: {
+      code: "3m-bm-latihan-membaca-01",
+      canvaEditor: "https://www.canva.com/design/DAG_rMT_6Xk/j0Vb8OIycbes3CtTIA5BtQ/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_rMT_6Xk/v2ZlbkZpr1749u21cpBVjA/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-01"
+    },
+    latihanMenulis: {
+      code: "3m-bm-latihan-menulis-01",
+      canvaEditor: "https://www.canva.com/design/DAHAWEXencI/lHqFq9a8JY2CjZQ1yynNyQ/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAWEXencI/8BNYvUTHSxAViw1ljEqCzQ/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-01"
+    }
   },
   {
-    id: 2,
-    name: "Module 2", 
-    description: "Core Concepts",
-    content: [
-      { type: "text", value: "Core concepts go here." }
-    ]
+    id: "3m-bm-pembelajaran-02",
+    number: 2,
+    title: "Kenali Huruf Kecil (a-z)",
+    category: "membaca-menulis",
+    pembelajaran: {
+      canvaEditor: "https://www.canva.com/design/DAG_l9nmj94/KVSkmetr2MwxyIQYLHN6-w/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_l9nmj94/8bTngWc8muqAP6V336qf1w/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-02"
+    },
+    latihanMembaca: {
+      code: "3m-bm-latihan-membaca-02",
+      canvaEditor: "https://www.canva.com/design/DAG_fyxVIXY/z5w8p8StWqnuwSkPNpLfig/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_fyxVIXY/taipvS3mQDBPjMtUS__FBg/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-02"
+    },
+    latihanMenulis: {
+      code: "3m-bm-latihan-menulis-02",
+      canvaEditor: "https://www.canva.com/design/DAHAWM7X6wU/JwNyScNOJfJujKi7Sw5GnA/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAWM7X6wU/fK5W_FXPfeBiFuoqWK2MBQ/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-02"
+    }
   },
   {
-    id: 3,
-    name: "Module 3",
-    description: "Advanced Topics",
-    content: [
-      { type: "text", value: "Advanced topics go here." }
-    ]
+    id: "3m-bm-pembelajaran-03",
+    number: 3,
+    title: "Suku Kata Terbuka KV",
+    category: "membaca-menulis",
+    pembelajaran: {
+      canvaEditor: "https://www.canva.com/design/DAG_mMxA4xM/PP_tK-LDuozY13qkZgNLoA/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_mMxA4xM/cUgWcoxrW6aXTrjtPbbq-Q/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-03"
+    },
+    latihanMembaca: {
+      code: "3m-bm-latihan-membaca-03",
+      canvaEditor: "https://www.canva.com/design/DAG_rNciy70/L6ezgcZeaqj5KcaheRETSQ/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_rNciy70/O0WB7gG6yugew5e7sXicmQ/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-03"
+    },
+    latihanMenulis: {
+      code: "3m-bm-latihan-menulis-03",
+      canvaEditor: "https://www.canva.com/design/DAHAWJ0Py8k/yMJNdGyGuy0NGLtE_5TcVA/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAWJ0Py8k/JZOBtKs_ua-a6TA_q4Itzg/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-03"
+    }
+  },
+  {
+    id: "3m-bm-pembelajaran-04",
+    number: 4,
+    title: "Perkataan 2 Suku Kata (Bahagian 1)",
+    category: "membaca-menulis",
+    pembelajaran: {
+      canvaEditor: "https://www.canva.com/design/DAG_mD6tgbs/NC4mPRQlhHVyA-gxcZ_ntw/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_mD6tgbs/kqyFlx-xmSkJmnPNLkZL1w/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-04"
+    },
+    latihanMembaca: {
+      code: "3m-bm-latihan-membaca-04",
+      canvaEditor: "https://www.canva.com/design/DAG_rGmlxBk/7_j_sd0bNV2QH3QmosFrnw/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_rGmlxBk/oYnzaSiLr1QtQlMJX8G0HQ/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-04"
+    },
+    latihanMenulis: {
+      code: "3m-bm-latihan-menulis-04",
+      canvaEditor: "https://www.canva.com/design/DAHAWAedoqI/kDl1Fy7BcTVTexoD7JSGsA/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAWAedoqI/94_awDok4zgQ0dEEuZuZvQ/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-04"
+    }
+  },
+  {
+    id: "3m-bm-pembelajaran-05",
+    number: 5,
+    title: "Perkataan 2 Suku Kata (Bahagian 2)",
+    category: "membaca-menulis",
+    pembelajaran: {
+      canvaEditor: "https://www.canva.com/design/DAG_mMqMNZA/fhwv2TmfgDOm3W7o-Eav-g/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_mMqMNZA/IhAac_AzUvOmGQHCw2H3SQ/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-pembelajaran-05",
+      pandaiPublic: "https://app.pandai.org/note/read/3m-bm-pembelajaran-05/0/preview"
+    },
+    latihanMembaca: {
+      code: "3m-bm-latihan-membaca-05",
+      canvaEditor: "https://www.canva.com/design/DAG_rPMZqQQ/D752cR7HbsqRNZxe1lxY3A/edit",
+      canvaPublic: "https://www.canva.com/design/DAG_rPMZqQQ/hcPFushSwkkakmcnMSlbog/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-membaca-05",
+      pandaiPublic: "https://app.pandai.org/note/read/3m-bm-latihan-membaca-05/0/preview"
+    },
+    latihanMenulis: {
+      code: "3m-bm-latihan-menulis-05",
+      canvaEditor: "https://www.canva.com/design/DAHAWRzpx2c/Opg-DN3hhnRBwOEbkPb2ng/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAWRzpx2c/Kkcjz0Us5UGXShpRP-sLaA/view",
+      pandaiEditor: "https://app.pandai.org/app/learn/note/add/3m-bm-latihan-menulis-05",
+      pandaiPublic: "https://app.pandai.org/note/read/3m-bm-latihan-menulis-05/0/preview"
+    }
   }
-]
+];
 
-// Helper to save/load user progress from localStorage
+// Continue with more lessons...
+export const MEMBACA_MENULIS_LESSONS_EXTRA = [
+  { id: "3m-bm-pembelajaran-06", number: 6, title: "Perkataan 3 Suku Kata (Bahagian 1)" },
+  { id: "3m-bm-pembelajaran-07", number: 7, title: "Perkataan 1 Suku Kata (Bahagian 1)" },
+  { id: "3m-bm-pembelajaran-08", number: 8, title: "Perkataan 2 Suku Kata (Bahagian 3)" },
+  { id: "3m-bm-pembelajaran-09", number: 9, title: "Perkataan 3 Suku Kata (Bahagian 2)" },
+  { id: "3m-bm-pembelajaran-10", number: 10, title: "Perkataan 2 Suku Kata (Bahagian 4)" },
+  { id: "3m-bm-pembelajaran-11", number: 11, title: "Perkataan 2 Suku Kata (Bahagian 5)" },
+  { id: "3m-bm-pembelajaran-12", number: 12, title: "Perkataan 2 Suku Kata (Bahagian 6)" },
+  { id: "3m-bm-pembelajaran-13", number: 13, title: "Perkataan 3 Suku Kata (Bahagian 3)" },
+  { id: "3m-bm-pembelajaran-14", number: 14, title: "Perkataan 3 Suku Kata (Bahagian 4)" },
+  { id: "3m-bm-pembelajaran-15", number: 15, title: "Perkataan 1 Suku Kata (Bahagian 2)" },
+  { id: "3m-bm-pembelajaran-16", number: 16, title: "Perkataan 2 Suku Kata (Bahagian 7)" },
+  { id: "3m-bm-pembelajaran-17", number: 17, title: "Perkataan 2 Suku Kata (Bahagian 8)" },
+  { id: "3m-bm-pembelajaran-18", number: 18, title: "Perkataan 2 Suku Kata (Bahagian 9)" },
+  { id: "3m-bm-pembelajaran-19", number: 19, title: "Perkataan 2 Suku Kata (Bahagian 10)" },
+  { id: "3m-bm-pembelajaran-20", number: 20, title: "Perkataan 2 Suku Kata (Bahagian 11)" },
+  { id: "3m-bm-pembelajaran-21", number: 21, title: "Perkataan 3 Suku Kata (Bahagian 5)" },
+  { id: "3m-bm-pembelajaran-22", number: 22, title: "Perkataan 3 Suku Kata (Bahagian 6)" },
+  { id: "3m-bm-pembelajaran-23", number: 23, title: "Perkataan 3 Suku Kata (Bahagian 7)" },
+  { id: "3m-bm-pembelajaran-24", number: 24, title: "Perkataan 3 Suku Kata (Bahagian 8)" }
+];
+
+// Matematik - Mengira (23 lessons)
+export const MENGIRA_LESSONS = [
+  {
+    id: "3m-mt-pembelajaran-01",
+    number: 1,
+    title: "Warna & Saiz",
+    category: "mengira",
+    pembelajaran: {
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-1/"
+    },
+    latihanMengira: {
+      code: "3m-mt-latihan-mengira-01",
+      canvaEditor: "https://www.canva.com/design/DAHAa8vG9dg/9VxIitqrsq3NlXUQAYqcEw/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAa8vG9dg/0kump8Jq6-jD45QS8PJpuQ/view"
+    }
+  },
+  {
+    id: "3m-mt-pembelajaran-02",
+    number: 2,
+    title: "Bentuk & Jenis",
+    category: "mengira",
+    pembelajaran: {
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-2/"
+    },
+    latihanMengira: {
+      code: "3m-mt-latihan-mengira-02",
+      canvaEditor: "https://www.canva.com/design/DAHAa1EGrL0/dJRH3ZiWVuKolCG7kW5yrw/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAa1EGrL0/UMZok3UPgVhIXB2lcjYYhA/view"
+    }
+  },
+  {
+    id: "3m-mt-pembelajaran-03",
+    number: 3,
+    title: "Lebih & Kurang",
+    category: "mengira",
+    pembelajaran: {
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-3/"
+    },
+    latihanMengira: {
+      code: "3m-mt-latihan-mengira-03",
+      canvaEditor: "https://www.canva.com/design/DAHAbJ-Hh0M/Z0Ha9b8VC-K_y0kuV3Nmqg/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAbJ-Hh0M/rN4iqGwxfXMxNfgbMF0lNg/view"
+    }
+  },
+  {
+    id: "3m-mt-pembelajaran-04",
+    number: 4,
+    title: "Perbandingan dan Susunan Objek",
+    category: "mengira",
+    pembelajaran: {
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-4/"
+    },
+    latihanMengira: {
+      code: "3m-mt-latihan-mengira-04",
+      canvaEditor: "https://www.canva.com/design/DAHAbOSp3YA/GaP14Fgun98XWZq9PBQWPw/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAbOSp3YA/lUyc1FsiT_Igsnky6RdLDw/view"
+    }
+  },
+  {
+    id: "3m-mt-pembelajaran-05",
+    number: 5,
+    title: "Kenali Nombor 0 Hingga 10",
+    category: "mengira",
+    pembelajaran: {
+      github: "https://learning-team-pandai.github.io/linus-mengira/linuslearning-5/"
+    },
+    latihanMengira: {
+      code: "3m-mt-latihan-mengira-05",
+      canvaEditor: "https://www.canva.com/design/DAHAbFpXCOk/r9Vh5CIhy3L0u5OLMR3EbA/edit",
+      canvaPublic: "https://www.canva.com/design/DAHAbFpXCOk/F-KJ61SLj5yTWWdC9sajzw/view"
+    }
+  }
+];
+
+// Continue with more math lessons...
+export const MENGIRA_LESSONS_EXTRA = [
+  { id: "3m-mt-pembelajaran-06", number: 6, title: "Kenali Nombor 11 Hingga 20" },
+  { id: "3m-mt-pembelajaran-07", number: 7, title: "Perbandingan Nombor Kecil & Besar" },
+  { id: "3m-mt-pembelajaran-08", number: 8, title: "Kenali Nilai Tempat & Nilai Digit" },
+  { id: "3m-mt-pembelajaran-09", number: 9, title: "Tambah Dalam Lingkungan 10" },
+  { id: "3m-mt-pembelajaran-10", number: 10, title: "Tambah Dalam Lingkungan 18" },
+  { id: "3m-mt-pembelajaran-11", number: 11, title: "Penyelesaian Masalah Tambah" },
+  { id: "3m-mt-pembelajaran-12", number: 12, title: "Tolak Dalam Lingkungan 10" },
+  { id: "3m-mt-pembelajaran-13", number: 13, title: "Tolak Dalam Lingkungan 18" },
+  { id: "3m-mt-pembelajaran-14", number: 14, title: "Penyelesaian Masalah Tolak" },
+  { id: "3m-mt-pembelajaran-15", number: 15, title: "Kenali Nombor Hingga 100" },
+  { id: "3m-mt-pembelajaran-16", number: 16, title: "Nilai Tempat & Nilai Digit Hingga 100" },
+  { id: "3m-mt-pembelajaran-17", number: 17, title: "Anggaran & Pembundaran" },
+  { id: "3m-mt-pembelajaran-18", number: 18, title: "Konsep Darab & Bahagi Asas" },
+  { id: "3m-mt-pembelajaran-19", number: 19, title: "Operasi Darab 1 Digit" },
+  { id: "3m-mt-pembelajaran-20", number: 20, title: "Operasi Darab 2 Digit" },
+  { id: "3m-mt-pembelajaran-21", number: 21, title: "Operasi Bahagi 1 Digit" },
+  { id: "3m-mt-pembelajaran-22", number: 22, title: "Operasi Bahagi 2 Digit" },
+  { id: "3m-mt-pembelajaran-23", number: 23, title: "Gabungan Operasi Tambah & Tolak" }
+];
+
+// Combined all lessons
+export const ALL_LESSONS = [
+  ...MEMBACA_MENULIS_LESSONS,
+  ...MEMBACA_MENULIS_LESSONS_EXTRA.map(l => ({
+    ...l,
+    category: "membaca-menulis",
+    pembelajaran: {},
+    latihanMembaca: { code: l.id.replace("pembelajaran", "latihan-membaca") },
+    latihanMenulis: { code: l.id.replace("pembelajaran", "latihan-menulis") }
+  })),
+  ...MENGIRA_LESSONS,
+  ...MENGIRA_LESSONS_EXTRA.map(l => ({
+    ...l,
+    category: "mengira",
+    pembelajaran: {},
+    latihanMengira: { code: l.id.replace("pembelajaran", "latihan-mengira") }
+  }))
+];
+
+// Categories
+export const CATEGORIES = [
+  {
+    id: "membaca-menulis",
+    name: "Membaca & Menulis",
+    description: "Bahasa Melayu - 24 lessons",
+    icon: "book",
+    color: "#4F46E5",
+    lessonCount: 24
+  },
+  {
+    id: "mengira",
+    name: "Mengira",
+    description: "Matematik - 23 lessons",
+    icon: "calculator",
+    color: "#059669",
+    lessonCount: 23
+  }
+];
+
+// Helper functions
+export const getLessonsByCategory = (categoryId) => {
+  return ALL_LESSONS.filter(lesson => lesson.category === categoryId);
+};
+
+export const getLessonById = (id) => {
+  return ALL_LESSONS.find(lesson => lesson.id === id);
+};
+
+export const getLessonCount = () => ({
+  membacaMenulis: 24,
+  mengira: 23,
+  total: 47
+});
+
+// Storage helpers for user progress
 export const storage = {
   getProgress: () => {
-    const saved = localStorage.getItem('linus3m-progress')
-    return saved ? JSON.parse(saved) : { completed: [], currentModule: 1, lastAccessed: null }
+    const saved = localStorage.getItem('linus3m-progress');
+    return saved ? JSON.parse(saved) : { 
+      completed: [], 
+      currentLesson: null,
+      lastAccessed: null,
+      bookmarks: []
+    };
   },
   
   saveProgress: (progress) => {
     localStorage.setItem('linus3m-progress', JSON.stringify({
       ...progress,
       lastAccessed: new Date().toISOString()
-    }))
+    }));
   },
   
   resetProgress: () => {
-    localStorage.removeItem('linus3m-progress')
+    localStorage.removeItem('linus3m-progress');
+  },
+
+  bookmarkLesson: (lessonId) => {
+    const progress = storage.getProgress();
+    if (!progress.bookmarks.includes(lessonId)) {
+      progress.bookmarks.push(lessonId);
+      storage.saveProgress(progress);
+    }
+  },
+
+  removeBookmark: (lessonId) => {
+    const progress = storage.getProgress();
+    progress.bookmarks = progress.bookmarks.filter(id => id !== lessonId);
+    storage.saveProgress(progress);
+  },
+
+  markComplete: (lessonId) => {
+    const progress = storage.getProgress();
+    if (!progress.completed.includes(lessonId)) {
+      progress.completed.push(lessonId);
+      storage.saveProgress(progress);
+    }
   }
-}
+};
+
+export default {
+  APP_DATA,
+  CATEGORIES,
+  MEMBACA_MENULIS_LESSONS,
+  MENGIRA_LESSONS,
+  ALL_LESSONS,
+  getLessonsByCategory,
+  getLessonById,
+  getLessonCount,
+  storage
+};
