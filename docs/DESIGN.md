@@ -29,20 +29,20 @@ Flat design embraces simplicity and minimalism. This approach focuses on:
 
 ### Typography
 
-**Primary Font: Nunito**
-- URL: https://fonts.google.com/specimen/Nunito
+**Primary Font: Quicksand**
+- URL: https://fonts.google.com/specimen/Quicksand
 - Usage: Primary font for all text
-- Weights: 400 (Regular), 600 (SemiBold), 700 (Bold), 800 (ExtraBold)
+- Weights: 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold)
 
 **Implementation:**
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 ```
 
 **Typography Scale:**
-- Headings: Nunito Bold
-- Body: Nunito Regular
-- Playful elements: Nunito SemiBold
+- Headings: Quicksand Bold
+- Body: Quicksand Regular
+- Playful elements: Quicksand SemiBold
 - Kids-friendly: Rounded, friendly, large touch targets (min 44px)
 
 ### Icon & Image Guidelines
@@ -114,7 +114,7 @@ html {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 18px;
     text-align: center;
     padding: 20px;

@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Nunito"', 'sans-serif'],
-        playpen: ['"Nunito"', 'sans-serif'],
+        sans: ['"Quicksand"', 'sans-serif'],
+        playpen: ['"Quicksand"', 'sans-serif'],
       },
     },
   },
