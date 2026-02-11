@@ -27,14 +27,26 @@ html.dark {
   transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
+.btn-3d[class*="bg-emerald"] {
+  box-shadow: 0 6px 0 rgba(4, 120, 87, 0.85);
+}
+
 .btn-3d:active {
   transform: translateY(3px) scale(0.95);
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
 }
 
+.btn-3d:active[class*="bg-emerald"] {
+  box-shadow: 0 3px 0 rgba(4, 120, 87, 0.85);
+}
+
 .btn-3d--icon {
   border-radius: 9999px;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d--icon[class*="bg-emerald"] {
+  box-shadow: 0 4px 0 rgba(4, 120, 87, 0.85);
 }
 
 @media (prefers-reduced-motion: reduce) {
