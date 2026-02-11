@@ -95,7 +95,7 @@ function Home() {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-6">
-        <section className="mb-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <section className="card-hover mb-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500 dark:text-slate-400">{strings.progress}</p>

@@ -74,7 +74,7 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
         return (
           <div
             key={section.title}
-            className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+            className="card-hover rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
           >
             <div className="flex items-center justify-between">
               <button

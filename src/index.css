@@ -27,6 +27,11 @@ html.dark {
   transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
+.btn-3d:hover {
+  transform: translateY(-1px) scale(1.02);
+  filter: brightness(1.08);
+}
+
 .btn-3d[class*="bg-emerald"] {
   box-shadow: 0 6px 0 rgba(4, 120, 87, 0.85);
 }
@@ -45,8 +50,22 @@ html.dark {
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 
+.btn-3d--icon:hover {
+  transform: translateY(-1px) scale(1.05);
+  filter: brightness(1.08);
+}
+
 .btn-3d--icon[class*="bg-emerald"] {
   box-shadow: 0 4px 0 rgba(4, 120, 87, 0.85);
+}
+
+.card-hover {
+  transition: transform 200ms ease, filter 200ms ease, box-shadow 200ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px) scale(1.01);
+  filter: brightness(1.06);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -149,7 +149,7 @@ function CategoryPath({ categoryId }) {
 
       <main className="mx-auto max-w-3xl px-4 py-6">
         <div ref={stickySentinelRef} className="h-0" />
-        <section className="sticky top-0 z-10 mb-6 rounded-xl border border-slate-200 bg-white/95 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
+        <section className="card-hover sticky top-0 z-10 mb-6 rounded-xl border border-slate-200 bg-white/95 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
           <div className="flex items-center gap-4">
             <div>
               <p className="text-sm text-slate-500 dark:text-slate-400">{strings.progress}</p>
@@ -217,7 +217,7 @@ function CategoryPath({ categoryId }) {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6 pt-10 dark:border-slate-800 dark:bg-slate-900">
+        <section className="card-hover rounded-xl border border-slate-200 bg-white p-6 pt-10 dark:border-slate-800 dark:bg-slate-900">
           {isLoading ? (
             <div className="space-y-3">
               <Skeleton className="h-5 w-40" />

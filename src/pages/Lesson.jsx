@@ -216,7 +216,7 @@ function Lesson({ lessonId }) {
 
       <main className="mx-auto max-w-2xl px-4 py-6">
         {tabs.length > 0 && (
-          <section className="mb-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <section className="card-hover mb-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
             <div className="flex flex-wrap gap-2">
               {tabs.map((tab) => (
                 <button
@@ -238,7 +238,7 @@ function Lesson({ lessonId }) {
         )}
 
         {tabs.length > 0 && (
-          <section className="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <section className="card-hover rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
             {isTabLoading ? (
               <div className="space-y-3">
                 <Skeleton className="h-4 w-40" />
@@ -252,7 +252,7 @@ function Lesson({ lessonId }) {
         )}
 
         {videoSection && (
-          <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <section className="card-hover mt-4 rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
             <button
               type="button"
               onClick={() =>
@@ -270,7 +270,7 @@ function Lesson({ lessonId }) {
         )}
 
         {nonVideoSections.length > 0 && (
-          <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <section className="card-hover mt-4 rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
             <ResourceLinks
               sections={nonVideoSections}
               completedSections={completedSections}
@@ -331,7 +331,7 @@ function Lesson({ lessonId }) {
           </section>
         )}
 
-        <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <section className="card-hover mt-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             {strings.progressSnapshot}
           </h2>

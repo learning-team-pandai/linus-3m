@@ -59,7 +59,7 @@ function Settings() {
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-6">
-        <section className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <section className="card-hover rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
@@ -98,7 +98,7 @@ function Settings() {
           </div>
         </section>
 
-        <section className="mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <section className="card-hover mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
@@ -127,7 +127,7 @@ function Settings() {
           </div>
         </section>
 
-        <section className="mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <section className="card-hover mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
