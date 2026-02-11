@@ -3,7 +3,6 @@ import { getStrings } from '../../utils/i18n.js'
 import FullscreenEmbed from './FullscreenEmbed.jsx'
 
 function ResourceLinks({ sections, completedSections, onSectionComplete }) {
-  const [openSection, setOpenSection] = useState(null)
   const strings = getStrings()
 
   if (!sections || sections.length === 0) {
@@ -12,14 +11,6 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
         {strings.resourcesSoon}
       </div>
     )
-  }
-
-  const handleToggle = (section) => {
-    if (openSection === section.title) {
-      setOpenSection(null)
-      return
-    }
-    setOpenSection(section.title)
   }
 
   const buildCanvaEmbedUrl = (url) => {
@@ -56,7 +47,6 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
   return (
     <div className="space-y-4">
       {sections.map((section) => {
-        const isOpen = openSection === section.title
         const currentUrl = section.links[0]?.url
         const isCompleted = completedSections?.[section.title]
         const isCanva = isCanvaUrl(currentUrl)
@@ -67,6 +57,19 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
             ? buildYouTubeEmbedUrl(currentUrl)
             : currentUrl
         const shouldEmbed = Boolean(embedUrl)
+        const handleOpen = () => {
+          if (!currentUrl) return
+          if (shouldEmbed) {
+            setActiveEmbed({
+              url: embedUrl,
+              title: `${section.title} content`,
+              sectionTitle: section.title,
+              openedAt: Date.now(),
+            })
+            return
+          }
+          window.open(currentUrl, '_blank', 'noopener')
+        }
 
         return (
           <div
@@ -76,14 +79,10 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
             <div className="flex items-center justify-between">
               <button
                 type="button"
-                onClick={() => handleToggle(section)}
-                className="flex items-center gap-2 text-left text-sm font-semibold text-emerald-500 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
-                aria-expanded={isOpen}
+                onClick={handleOpen}
+                className="text-left text-sm font-semibold text-emerald-500 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
               >
                 {section.title}
-                <span className="text-xs text-slate-400">
-                  {isOpen ? strings.hide : strings.view}
-                </span>
               </button>
               <button
                 type="button"
@@ -99,40 +98,10 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
               </button>
             </div>
 
-            {isOpen && (
-              <div className="mt-4 space-y-3">
-                {currentUrl ? (
-                  shouldEmbed ? (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setActiveEmbed({
-                          url: embedUrl,
-                          title: `${section.title} content`,
-                          sectionTitle: section.title,
-                          openedAt: Date.now(),
-                        })
-                      }
-                      className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-950 dark:text-emerald-300"
-                    >
-                      {strings.view} {section.title}
-                    </button>
-                  ) : (
-                    <a
-                      href={currentUrl}
-                      target="_blank"
-                      rel="noopener"
-                      className="text-sm font-semibold text-emerald-500 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
-                    >
-                      {section.title}
-                    </a>
-                  )
-                ) : (
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {strings.noEmbed}
-                  </p>
-                )}
-              </div>
+            {!currentUrl && (
+              <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                {strings.noEmbed}
+              </p>
             )}
           </div>
         )
