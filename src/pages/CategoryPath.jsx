@@ -13,6 +13,20 @@ function CategoryPath({ categoryId }) {
   const [isSticky, setIsSticky] = useState(false)
   const stickySentinelRef = useRef(null)
   const strings = getStrings()
+  const pathThemes = {
+    'membaca-menulis': {
+      border: '#9BCFF2',
+      background: '#EAF6FF',
+      accent: '#4FA7E6',
+      title: '#2F6FA3',
+    },
+    mengira: {
+      border: '#8AD7B8',
+      background: '#E9F8F1',
+      accent: '#55C496',
+      title: '#2E7A5D',
+    },
+  }
 
   const category = useMemo(
     () => MODULES.find((cat) => cat.id === categoryId),
@@ -22,6 +36,12 @@ function CategoryPath({ categoryId }) {
     () => LESSONS.filter((lesson) => lesson.moduleId === categoryId),
     [categoryId]
   )
+  const pathTheme = pathThemes[categoryId] || {
+    border: '#CBD5F5',
+    background: '#F8FAFF',
+    accent: '#4F46E5',
+    title: '#1E293B',
+  }
   const completedInCategory = useMemo(() => {
     const lessonIds = new Set(lessons.map((lesson) => lesson.id))
     return progress.completedLessons.filter((id) => lessonIds.has(id))
@@ -149,11 +169,18 @@ function CategoryPath({ categoryId }) {
 
       <main className="mx-auto max-w-3xl px-4 py-6">
         <div ref={stickySentinelRef} className="h-0" />
-        <section className="card-hover sticky top-0 z-10 mb-6 rounded-xl border border-slate-200 bg-white/95 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
+        <section
+          className="card-hover sticky top-0 z-10 mb-6 rounded-xl border p-4 backdrop-blur"
+          style={{
+            borderColor: pathTheme.border,
+            backgroundColor: pathTheme.background,
+            boxShadow: `0 10px 0 ${pathTheme.border}, 0 18px 30px rgba(15, 23, 42, 0.08)`,
+          }}
+        >
           <div className="flex items-center gap-4">
             <div>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{strings.progress}</p>
-              <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+              <p className="text-sm text-slate-600">{strings.progress}</p>
+              <p className="text-lg font-semibold" style={{ color: pathTheme.title }}>
                 {completedInCategory.length} of {lessons.length} {strings.completed}
               </p>
             </div>
@@ -203,10 +230,11 @@ function CategoryPath({ categoryId }) {
               )}
             </div>
           </div>
-          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/60">
             <div
-              className="h-full rounded-full bg-blue-500 transition-all"
+              className="h-full rounded-full transition-all"
               style={{
+                backgroundColor: pathTheme.accent,
                 width: `${
                   lessons.length === 0
                     ? 0
