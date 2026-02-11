@@ -195,7 +195,7 @@ function Lesson({ lessonId }) {
             onClick={() => {
               window.location.hash = `#/path/${lesson.moduleId}`
             }}
-            className="btn-3d btn-3d--icon rounded-full p-2 text-emerald-500 dark:text-emerald-300"
+            className="btn-3d btn-3d--icon rounded-full border border-slate-300 p-2 text-emerald-500 dark:border-slate-600 dark:text-emerald-300"
             aria-label={strings.backToPath}
           >
             <svg

@@ -90,7 +90,7 @@ function Home() {
             <button
               type="button"
               onClick={() => setShowResetModal(true)}
-              className="btn-3d btn-3d--icon rounded-full p-2 text-red-500 hover:text-red-600"
+              className="btn-3d btn-3d--icon rounded-full border border-slate-300 p-2 text-red-500 hover:text-red-600 dark:border-slate-600"
               aria-label="Reset progress"
             >
               <svg
