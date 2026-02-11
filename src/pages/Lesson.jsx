@@ -104,6 +104,11 @@ function Lesson({ lessonId }) {
     if (nonVideoSections.length > 0 && doneCount === nonVideoSections.length) {
       const updated = markLessonComplete(lesson.id)
       setProgress(updated)
+      if (!hasCelebratedRef.current) {
+        hasCelebratedRef.current = true
+        setShowCelebration(true)
+        playCelebrate()
+      }
     }
   }
 
@@ -113,12 +118,12 @@ function Lesson({ lessonId }) {
       return
     }
     if (!isCompleted || hasCelebratedRef.current) return
-    if (collectedStars > 0 && prevCollectedRef.current < collectedStars) {
+    if (nonVideoSections.length > 0 && collectedStars === nonVideoSections.length) {
       hasCelebratedRef.current = true
       setShowCelebration(true)
       playCelebrate()
     }
-  }, [isCompleted, collectedStars])
+  }, [isCompleted, collectedStars, nonVideoSections.length])
 
   useEffect(() => {
     prevCollectedRef.current = collectedStars
