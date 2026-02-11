@@ -1,6 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
-function FullscreenEmbed({ isOpen, url, title, onClose }) {
+function FullscreenEmbed({ isOpen, url, title, onClose, openedAt, durationMs = 10000 }) {
+  const [progress, setProgress] = useState(0)
+  const radius = 16
+  const circumference = useMemo(() => 2 * Math.PI * radius, [radius])
+
   useEffect(() => {
     if (!isOpen) return
     const prev = document.body.style.overflow
@@ -10,7 +14,27 @@ function FullscreenEmbed({ isOpen, url, title, onClose }) {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    if (!isOpen || !openedAt) {
+      setProgress(0)
+      return
+    }
+    let frame
+    const tick = () => {
+      const elapsed = Date.now() - openedAt
+      const next = Math.min(elapsed / durationMs, 1)
+      setProgress(next)
+      if (next < 1) {
+        frame = requestAnimationFrame(tick)
+      }
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [isOpen, openedAt, durationMs])
+
   if (!isOpen || !url) return null
+
+  const offset = circumference * (1 - progress)
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80">
@@ -21,19 +45,43 @@ function FullscreenEmbed({ isOpen, url, title, onClose }) {
           className="absolute right-4 top-4 z-10 rounded-full bg-white/90 p-2 text-slate-700 shadow dark:bg-slate-900 dark:text-slate-200"
           aria-label="Close"
         >
-          <svg
-            viewBox="0 0 24 24"
-            className="h-5 w-5"
-            aria-hidden="true"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M18 6 6 18" />
-            <path d="M6 6l12 12" />
-          </svg>
+          <div className="relative h-6 w-6">
+            <svg className="absolute left-0 top-0 h-6 w-6" viewBox="0 0 36 36">
+              <circle
+                cx="18"
+                cy="18"
+                r={radius}
+                fill="none"
+                stroke="rgba(148, 163, 184, 0.4)"
+                strokeWidth="3"
+              />
+              <circle
+                cx="18"
+                cy="18"
+                r={radius}
+                fill="none"
+                stroke="rgba(16, 185, 129, 0.9)"
+                strokeWidth="3"
+                strokeDasharray={circumference}
+                strokeDashoffset={offset}
+                strokeLinecap="round"
+                transform="rotate(-90 18 18)"
+              />
+            </svg>
+            <svg
+              viewBox="0 0 24 24"
+              className="absolute left-0 top-0 h-6 w-6"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6 6 18" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </div>
         </button>
         <iframe
           title={title}

@@ -247,6 +247,7 @@ function Lesson({ lessonId }) {
                 setActiveVideo({
                   url: videoSection.links?.[0]?.url,
                   title: `${lesson.title} video`,
+                  openedAt: Date.now(),
                 })
               }
               className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-950 dark:text-emerald-300"
@@ -336,7 +337,19 @@ function Lesson({ lessonId }) {
         isOpen={Boolean(activeVideo)}
         url={activeVideo?.url}
         title={activeVideo?.title}
-        onClose={() => setActiveVideo(null)}
+        openedAt={activeVideo?.openedAt}
+        durationMs={10000}
+        onClose={() => {
+          if (
+            !isCompleted &&
+            activeVideo?.openedAt &&
+            Date.now() - activeVideo.openedAt >= 10000
+          ) {
+            const updated = markLessonComplete(lesson.id)
+            setProgress(updated)
+          }
+          setActiveVideo(null)
+        }}
       />
     </div>
   )

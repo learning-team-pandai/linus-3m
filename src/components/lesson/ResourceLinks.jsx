@@ -109,6 +109,8 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
                         setActiveEmbed({
                           url: embedUrl,
                           title: `${section.title} content`,
+                          sectionTitle: section.title,
+                          openedAt: Date.now(),
                         })
                       }
                       className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-950 dark:text-emerald-300"
@@ -139,7 +141,18 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
         isOpen={Boolean(activeEmbed)}
         url={activeEmbed?.url}
         title={activeEmbed?.title}
-        onClose={() => setActiveEmbed(null)}
+        openedAt={activeEmbed?.openedAt}
+        durationMs={10000}
+        onClose={() => {
+          if (
+            activeEmbed?.sectionTitle &&
+            activeEmbed?.openedAt &&
+            Date.now() - activeEmbed.openedAt >= 10000
+          ) {
+            onSectionComplete?.(activeEmbed.sectionTitle)
+          }
+          setActiveEmbed(null)
+        }}
       />
     </div>
   )
