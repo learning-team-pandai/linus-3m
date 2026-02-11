@@ -9,6 +9,7 @@ import {
   loadProgress,
   markLessonComplete,
   markResourceComplete,
+  markLessonCelebrated,
   setCurrentLesson,
 } from '../utils/storage.js'
 import VideoPlayer from '../components/lesson/VideoPlayer.jsx'
@@ -106,10 +107,15 @@ function Lesson({ lessonId }) {
     if (nonVideoSections.length > 0 && doneCount === nonVideoSections.length) {
       const updated = markLessonComplete(lesson.id)
       setProgress(updated)
-      if (!hasCelebratedRef.current) {
+      if (
+        !hasCelebratedRef.current &&
+        !updated.celebratedLessons?.includes(lesson.id)
+      ) {
         hasCelebratedRef.current = true
         setShowCelebration(true)
         playCelebrate()
+        const celebrated = markLessonCelebrated(lesson.id)
+        setProgress(celebrated)
       }
     }
   }
@@ -120,12 +126,18 @@ function Lesson({ lessonId }) {
       return
     }
     if (!isCompleted || hasCelebratedRef.current) return
-    if (nonVideoSections.length > 0 && collectedStars === nonVideoSections.length) {
+    if (
+      nonVideoSections.length > 0 &&
+      collectedStars === nonVideoSections.length &&
+      !progress.celebratedLessons?.includes(lesson.id)
+    ) {
       hasCelebratedRef.current = true
       setShowCelebration(true)
       playCelebrate()
+      const celebrated = markLessonCelebrated(lesson.id)
+      setProgress(celebrated)
     }
-  }, [isCompleted, collectedStars, nonVideoSections.length])
+  }, [isCompleted, collectedStars, nonVideoSections.length, progress.celebratedLessons, lesson.id])
 
   useEffect(() => {
     prevCollectedRef.current = collectedStars
@@ -347,6 +359,13 @@ function Lesson({ lessonId }) {
           ) {
             const updated = markLessonComplete(lesson.id)
             setProgress(updated)
+            if (!updated.celebratedLessons?.includes(lesson.id)) {
+              hasCelebratedRef.current = true
+              setShowCelebration(true)
+              playCelebrate()
+              const celebrated = markLessonCelebrated(lesson.id)
+              setProgress(celebrated)
+            }
           }
           setActiveVideo(null)
         }}

@@ -6,6 +6,7 @@ const defaultProgress = {
   lastAccessed: null,
   stars: {},
   completedResources: {},
+  celebratedLessons: [],
 }
 
 export const loadProgress = () => {
@@ -25,6 +26,9 @@ export const loadProgress = () => {
         parsed.completedResources && typeof parsed.completedResources === 'object'
           ? parsed.completedResources
           : {},
+      celebratedLessons: Array.isArray(parsed.celebratedLessons)
+        ? parsed.celebratedLessons
+        : [],
     }
   } catch (error) {
     console.error('Storage read error:', error)
@@ -116,5 +120,15 @@ export const resetCategoryProgress = (lessonIds) => {
     ...progress,
     completedLessons: nextCompleted,
     completedResources: nextResources,
+    celebratedLessons: progress.celebratedLessons.filter((id) => !idSet.has(id)),
+  })
+}
+
+export const markLessonCelebrated = (lessonId) => {
+  const progress = loadProgress()
+  if (progress.celebratedLessons.includes(lessonId)) return progress
+  return saveProgress({
+    ...progress,
+    celebratedLessons: [...progress.celebratedLessons, lessonId],
   })
 }
