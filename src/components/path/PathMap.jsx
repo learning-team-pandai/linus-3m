@@ -32,7 +32,13 @@ function PathMap({ lessons, progress, onSelectLesson }) {
   }, [currentLessonId])
 
   return (
-    <div ref={containerRef} className="relative min-h-[300px] md:min-h-[400px]">
+    <div
+      ref={containerRef}
+      className="path-forest relative overflow-hidden rounded-2xl p-6 shadow-[0_12px_0_rgba(15,23,42,0.12)]"
+    >
+      <span className="path-ornament path-ornament--a" aria-hidden="true" />
+      <span className="path-ornament path-ornament--b" aria-hidden="true" />
+      <span className="path-ornament path-ornament--c" aria-hidden="true" />
       <PathLine
         points={points}
         activeCount={activeCount}

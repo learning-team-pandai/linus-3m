@@ -58,11 +58,11 @@ function LessonNode({
 
   const statusStyles = {
     completed:
-      'bg-emerald-500 border-emerald-500 text-white dark:bg-emerald-400 dark:border-emerald-400',
+      'bg-emerald-500 text-white',
     current:
-      'bg-blue-500 border-blue-500 text-white animate-pulse dark:bg-blue-400 dark:border-blue-400',
+      'bg-orange-400 text-white animate-pulse',
     locked:
-      'bg-slate-400 border-slate-400 text-white dark:bg-slate-700 dark:border-slate-700 dark:text-slate-200',
+      'bg-slate-400 text-white',
   }
 
   const labelStyles = {
@@ -88,7 +88,7 @@ function LessonNode({
       >
         <span
           className={
-            'relative flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full border-2 text-xs font-semibold motion-reduce:animate-none ' +
+            'relative flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full border-4 border-white text-xs font-semibold shadow-[0_6px_0_rgba(15,23,42,0.22)] motion-reduce:animate-none ' +
             statusStyles[status] +
             ' ' +
             milestoneRing

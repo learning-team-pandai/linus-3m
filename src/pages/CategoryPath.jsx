@@ -245,7 +245,7 @@ function CategoryPath({ categoryId }) {
           </div>
         </section>
 
-        <section className="card-hover rounded-xl border border-slate-200 bg-white p-6 pt-10 dark:border-slate-800 dark:bg-slate-900">
+        <section className="card-hover rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
           {isLoading ? (
             <div className="space-y-3">
               <Skeleton className="h-5 w-40" />
