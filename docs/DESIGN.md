@@ -29,25 +29,20 @@ Flat design embraces simplicity and minimalism. This approach focuses on:
 
 ### Typography
 
-**Primary Font: Poppins**
-- URL: https://fonts.google.com/specimen/Poppins
-- Usage: Primary font for most use cases
-- Weights: 400 (Regular), 600 (SemiBold), 700 (Bold)
-
-**Secondary Font: Playpen Sans**
-- URL: https://fonts.google.com/specimen/Playpen+Sans
-- Usage: Secondary font for playful/fun usage
-- Weights: 400 (Regular), 600 (SemiBold)
+**Primary Font: Nunito**
+- URL: https://fonts.google.com/specimen/Nunito
+- Usage: Primary font for all text
+- Weights: 400 (Regular), 600 (SemiBold), 700 (Bold), 800 (ExtraBold)
 
 **Implementation:**
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playpen+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 ```
 
 **Typography Scale:**
-- Headings: Poppins Bold
-- Body: Poppins Regular
-- Playful elements: Playpen Sans
+- Headings: Nunito Bold
+- Body: Nunito Regular
+- Playful elements: Nunito SemiBold
 - Kids-friendly: Rounded, friendly, large touch targets (min 44px)
 
 ### Icon & Image Guidelines
@@ -119,7 +114,7 @@ html {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Nunito', sans-serif;
     font-size: 18px;
     text-align: center;
     padding: 20px;

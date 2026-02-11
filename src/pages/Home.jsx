@@ -141,7 +141,7 @@ function Home() {
                   onClick={() => {
                     window.location.hash = `#/path/${module.id}`
                   }}
-                  className="rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:-translate-y-0.5 hover:shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                  className="rounded-xl border border-slate-200 bg-white p-6 text-left transition active:scale-95 dark:border-slate-800 dark:bg-slate-900"
                 >
                   <div
                     className="h-2 w-10 rounded-full"

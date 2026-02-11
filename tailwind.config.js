@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Poppins"', 'sans-serif'],
-        playpen: ['\"Playpen Sans\"', 'cursive'],
+        sans: ['"Nunito"', 'sans-serif'],
+        playpen: ['"Nunito"', 'sans-serif'],
       },
     },
   },

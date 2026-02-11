@@ -17,8 +17,9 @@ function PathLine({ points, activeCount, height, className }) {
         fill="none"
         stroke="#E2E8F0"
         className="dark:stroke-slate-700"
-        strokeWidth="2"
+        strokeWidth="8"
         strokeLinecap="round"
+        strokeDasharray="10 5"
       />
       {activeD && (
         <path
@@ -26,7 +27,7 @@ function PathLine({ points, activeCount, height, className }) {
           fill="none"
           stroke="#3B82F6"
           className="dark:stroke-blue-400"
-          strokeWidth="3"
+          strokeWidth="8"
           strokeLinecap="round"
         />
       )}

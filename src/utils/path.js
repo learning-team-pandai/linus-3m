@@ -1,6 +1,6 @@
 export const buildNodePositions = (
   lessons,
-  { startY = 40, stepY = 120, leftX = 25, rightX = 75 } = {}
+  { startY = 40, stepY = 80, leftX = 25, rightX = 75 } = {}
 ) =>
   lessons.map((lesson, index) => ({
     id: lesson.id,
