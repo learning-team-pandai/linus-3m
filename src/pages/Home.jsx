@@ -11,6 +11,23 @@ function Home() {
   const [showResetModal, setShowResetModal] = useState(false)
   const strings = getStrings()
 
+  const cardThemes = {
+    'membaca-menulis': {
+      border: '#9BCFF2',
+      accent: '#4FA7E6',
+      iconBg: '#5CB2F0',
+      iconShadow: '#2F7FB8',
+      title: '#2F6FA3',
+    },
+    mengira: {
+      border: '#8AD7B8',
+      accent: '#55C496',
+      iconBg: '#67C9A4',
+      iconShadow: '#3B9070',
+      title: '#2E7A5D',
+    },
+  }
+
   const completedStarsByLesson = useMemo(() => {
     const completedResources = progress.completedResources || {}
     return Object.entries(completedResources).reduce((acc, [lessonId, lessonMap]) => {
@@ -135,23 +152,74 @@ function Home() {
                 </div>
               ))
             : MODULES.map((module) => (
+                (() => {
+                  const theme = cardThemes[module.id] || {
+                    border: '#CBD5F5',
+                    accent: module.color,
+                    iconBg: module.color,
+                    iconShadow: '#334155',
+                    title: '#1E293B',
+                  }
+                  return (
                 <button
                   key={module.id}
                   type="button"
                   onClick={() => {
                     window.location.hash = `#/path/${module.id}`
                   }}
-                  className="btn-3d rounded-xl border border-slate-200 bg-white p-6 text-left transition active:scale-95 dark:border-slate-800 dark:bg-slate-900"
+                  className="btn-3d rounded-2xl border-2 bg-white p-6 text-left transition active:scale-95 dark:bg-slate-900"
+                  style={{
+                    borderColor: theme.border,
+                    boxShadow: `0 10px 0 ${theme.border}, 0 18px 30px rgba(15, 23, 42, 0.08)`,
+                  }}
                 >
                   <div
-                    className="h-2 w-10 rounded-full"
-                    style={{ backgroundColor: module.color }}
-                  />
-                  <h2 className="mt-3 text-lg font-semibold text-slate-900 dark:text-slate-100 font-playpen">
+                    className="flex h-12 w-12 items-center justify-center rounded-2xl"
+                    style={{
+                      backgroundColor: theme.iconBg,
+                      boxShadow: `0 6px 0 ${theme.iconShadow}`,
+                    }}
+                  >
+                    {module.id === 'membaca-menulis' ? (
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-6 w-6 text-white"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M4 5h11a3 3 0 0 1 3 3v11H7a3 3 0 0 0-3 3z" />
+                        <path d="M7 5v14" />
+                        <path d="M15 5v14" />
+                      </svg>
+                    ) : (
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-6 w-6 text-white"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect x="4" y="3" width="16" height="18" rx="2" />
+                        <path d="M8 7h8" />
+                        <path d="M8 11h4" />
+                        <path d="M8 15h8" />
+                      </svg>
+                    )}
+                  </div>
+                  <h2 className="mt-4 text-xl font-semibold font-playpen" style={{ color: theme.title }}>
                     {module.name}
                   </h2>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">{module.description}</p>
+                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{module.description}</p>
                 </button>
+                  )
+                })()
               ))}
         </section>
 
