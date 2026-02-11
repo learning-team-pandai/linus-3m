@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 function FullscreenEmbed({ isOpen, url, title, onClose, openedAt, durationMs = 10000 }) {
   const [progress, setProgress] = useState(0)
@@ -33,10 +34,11 @@ function FullscreenEmbed({ isOpen, url, title, onClose, openedAt, durationMs = 1
   }, [isOpen, openedAt, durationMs])
 
   if (!isOpen || !url) return null
+  if (typeof document === 'undefined') return null
 
   const offset = circumference * (1 - progress)
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 bg-slate-950/80">
       <div className="relative h-full w-full">
         <button
@@ -88,7 +90,8 @@ function FullscreenEmbed({ isOpen, url, title, onClose, openedAt, durationMs = 1
           allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
         />
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
