@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { getStrings } from '../../utils/i18n.js'
+import FullscreenEmbed from './FullscreenEmbed.jsx'
 
 function ResourceLinks({ sections, completedSections, onSectionComplete }) {
   const [openSection, setOpenSection] = useState(null)
@@ -50,55 +51,7 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
     }
   }
 
-  const loadYouTubeApi = () => {
-    if (window.YT && window.YT.Player) {
-      return Promise.resolve(window.YT)
-    }
-    if (window.__ytApiPromise) {
-      return window.__ytApiPromise
-    }
-    window.__ytApiPromise = new Promise((resolve) => {
-      const script = document.createElement('script')
-      script.src = 'https://www.youtube.com/iframe_api'
-      document.body.appendChild(script)
-      window.onYouTubeIframeAPIReady = () => resolve(window.YT)
-    })
-    return window.__ytApiPromise
-  }
-
-  const YouTubeEmbed = ({ url, sectionTitle }) => {
-    const containerId = useMemo(
-      () => `yt-${sectionTitle.replace(/\\s+/g, '-').toLowerCase()}`,
-      [sectionTitle]
-    )
-    const isCompleted = completedSections?.[sectionTitle]
-
-    useEffect(() => {
-      if (!url || isCompleted) return
-      let player
-      loadYouTubeApi().then((YT) => {
-        player = new YT.Player(containerId, {
-          videoId: url.split('/embed/')[1],
-          events: {
-            onStateChange: (event) => {
-              if (event.data === YT.PlayerState.PLAYING) {
-                onSectionComplete?.(sectionTitle)
-              }
-            },
-          },
-        })
-      })
-      return () => {
-        if (player && player.destroy) player.destroy()
-      }
-    }, [url, sectionTitle, isCompleted])
-
-    return (
-      <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
-        <div id={containerId} className="h-full w-full" />
-      </div>
-    )
-  }
+  const [activeEmbed, setActiveEmbed] = useState(null)
 
   return (
     <div className="space-y-4">
@@ -149,40 +102,19 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
             {isOpen && (
               <div className="mt-4 space-y-3">
                 {currentUrl ? (
-                  isCanva ? (
-                    <div>
-                      <div className="relative w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-                        <div className="relative h-0 w-full pb-[56.25%]">
-                          <iframe
-                            loading="lazy"
-                            title={`${section.title} content`}
-                            src={embedUrl}
-                            allow="fullscreen"
-                            className="absolute left-0 top-0 h-full w-full border-0 p-0"
-                          />
-                        </div>
-                      </div>
-                      <a
-                        href={currentUrl}
-                        target="_blank"
-                        rel="noopener"
-                        className="mt-2 inline-block text-xs font-semibold text-emerald-500 hover:text-emerald-600 dark:text-emerald-300 dark:hover:text-emerald-200"
-                      >
-                        {section.title}
-                      </a>
-                    </div>
-                  ) : isYouTube ? (
-                    <YouTubeEmbed url={embedUrl} sectionTitle={section.title} />
-                  ) : shouldEmbed ? (
-                    <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
-                      <iframe
-                        title={`${section.title} content`}
-                        src={embedUrl}
-                        className="h-full w-full"
-                        loading="lazy"
-                        allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
-                      />
-                    </div>
+                  shouldEmbed ? (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveEmbed({
+                          url: embedUrl,
+                          title: `${section.title} content`,
+                        })
+                      }
+                      className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-950 dark:text-emerald-300"
+                    >
+                      {strings.view} {section.title}
+                    </button>
                   ) : (
                     <a
                       href={currentUrl}
@@ -203,6 +135,12 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
           </div>
         )
       })}
+      <FullscreenEmbed
+        isOpen={Boolean(activeEmbed)}
+        url={activeEmbed?.url}
+        title={activeEmbed?.title}
+        onClose={() => setActiveEmbed(null)}
+      />
     </div>
   )
 }

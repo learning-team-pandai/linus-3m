@@ -19,6 +19,7 @@ import Celebration from '../components/celebration/Celebration.jsx'
 import { playCelebrate } from '../utils/sfx.js'
 import Skeleton from '../components/ui/Skeleton.jsx'
 import { getStrings } from '../utils/i18n.js'
+import FullscreenEmbed from '../components/lesson/FullscreenEmbed.jsx'
 
 const buildTabs = (content) => {
   const tabs = []
@@ -68,6 +69,7 @@ function Lesson({ lessonId }) {
   const prevCollectedRef = useRef(0)
   const hasMountedRef = useRef(false)
   const [isTabLoading, setIsTabLoading] = useState(false)
+  const [activeVideo, setActiveVideo] = useState(null)
 
   const resourceSections = lesson.content?.resources || []
   const videoSection = resourceSections.find((section) => section.title === 'Video')
@@ -239,15 +241,18 @@ function Lesson({ lessonId }) {
 
         {videoSection && (
           <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            <div className="aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
-              <iframe
-                title={`${lesson.title} video`}
-                src={videoSection.links?.[0]?.url}
-                className="h-full w-full"
-                loading="lazy"
-                allow="fullscreen"
-              />
-            </div>
+            <button
+              type="button"
+              onClick={() =>
+                setActiveVideo({
+                  url: videoSection.links?.[0]?.url,
+                  title: `${lesson.title} video`,
+                })
+              }
+              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-950 dark:text-emerald-300"
+            >
+              {strings.view} {strings.video}
+            </button>
           </section>
         )}
 
@@ -326,6 +331,12 @@ function Lesson({ lessonId }) {
       <Celebration
         isVisible={showCelebration}
         onDone={() => setShowCelebration(false)}
+      />
+      <FullscreenEmbed
+        isOpen={Boolean(activeVideo)}
+        url={activeVideo?.url}
+        title={activeVideo?.title}
+        onClose={() => setActiveVideo(null)}
       />
     </div>
   )
