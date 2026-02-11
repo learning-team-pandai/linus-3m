@@ -191,9 +191,11 @@ function Home() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <path d="M4 5h11a3 3 0 0 1 3 3v11H7a3 3 0 0 0-3 3z" />
-                        <path d="M7 5v14" />
-                        <path d="M15 5v14" />
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M3 16v-6a2 2 0 1 1 4 0v6" />
+                        <path d="M3 13h4" />
+                        <path d="M10 8v6a2 2 0 1 0 4 0v-1a2 2 0 1 0 -4 0v1" />
+                        <path d="M20.732 12a2 2 0 0 0 -3.732 1v1a2 2 0 0 0 3.726 1.01" />
                       </svg>
                     ) : (
                       <svg
@@ -206,10 +208,11 @@ function Home() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <rect x="4" y="3" width="16" height="18" rx="2" />
-                        <path d="M8 7h8" />
-                        <path d="M8 11h4" />
-                        <path d="M8 15h8" />
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M8 10v-7l-2 2" />
+                        <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4" />
+                        <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2" />
+                        <path d="M6.5 10h3" />
                       </svg>
                     )}
                   </div>
