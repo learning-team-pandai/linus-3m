@@ -85,7 +85,7 @@ function CategoryPath({ categoryId }) {
               onClick={() => {
                 window.location.hash = '#/'
               }}
-              className="mt-4 rounded-full p-2 text-emerald-500 dark:text-emerald-300"
+              className="btn-3d btn-3d--icon mt-4 rounded-full p-2 text-emerald-500 dark:text-emerald-300"
               aria-label={strings.back}
             >
             <svg
@@ -161,7 +161,7 @@ function CategoryPath({ categoryId }) {
               <button
                 type="button"
                 onClick={() => setShowResetModal(true)}
-                className="rounded-full p-2 text-red-500 hover:text-red-600"
+                className="btn-3d btn-3d--icon rounded-full p-2 text-red-500 hover:text-red-600"
                 aria-label="Reset progress"
               >
                 <svg
@@ -184,7 +184,7 @@ function CategoryPath({ categoryId }) {
                   onClick={() => {
                     window.location.hash = '#/'
                   }}
-                  className="rounded-full p-2 text-emerald-500 dark:text-emerald-300"
+                  className="btn-3d btn-3d--icon rounded-full p-2 text-emerald-500 dark:text-emerald-300"
                   aria-label="Back"
                 >
                   <svg

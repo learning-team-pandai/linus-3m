@@ -42,7 +42,7 @@ function FullscreenEmbed({ isOpen, url, title, onClose, openedAt, durationMs = 1
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow dark:bg-slate-900 dark:text-slate-200"
+          className="btn-3d btn-3d--icon absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow dark:bg-slate-900 dark:text-slate-200"
           aria-label="Close"
         >
           <svg className="absolute left-0 top-0 h-10 w-10" viewBox="0 0 40 40">

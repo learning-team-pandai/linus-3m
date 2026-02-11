@@ -21,6 +21,22 @@ html.dark {
   font-family: "Quicksand", sans-serif;
 }
 
+.btn-3d {
+  border-radius: 12px;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-3d:active {
+  transform: translateY(3px) scale(0.95);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d--icon {
+  border-radius: 9999px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-pulse {
     animation: none !important;

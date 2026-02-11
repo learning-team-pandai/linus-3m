@@ -88,7 +88,7 @@ function ResourceLinks({ sections, completedSections, onSectionComplete }) {
                 type="button"
                 onClick={() => onSectionComplete?.(section.title)}
                 className={
-                  'rounded-full px-3 py-1 text-xs font-semibold transition ' +
+                  'btn-3d rounded-full px-3 py-1 text-xs font-semibold transition ' +
                   (isCompleted
                     ? 'bg-emerald-500 text-white'
                     : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300')

@@ -56,7 +56,7 @@ function Home() {
               onClick={() => {
                 window.location.hash = '#/settings'
               }}
-              className="rounded-lg border border-slate-200 p-2 text-slate-600 dark:border-slate-700 dark:text-slate-300"
+              className="btn-3d btn-3d--icon rounded-lg border border-slate-200 p-2 text-slate-600 dark:border-slate-700 dark:text-slate-300"
               aria-label="Settings"
             >
               <svg
@@ -90,7 +90,7 @@ function Home() {
             <button
               type="button"
               onClick={() => setShowResetModal(true)}
-              className="rounded-full p-2 text-red-500 hover:text-red-600"
+              className="btn-3d btn-3d--icon rounded-full p-2 text-red-500 hover:text-red-600"
               aria-label="Reset progress"
             >
               <svg
@@ -141,7 +141,7 @@ function Home() {
                   onClick={() => {
                     window.location.hash = `#/path/${module.id}`
                   }}
-                  className="rounded-xl border border-slate-200 bg-white p-6 text-left transition active:scale-95 dark:border-slate-800 dark:bg-slate-900"
+                  className="btn-3d rounded-xl border border-slate-200 bg-white p-6 text-left transition active:scale-95 dark:border-slate-800 dark:bg-slate-900"
                 >
                   <div
                     className="h-2 w-10 rounded-full"

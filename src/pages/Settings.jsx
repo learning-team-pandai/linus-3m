@@ -39,7 +39,7 @@ function Settings() {
             onClick={() => {
               window.location.hash = '#/'
             }}
-            className="rounded-full p-2 text-emerald-500 dark:text-emerald-300"
+            className="btn-3d btn-3d--icon rounded-full p-2 text-emerald-500 dark:text-emerald-300"
             aria-label={strings.back}
           >
             <svg
@@ -74,7 +74,7 @@ function Settings() {
                 type="button"
                 onClick={() => handleLanguageSelect('bm')}
                 className={
-                  'rounded-full px-3 py-1 text-xs font-semibold ' +
+                  'btn-3d rounded-full px-3 py-1 text-xs font-semibold ' +
                   (settings.language === 'bm'
                     ? 'bg-emerald-500 text-white'
                     : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300')
@@ -86,7 +86,7 @@ function Settings() {
                 type="button"
                 onClick={() => handleLanguageSelect('en')}
                 className={
-                  'rounded-full px-3 py-1 text-xs font-semibold ' +
+                  'btn-3d rounded-full px-3 py-1 text-xs font-semibold ' +
                   (settings.language === 'en'
                     ? 'bg-emerald-500 text-white'
                     : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300')
@@ -112,7 +112,7 @@ function Settings() {
               type="button"
               onClick={handleThemeToggle}
               className={
-                'relative h-7 w-12 rounded-full transition ' +
+                'btn-3d relative h-7 w-12 rounded-full transition ' +
                 (settings.theme === 'dark' ? 'bg-emerald-500' : 'bg-slate-300')
               }
               aria-pressed={settings.theme === 'dark'}
@@ -141,7 +141,7 @@ function Settings() {
               type="button"
               onClick={handleSoundToggle}
               className={
-                'relative h-7 w-12 rounded-full transition ' +
+                'btn-3d relative h-7 w-12 rounded-full transition ' +
                 (settings.soundEnabled ? 'bg-emerald-500' : 'bg-slate-300')
               }
               aria-pressed={settings.soundEnabled}

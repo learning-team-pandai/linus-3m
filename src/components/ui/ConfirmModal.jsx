@@ -19,14 +19,14 @@ function ConfirmModal({ isOpen, title, message, confirmLabel, cancelLabel, onCon
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-full px-3 py-1 text-sm font-semibold text-slate-600 hover:text-slate-700 dark:text-slate-300"
+            className="btn-3d rounded-full px-3 py-1 text-sm font-semibold text-slate-600 hover:text-slate-700 dark:text-slate-300"
           >
             {cancelLabel || 'Cancel'}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="rounded-full bg-emerald-500 px-4 py-1.5 text-sm font-semibold text-white"
+            className="btn-3d rounded-full bg-emerald-500 px-4 py-1.5 text-sm font-semibold text-white"
           >
             {confirmLabel}
           </button>

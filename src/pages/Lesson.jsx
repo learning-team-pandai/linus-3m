@@ -52,7 +52,7 @@ function Lesson({ lessonId }) {
             onClick={() => {
               window.location.hash = '#/'
             }}
-            className="mt-4 text-sm font-semibold text-blue-500"
+            className="btn-3d mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white"
           >
             {strings.backToPath}
           </button>
@@ -195,7 +195,7 @@ function Lesson({ lessonId }) {
             onClick={() => {
               window.location.hash = `#/path/${lesson.moduleId}`
             }}
-            className="rounded-full p-2 text-emerald-500 dark:text-emerald-300"
+            className="btn-3d btn-3d--icon rounded-full p-2 text-emerald-500 dark:text-emerald-300"
             aria-label={strings.backToPath}
           >
             <svg
@@ -262,7 +262,7 @@ function Lesson({ lessonId }) {
                   openedAt: Date.now(),
                 })
               }
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-950 dark:text-emerald-300"
+              className="btn-3d w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-950 dark:text-emerald-300"
             >
               {strings.view} {strings.video}
             </button>
@@ -306,7 +306,7 @@ function Lesson({ lessonId }) {
             type="button"
             onClick={handleComplete}
             className={
-              'rounded-lg px-4 py-2 text-sm font-semibold text-white ' +
+              'btn-3d rounded-lg px-4 py-2 text-sm font-semibold text-white ' +
               (isCompleted ? 'bg-emerald-400' : 'bg-emerald-500')
             }
           >
@@ -315,7 +315,7 @@ function Lesson({ lessonId }) {
           <button
             type="button"
             onClick={handleContinue}
-            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-slate-800 dark:text-slate-300"
+            className="btn-3d rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-slate-800 dark:text-slate-300"
           >
             {nextLessonId ? strings.nextLesson : strings.backToPath}
           </button>
