@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 280" role="img" aria-label="Ilustrasi canva placeholder">
+  <rect width="560" height="280" rx="28" fill="#eefdeb"/>
+  <rect x="42" y="42" width="476" height="196" rx="16" fill="#dff8dc" stroke="#bde4b8" stroke-width="4"/>
+  <rect x="76" y="78" width="150" height="124" rx="12" fill="#9ce2ab"/>
+  <circle cx="318" cy="126" r="22" fill="#ffb770"/>
+  <rect x="284" y="156" width="176" height="14" rx="7" fill="#6bc57e"/>
+  <rect x="284" y="178" width="132" height="12" rx="6" fill="#90d89e"/>
+  <circle cx="470" cy="84" r="10" fill="#5cc7f5"/>
+  <text x="280" y="230" text-anchor="middle" font-size="22" font-family="Segoe UI, Arial" fill="#2f7d44">Ruang Canva</text>
+</svg>
