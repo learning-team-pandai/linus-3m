@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track | Linus 3M</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="track">
+    <main class="container">
+      <a class="link-back" href="./index.html">← Kembali ke Dashboard</a>
+
+      <section class="track-banner card track-hud">
+        <div class="track-hud-top">
+          <header class="page-header track-hud-header" id="track-header"></header>
+          <aside class="track-tip-bubble" id="track-tip-bubble" aria-live="polite">
+            <span class="track-tip-emoji" aria-hidden="true">🐼</span>
+            <p id="track-tip-text">Jom kumpul bintang ⭐</p>
+          </aside>
+        </div>
+
+        <div class="track-hud-main">
+          <p class="track-hud-ratio"><span id="track-done-count">0</span><span class="track-hud-ratio-sep">/</span><span id="track-total-count">0</span></p>
+          <p class="track-hud-ratio-label">Selesai</p>
+        </div>
+
+        <p id="track-progress" class="sr-only">Kemajuan: 0/0 selesai</p>
+        <div class="progress-shell hud-progress-shell" aria-hidden="true">
+          <div id="track-progress-fill" class="progress-fill"></div>
+        </div>
+
+        <div id="track-hud-chips" class="track-hud-chips" aria-label="Ringkasan kemajuan">
+          <span id="track-chip-complete" class="hud-chip">✅ 0/0 selesai</span>
+          <span id="track-chip-stars" class="hud-chip star">⭐ 0 bintang</span>
+        </div>
+      </section>
+
+      <section id="track-map" class="card track-map-card" aria-label="Peta level pembelajaran">
+        <div class="map-scroll">
+          <div class="map-stage">
+            <svg id="map-svg" class="map-svg" aria-hidden="true"></svg>
+            <div id="nodes-layer" class="nodes-layer"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="track-lessons" class="list fallback-list" aria-label="Senarai lesson (fallback)"></section>
+      <div id="track-error" class="error" hidden></div>
+    </main>
+
+    <aside class="floating-mascot" aria-label="Tip motivasi">
+      <img src="./assets/mascot.svg" alt="Maskot pembelajaran" class="mascot-img" />
+      <p class="mascot-tip" data-mascot-tip>Jom buat lagi!</p>
+    </aside>
+
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <div id="fx-layer" aria-hidden="true"></div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
