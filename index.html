@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linus 3M</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="index">
+    <main class="container">
+      <section class="hero card dashboard-hero">
+        <div>
+          <p class="eyebrow">Dashboard</p>
+          <h1>Linus 3M</h1>
+          <p class="hero-subtitle">Pilih laluan pembelajaran untuk mula.</p>
+        </div>
+      </section>
+
+      <section class="grid two-col track-tiles" id="track-cards" aria-label="Senarai track"></section>
+
+      <section class="panel progress-panel dashboard-panel" aria-label="Kemajuan keseluruhan">
+        <h2 class="dashboard-section-title">Kemajuan</h2>
+
+        <div class="overall-tiles">
+          <article class="overall-tile overall-progress-tile" aria-label="Jumlah pelajaran selesai">
+            <p class="tile-label">✅ Selesai</p>
+            <p class="overall-ratio"><span id="overall-done-count">0</span><span class="overall-ratio-sep">/</span><span id="overall-total-count">0</span></p>
+            <p class="overall-ratio-label">Selesai</p>
+            <p id="overall-progress" class="sr-only">0/0 selesai</p>
+            <div class="progress-shell dashboard-progress-shell overall-tile-progress" aria-hidden="true">
+              <div id="overall-progress-fill" class="progress-fill dashboard-progress-fill"></div>
+            </div>
+          </article>
+
+          <article class="overall-tile overall-stars-tile" aria-label="Jumlah bintang">
+            <p class="tile-label">⭐ Total Bintang</p>
+            <p id="overall-stars" class="tile-value">0</p>
+          </article>
+        </div>
+
+        <p id="overall-reward-note" class="overall-reward-note">🎁 Ganjaran seterusnya: Badge bila capai 10/0</p>
+
+        <div class="overall-actions">
+          <button id="reset-progress-btn" type="button" class="reset-link-btn" aria-label="Reset progress">Reset Progress</button>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="reset-dialog" aria-labelledby="reset-dialog-title">
+      <h2 id="reset-dialog-title">Reset Progress?</h2>
+      <p>Semua progress akan dipadam untuk browser ini.</p>
+      <div class="actions">
+        <button id="cancel-reset-btn" type="button" class="btn secondary">Batal</button>
+        <button id="confirm-reset-btn" type="button" class="btn danger">Ya, Reset</button>
+      </div>
+    </dialog>
+
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <div id="fx-layer" aria-hidden="true"></div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
