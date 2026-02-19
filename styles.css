@@ -973,8 +973,8 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border: none;
   border-radius: 50%;
   padding: 0;
@@ -1012,24 +1012,45 @@ body {
 }
 
 .node-number {
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 800;
   color: #193147;
 }
 
 .node-badge {
   position: absolute;
-  right: -2px;
-  bottom: -2px;
-  width: 19px;
-  height: 19px;
+  right: -4px;
+  bottom: -4px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 0.64rem;
-  border: 1px solid #d0dfd6;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border: 2px solid #d0dfd6;
   background: #fff;
   color: #136d44;
+  line-height: 1;
+  box-shadow: 0 3px 7px rgba(15, 23, 42, 0.14);
+}
+
+.node-badge.is-open {
+  background: #effff6;
+  border-color: #9edabf;
+  color: #118551;
+}
+
+.node-badge.is-done {
+  background: #f3fff8;
+  border-color: #89d3ad;
+  color: #0f7c49;
+}
+
+.node-badge.is-locked {
+  background: #f0f4f9;
+  border-color: #ced7e4;
+  color: #667285;
 }
 
 .map-item.is-done .node-core {
@@ -1090,7 +1111,9 @@ body {
 }
 
 .map-item.is-locked .node-badge {
-  color: #697586;
+  border-color: #cad4e2;
+  background: #eef2f7;
+  color: #687488;
 }
 
 .map-label {
@@ -1111,7 +1134,7 @@ body {
   font: inherit;
   color: inherit;
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.48rem;
   transition: box-shadow 140ms ease, transform 140ms ease, border-color 140ms ease;
@@ -1130,11 +1153,11 @@ body {
 }
 
 .map-item.side-left .map-label {
-  left: 36px;
+  left: 42px;
 }
 
 .map-item.side-right .map-label {
-  right: 36px;
+  right: 42px;
 }
 
 .map-item.is-locked .map-label {
@@ -1196,37 +1219,6 @@ body {
 .map-item.is-done:not(.is-active) .star.is-off {
   color: #b0bdce;
   opacity: 0.58;
-}
-
-.lesson-icon-wrap {
-  position: relative;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid #bee5d0;
-  background: linear-gradient(180deg, #f3fff8 0%, #dff8eb 100%);
-  display: grid;
-  place-items: center;
-}
-
-.lesson-icon {
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.lesson-icon-done {
-  position: absolute;
-  right: -4px;
-  bottom: -4px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1px solid #b9dfc9;
-  background: #fff;
-  color: #18754b;
-  font-size: 0.58rem;
-  display: grid;
-  place-items: center;
 }
 
 .lesson-main {
@@ -1293,29 +1285,6 @@ body {
 
 .stars.spark-once .star.is-on {
   animation: starPop 320ms ease-out 1;
-}
-
-.map-chip {
-  display: inline-flex;
-  border-radius: 999px;
-  padding: 0.1rem 0.45rem;
-  font-size: 0.73rem;
-  font-weight: 700;
-}
-
-.map-chip.done {
-  background: #def8e9;
-  color: #146b43;
-}
-
-.map-chip.pending {
-  background: #eef2f7;
-  color: #64748b;
-}
-
-.map-chip.locked {
-  background: #e7ebf3;
-  color: #5f6c80;
 }
 
 .level-node.is-pressed .node-core {
@@ -2302,6 +2271,21 @@ body[data-page="track"] .toast {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
     align-items: stretch;
   }
+
+  .level-node {
+    width: 60px;
+    height: 60px;
+  }
+
+  .node-number {
+    font-size: 1.18rem;
+  }
+
+  .node-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 0.86rem;
+  }
 }
 
 @media (max-width: 900px) {
@@ -2385,11 +2369,12 @@ body[data-page="track"] .toast {
 
   .map-label {
     width: clamp(118px, 44vw, 156px);
-    min-height: 40px;
-    padding: 0.28rem 0.38rem;
-    grid-template-columns: 24px minmax(0, 1fr);
+    min-height: 0;
+    padding: 0.34rem 0.4rem;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.32rem;
     border-radius: 12px;
+    align-items: start;
   }
 
   .map-item.side-left .map-label {
@@ -2401,26 +2386,19 @@ body[data-page="track"] .toast {
   }
 
   .map-label .lesson-meta-row,
-  .map-label .stars,
-  .map-label .lesson-icon-done {
+  .map-label .stars {
     display: none;
   }
 
-  .map-label .lesson-icon-wrap {
-    width: 24px;
-    height: 24px;
-  }
-
-  .map-label .lesson-icon {
-    font-size: 0.82rem;
-  }
-
   .map-label .lesson-title {
-    font-size: 0.72rem;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: block;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    font-size: 0.74rem;
+    line-height: 1.24;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
 
   .map-companion {
@@ -2541,15 +2519,15 @@ body[data-page="track"] .toast {
   }
 
   .node-badge {
-    width: 18px;
-    height: 18px;
-    font-size: 0.58rem;
+    width: 19px;
+    height: 19px;
+    font-size: 0.66rem;
   }
 
   .map-label {
     width: clamp(104px, 40vw, 134px);
-    min-height: 36px;
-    padding: 0.22rem 0.3rem;
+    min-height: 0;
+    padding: 0.28rem 0.34rem;
     border-radius: 11px;
   }
 
@@ -2561,17 +2539,9 @@ body[data-page="track"] .toast {
     right: 24px;
   }
 
-  .map-label .lesson-icon-wrap {
-    width: 22px;
-    height: 22px;
-  }
-
-  .map-label .lesson-icon {
-    font-size: 0.74rem;
-  }
-
   .map-label .lesson-title {
-    font-size: 0.66rem;
+    font-size: 0.68rem;
+    line-height: 1.24;
   }
 
   .map-companion {
@@ -2598,9 +2568,6 @@ body[data-page="track"] .toast {
     font-size: 0.74rem;
   }
 
-  .map-chip {
-    font-size: 0.68rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

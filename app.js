@@ -1486,8 +1486,8 @@ function renderZigzagMap(track, lessons, progress) {
     const current = idx === currentIndex;
     const active = current && unlocked && !done;
     const safeStars = Math.max(0, Math.min(3, Number(entry.stars) || 0));
-    const statusText = locked ? "Dikunci" : done ? "Selesai" : "Belum mula";
-    const trackIcon = track.id === "mt" ? "🔢" : "📘";
+    const nodeBadgeSymbol = done ? "✓" : locked ? "🔒" : "▶";
+    const nodeBadgeStateClass = done ? "is-done" : locked ? "is-locked" : "is-open";
 
     const item = document.createElement("article");
     item.className = `map-item side-${point.side}`;
@@ -1508,7 +1508,7 @@ function renderZigzagMap(track, lessons, progress) {
     nodeBtn.setAttribute("aria-label", locked ? `Pelajaran dikunci: ${lesson.tajuk}` : `Buka lesson ${lesson.no}: ${lesson.tajuk}`);
     nodeBtn.innerHTML = `
       <span class="node-core"><span class="node-number">${lesson.no}</span></span>
-      <span class="node-badge" aria-hidden="true">${done ? "✓" : locked ? "🔒" : "▶"}</span>
+      <span class="node-badge ${nodeBadgeStateClass}" aria-hidden="true">${nodeBadgeSymbol}</span>
     `;
 
     const labelBtn = document.createElement("button");
@@ -1524,15 +1524,10 @@ function renderZigzagMap(track, lessons, progress) {
       .join("");
 
     labelBtn.innerHTML = `
-      <span class="lesson-icon-wrap" aria-hidden="true">
-        <span class="lesson-icon">${trackIcon}</span>
-        ${done ? '<span class="lesson-icon-done">✓</span>' : ""}
-      </span>
       <span class="lesson-main">
         <span class="lesson-title">${lesson.tajuk}</span>
         <span class="lesson-meta-row">
           <span class="mins-chip">${lesson.mins} min</span>
-          <span class="map-chip ${locked ? "locked" : done ? "done" : "pending"}">${statusText}</span>
         </span>
       </span>
       <span class="stars ${done && safeStars > 0 ? "spark-once" : ""}" aria-label="Bintang ${safeStars} daripada 3">${starsMeter}</span>
