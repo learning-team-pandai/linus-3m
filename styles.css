@@ -572,9 +572,9 @@ body {
 }
 
 .hud-progress-shell {
-  margin-top: 0.56rem;
-  height: 15px;
-  background: #e3eaee;
+  margin-top: 0.42rem;
+  height: 9px;
+  background: #e7edf0;
 }
 
 #track-progress-fill {
@@ -594,10 +594,10 @@ body {
 }
 
 .track-hud-chips {
-  margin-top: 0.56rem;
+  margin-top: 0.36rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.46rem;
+  gap: 0.34rem;
 }
 
 .hud-chip {
@@ -607,16 +607,20 @@ body {
   border: 1px solid #d1e2d9;
   background: #ffffff;
   color: #2c4454;
-  font-size: 0.81rem;
+  font-size: 0.76rem;
   font-weight: 800;
-  padding: 0.26rem 0.6rem;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  padding: 0.2rem 0.52rem;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
 }
 
 .hud-chip.star {
   border-color: #efdfb5;
   background: linear-gradient(180deg, #fffaf0 0%, #fff4d8 100%);
   color: #7f5a10;
+}
+
+#track-chip-complete {
+  display: none;
 }
 
 .hud-chip.is-pop {
@@ -757,7 +761,7 @@ body {
 }
 
 .map-path-shadow {
-  stroke-width: 30;
+  stroke-width: 54;
 }
 
 .map-path-future-shadow {
@@ -769,7 +773,7 @@ body {
 }
 
 .map-path-rim {
-  stroke-width: 25;
+  stroke-width: 45;
 }
 
 .map-path-rim-future {
@@ -781,7 +785,7 @@ body {
 }
 
 .map-path-road {
-  stroke-width: 20;
+  stroke-width: 36;
 }
 
 .map-path-future-road {
@@ -795,7 +799,7 @@ body {
 }
 
 .map-path-progress {
-  stroke-width: 5.2;
+  stroke-width: 10;
   stroke: rgba(122, 237, 170, 0.46);
   stroke-dasharray: 10 20;
   animation: map-progress-flow 2.4s linear infinite;
@@ -807,6 +811,70 @@ body {
   inset: 0;
 }
 
+.map-companion {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 64px;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  z-index: 15;
+  pointer-events: none;
+  overflow: visible;
+  transition:
+    left 420ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    top 420ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    transform 220ms ease,
+    opacity 220ms ease;
+}
+
+.map-companion.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.map-companion::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(227, 250, 237, 0.78) 56%, rgba(105, 204, 151, 0.2) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.72),
+    0 0 0 4px rgba(105, 204, 151, 0.18);
+  z-index: 2;
+}
+
+.map-companion.is-arriving {
+  animation: mapCompanionArrive 220ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.map-companion-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 38px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.22);
+  filter: blur(1.2px);
+  transform: translateX(-50%);
+  z-index: 1;
+  animation: mapBotShadow 3.2s ease-in-out infinite;
+}
+
+.map-companion-bot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(15, 23, 42, 0.2));
+  z-index: 3;
+  animation: mapBotFloat 3.2s ease-in-out infinite;
+}
+
 .map-item {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -814,11 +882,12 @@ body {
   height: 0;
 }
 
-.map-item.is-current {
-  z-index: 12;
+.map-item.is-current,
+.map-item.is-active {
+  z-index: 14;
 }
 
-.map-item.is-current::before {
+.map-item.is-active::before {
   content: "";
   position: absolute;
   left: 0;
@@ -829,7 +898,7 @@ body {
   border-radius: 50%;
   background: radial-gradient(circle, rgba(86, 221, 152, 0.34) 0%, rgba(86, 221, 152, 0.16) 42%, rgba(86, 221, 152, 0.04) 66%, transparent 76%);
   pointer-events: none;
-  animation: currentHalo 2.6s ease-in-out infinite;
+  animation: currentHalo 3.2s ease-in-out infinite;
 }
 
 .level-node {
@@ -908,37 +977,37 @@ body {
   color: #fff;
 }
 
-.map-item.is-current .node-core {
+.map-item.is-active .node-core {
   border-color: #34c987;
   background: linear-gradient(180deg, #f7fff9 0%, #ddf9e9 100%);
   box-shadow:
-    0 0 0 5px rgba(52, 201, 135, 0.22),
+    0 0 0 6px rgba(52, 201, 135, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 9px 0 rgba(28, 143, 89, 0.26),
     0 14px 20px rgba(15, 23, 42, 0.2);
-  animation: currentNodeBreath 2.2s ease-in-out infinite;
+  animation: currentNodeBreath 3s ease-in-out infinite;
 }
 
-.map-item.is-current .level-node::after {
+.map-item.is-active .level-node::after {
   inset: -10px;
   border-color: rgba(52, 201, 135, 0.56);
   opacity: 1;
-  animation: pulseRing 2.2s ease-in-out infinite;
+  animation: pulseRing 3s ease-in-out infinite;
 }
 
-.map-item.is-current .node-badge {
+.map-item.is-active .node-badge {
   border-color: #9ed9be;
   background: #ffffff;
   color: #128551;
   box-shadow: 0 3px 8px rgba(15, 23, 42, 0.16);
 }
 
-.map-item:not(.is-current):not(.is-locked) .map-label {
+.map-item:not(.is-active):not(.is-locked) .map-label {
   opacity: 0.9;
   filter: saturate(0.9);
 }
 
-.map-item:not(.is-current):not(.is-locked) .level-node {
+.map-item:not(.is-active):not(.is-locked) .level-node {
   opacity: 0.9;
 }
 
@@ -1010,21 +1079,55 @@ body {
   background: linear-gradient(180deg, #ffffff 0%, #f6fff9 100%);
 }
 
-.lesson-card.is-current {
+.lesson-card.is-active {
   border-color: #7ed2a6;
   background: linear-gradient(180deg, #ffffff 0%, #f4fff8 100%);
   box-shadow:
-    0 14px 24px rgba(15, 23, 42, 0.15),
-    0 0 0 3px rgba(67, 201, 137, 0.2);
-  animation: currentCardGlow 2.6s ease-in-out infinite;
+    0 18px 28px rgba(15, 23, 42, 0.18),
+    0 0 0 3px rgba(67, 201, 137, 0.24);
+  animation: currentCardGlow 3s ease-in-out infinite;
 }
 
-.map-item.is-current .lesson-title {
+.map-item.is-active .lesson-title {
   color: #0f3f2b;
 }
 
-.map-item.is-current .map-label {
-  transform: translateY(-50%) scale(1.03);
+.map-item.is-active .map-label {
+  border-color: #6fcca0;
+  transform: translateY(-50%) scale(1.07);
+}
+
+.map-item.is-done:not(.is-active) .node-core {
+  border-color: #75be95;
+  background: linear-gradient(180deg, #66cd9d 0%, #47b783 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    0 6px 0 rgba(30, 132, 84, 0.2),
+    0 9px 14px rgba(15, 23, 42, 0.1);
+}
+
+.map-item.is-done:not(.is-active) .map-label {
+  border-color: #cfe2d8;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fcf9 100%);
+  box-shadow: 0 7px 14px rgba(15, 23, 42, 0.08);
+  opacity: 0.86;
+}
+
+.map-item.is-done:not(.is-active) .stars {
+  transform: scale(0.9);
+  opacity: 0.88;
+  border-color: #efd092;
+  background: linear-gradient(180deg, #fffaf0 0%, #ffefc8 100%);
+}
+
+.map-item.is-done:not(.is-active) .star.is-on {
+  color: #efb325;
+  filter: drop-shadow(0 1px 1px rgba(239, 179, 37, 0.24));
+}
+
+.map-item.is-done:not(.is-active) .star.is-off {
+  color: #b0bdce;
+  opacity: 0.58;
 }
 
 .lesson-icon-wrap {
@@ -1111,12 +1214,13 @@ body {
 }
 
 .star.is-on {
-  color: #f5b316;
-  filter: drop-shadow(0 1px 1px rgba(245, 179, 22, 0.3));
+  color: #f2b11a;
+  filter: drop-shadow(0 1px 1px rgba(242, 177, 26, 0.32));
 }
 
 .star.is-off {
-  color: #c7ced9;
+  color: #aeb8c7;
+  opacity: 0.6;
 }
 
 .stars.spark-once .star.is-on {
@@ -1885,13 +1989,47 @@ body[data-page="track"] .toast {
   }
 }
 
+@keyframes mapBotFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+@keyframes mapBotShadow {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.22;
+  }
+  50% {
+    transform: translateX(-50%) scale(0.88);
+    opacity: 0.14;
+  }
+}
+
+@keyframes mapCompanionArrive {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
 @keyframes currentNodeBreath {
   0%,
   100% {
-    transform: scale(1);
+    transform: scale(1.06);
   }
   50% {
-    transform: scale(1.045);
+    transform: scale(1.1);
   }
 }
 
@@ -2191,6 +2329,11 @@ body[data-page="track"] .toast {
     right: 34px;
   }
 
+  .map-companion {
+    width: 56px;
+    height: 56px;
+  }
+
   .sticky-controls {
     bottom: 0.3rem;
   }
@@ -2223,7 +2366,7 @@ body[data-page="track"] .toast {
   }
 
   .hud-progress-shell {
-    height: 14px;
+    height: 8px;
   }
 
   .hud-chip {
@@ -2316,6 +2459,15 @@ body[data-page="track"] .toast {
     border-radius: 14px;
   }
 
+  .map-companion {
+    width: 50px;
+    height: 50px;
+  }
+
+  .map-companion-shadow {
+    width: 31px;
+  }
+
   .lesson-title {
     font-size: 0.86rem;
   }
@@ -2353,7 +2505,14 @@ body[data-page="track"] .toast {
   .map-item.is-current .node-core,
   .map-item.is-current::before,
   .map-item.is-current .level-node::after,
+  .map-item.is-active .node-core,
+  .map-item.is-active::before,
+  .map-item.is-active .level-node::after,
   .lesson-card.is-current,
+  .lesson-card.is-active,
+  .map-companion.is-arriving,
+  .map-companion-bot,
+  .map-companion-shadow,
   .you-are-here,
   .level-node.is-bounce .node-core,
   .map-label.is-bounce,

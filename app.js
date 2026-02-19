@@ -333,8 +333,7 @@ function isUnlocked(lessons, idx, progress) {
 
 function findCurrentIndex(lessons, progress) {
   if (!lessons.length) return -1;
-  const firstNotDone = lessons.findIndex((lesson) => !progress[lesson.lesson_id]?.done);
-  return firstNotDone === -1 ? lessons.length - 1 : firstNotDone;
+  return lessons.findIndex((lesson) => !progress[lesson.lesson_id]?.done);
 }
 
 function findCompletedIndex(lessons, progress) {
@@ -458,6 +457,62 @@ function renderTrackListFallback(list, track, lessons, progress) {
   });
 }
 
+function renderMapCompanion(mapStage, activePoint, activeSide, activeLessonId) {
+  if (!mapStage) return;
+
+  let companion = mapStage.querySelector(".map-companion");
+  if (!activePoint) {
+    if (companion) {
+      companion.classList.remove("is-visible", "is-arriving");
+      companion.dataset.lessonId = "";
+    }
+    return;
+  }
+
+  if (!companion) {
+    companion = document.createElement("span");
+    companion.className = "map-companion";
+    companion.setAttribute("aria-hidden", "true");
+    companion.innerHTML = `
+      <span class="map-companion-shadow"></span>
+      <img src="./assets/pbot.png?v=2" alt="" class="map-companion-bot" />
+    `;
+    mapStage.append(companion);
+  }
+
+  const side = activeSide === "right" ? "right" : "left";
+  const offsetX = side === "left" ? -58 : 58;
+  const offsetY = -16;
+  const stageWidth = mapStage.clientWidth || 0;
+  const stageHeight = mapStage.clientHeight || 0;
+  const companionSize = companion.offsetWidth || 64;
+  const halfSize = companionSize / 2;
+  const edgePadding = 6;
+  const minX = halfSize + edgePadding;
+  const minY = halfSize + edgePadding;
+  const maxX = stageWidth > 0 ? stageWidth - halfSize - edgePadding : Number.POSITIVE_INFINITY;
+  const maxY = stageHeight > 0 ? stageHeight - halfSize - edgePadding : Number.POSITIVE_INFINITY;
+  const targetX = Math.min(maxX, Math.max(minX, activePoint.x + offsetX));
+  const targetY = Math.min(maxY, Math.max(minY, activePoint.y + offsetY));
+  const previousLessonId = companion.dataset.lessonId || "";
+  const nextLessonId = activeLessonId || "";
+  companion.style.left = `${targetX}px`;
+  companion.style.top = `${targetY}px`;
+  companion.dataset.side = side;
+  companion.dataset.lessonId = nextLessonId;
+  companion.classList.add("is-visible");
+
+  const isLessonChanged = previousLessonId && nextLessonId && previousLessonId !== nextLessonId;
+  const isFirstReveal = !companion.classList.contains("is-ready");
+  companion.classList.add("is-ready");
+  if (isLessonChanged || isFirstReveal) {
+    companion.classList.remove("is-arriving");
+    void companion.offsetWidth;
+    companion.classList.add("is-arriving");
+    window.setTimeout(() => companion.classList.remove("is-arriving"), 240);
+  }
+}
+
 function renderZigzagMap(track, lessons, progress) {
   const mapCard = document.getElementById("track-map") || document.getElementById("level-map");
   const mapSvg = document.getElementById("map-svg");
@@ -473,8 +528,10 @@ function renderZigzagMap(track, lessons, progress) {
   const height = points.length ? Math.round(points[points.length - 1].y + 120) : 320;
   const currentIndex = findCurrentIndex(lessons, progress);
   const completedIndex = findCompletedIndex(lessons, progress);
-  const donePathD = completedIndex >= 1 ? buildMapPath(points.slice(0, completedIndex + 1)) : "";
-  const futureStartIndex = completedIndex >= 0 ? completedIndex : 0;
+  // Route clear should reach current node ("You're here"), not stop at last done node.
+  const traversedEndIndex = currentIndex === -1 ? completedIndex : currentIndex;
+  const donePathD = traversedEndIndex >= 1 ? buildMapPath(points.slice(0, traversedEndIndex + 1)) : "";
+  const futureStartIndex = traversedEndIndex >= 0 ? traversedEndIndex : 0;
   const futurePathD = futureStartIndex < points.length - 1 ? buildMapPath(points.slice(futureStartIndex)) : "";
 
   mapStage.style.height = `${height}px`;
@@ -513,6 +570,9 @@ function renderZigzagMap(track, lessons, progress) {
   `;
 
   nodesLayer.innerHTML = "";
+  let activePoint = null;
+  let activeSide = "left";
+  let activeLessonId = "";
 
   const openLesson = (lessonId) => {
     window.location.href = `./lesson.html?track=${encodeURIComponent(track.id)}&lesson=${encodeURIComponent(lessonId)}`;
@@ -525,6 +585,7 @@ function renderZigzagMap(track, lessons, progress) {
     const unlocked = isUnlocked(lessons, idx, progress);
     const locked = !unlocked;
     const current = idx === currentIndex;
+    const active = current && unlocked && !done;
     const safeStars = Math.max(0, Math.min(3, Number(entry.stars) || 0));
     const statusText = locked ? "Dikunci" : done ? "Selesai" : "Belum mula";
     const trackIcon = track.id === "mt" ? "🔢" : "📘";
@@ -534,6 +595,12 @@ function renderZigzagMap(track, lessons, progress) {
     if (done) item.classList.add("is-done");
     if (locked) item.classList.add("is-locked");
     if (current) item.classList.add("is-current");
+    if (active) item.classList.add("is-active");
+    if (active) {
+      activePoint = point;
+      activeSide = point.side;
+      activeLessonId = lesson.lesson_id;
+    }
     item.style.left = `${point.x}px`;
     item.style.top = `${point.y}px`;
 
@@ -552,6 +619,7 @@ function renderZigzagMap(track, lessons, progress) {
     if (done) labelBtn.classList.add("is-done");
     if (locked) labelBtn.classList.add("is-locked");
     if (current) labelBtn.classList.add("is-current");
+    if (active) labelBtn.classList.add("is-active");
     labelBtn.setAttribute("aria-label", locked ? `Dikunci: ${lesson.tajuk}` : `Buka: ${lesson.tajuk}`);
     const starsMeter = [1, 2, 3]
       .map((index) => `<span class="star ${safeStars >= index ? "is-on" : "is-off"}" aria-hidden="true">★</span>`)
@@ -616,14 +684,16 @@ function renderZigzagMap(track, lessons, progress) {
     }
   });
 
-  if (currentIndex >= 0 && points[currentIndex]) {
+  if (activePoint) {
     const here = document.createElement("span");
     here.className = "you-are-here";
     here.textContent = "You're here!";
-    here.style.left = `${points[currentIndex].x}px`;
-    here.style.top = `${points[currentIndex].y - 56}px`;
+    here.style.left = `${activePoint.x}px`;
+    here.style.top = `${activePoint.y - 56}px`;
     nodesLayer.append(here);
   }
+
+  renderMapCompanion(mapStage, activePoint, activeSide, activeLessonId);
 
   return { rendered: true };
 }
