@@ -1,50 +1,36 @@
-# Linus 3M (Phase 1)
+# Linus 3M
 
-Projek statik HTML/CSS/JS untuk dashboard pembelajaran Linus 3M.
+Platform pembelajaran asas 3M dengan aliran ringkas: pilih track, buat lesson, dan kumpul bintang.
 
-## Struktur Repo
+## Cara Guna Website
 
-```
-.
-├── index.html
-├── track.html
-├── lesson.html
-├── app.js
-├── styles.css
-├── assets/
-└── data/
-```
+1. Buka halaman utama (Dashboard).
+2. Pilih track pembelajaran:
+   - BM (Bahasa Melayu)
+   - MT (Matematik)
+3. Dalam halaman track, pilih lesson yang sudah dibuka.
+4. Dalam halaman lesson, lengkapkan 3 langkah:
+   - Lihat Video
+   - Pembelajaran
+   - Latihan Mengira
+5. Bila semua langkah selesai, lesson akan ditanda lengkap dan bintang akan dikira automatik.
+6. Klik `Pelajaran Seterusnya` untuk teruskan.
 
-Repo ini guna `root` sebagai sumber laman (bukan `public/`).
+## Ciri Utama
 
-## Cara Run Local
+- Dashboard kemajuan keseluruhan.
+- Peta lesson mengikut susunan tahap.
+- Sistem bintang (0 hingga 3) bagi setiap lesson.
+- Notifikasi ringkas dan elemen motivasi.
+- Butang `Reset Progress` untuk mula semula.
 
-```bash
-python3 -m http.server 8000
-```
+## Simpanan Progress
 
-Buka: `http://localhost:8000`
+- Progress disimpan automatik dalam browser/peranti semasa.
+- Jika tukar browser/peranti atau padam data browser, progress akan hilang.
 
-## Deploy GitHub Pages
+## Tip Penggunaan
 
-1. GitHub repo `Settings` -> `Pages`.
-2. `Build and deployment`:
-   - `Source`: `Deploy from a branch`
-   - `Branch`: `main`
-   - `Folder`: `/ (root)`
-3. Simpan, tunggu deploy siap.
-
-## Flow Sync Ke GitHub
-
-```bash
-git add -A
-git commit -m "update content"
-git push
-```
-
-## Nota
-
-- Progress disimpan dalam `localStorage` key `linus3m_progress_v1` (ikut browser/peranti).
-- Routing guna querystring:
-  - `track.html?track=bm`
-  - `lesson.html?track=mt&lesson=mt-01`
+- Mulakan dari lesson pertama dalam setiap track.
+- Lesson seterusnya akan dibuka selepas lesson sebelumnya selesai.
+- Guna `Reset Progress` jika mahu kosongkan semua pencapaian.
