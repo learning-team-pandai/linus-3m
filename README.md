@@ -19,10 +19,18 @@ Platform pembelajaran asas 3M dengan aliran ringkas: pilih track, buat lesson, d
 ## Ciri Utama
 
 - Dashboard kemajuan keseluruhan.
-- Peta lesson mengikut susunan tahap.
+- Peta lesson berasaskan checkpoint di atas gambar route.
 - Sistem bintang (0 hingga 3) bagi setiap lesson.
 - Notifikasi ringkas dan elemen motivasi.
 - Butang `Reset Progress` untuk mula semula.
+
+## Konfigurasi Checkpoint Map
+
+- Fail: `data/checkpoints.json`
+- Setiap track (`bm`, `mt`) ada:
+  - `image.width` dan `image.height` (saiz asal gambar route)
+  - `checkpoints` dalam nilai normal (`x`, `y` antara `0` hingga `1`)
+- Sistem akan auto-resample checkpoint ikut jumlah lesson track dan adjust untuk desktop + mobile.
 
 ## Simpanan Progress
 

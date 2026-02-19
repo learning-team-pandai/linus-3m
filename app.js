@@ -2,6 +2,7 @@ const PROGRESS_KEY = "linus3m_progress_v1";
 
 let tracksCache = [];
 let lessonsCache = [];
+let checkpointsCache = {};
 let confettiCleanupTimer = null;
 let trackResizeDebounceTimer = null;
 let trackResizeHandler = null;
@@ -23,6 +24,27 @@ const TRACK_HUD_TIPS = [
   "Cuba satu lagi level!",
   "You can do it!",
 ];
+
+const DEFAULT_MAP_IMAGE_SIZE = Object.freeze({
+  width: 1024,
+  height: 4608,
+});
+
+const DEFAULT_MAP_CHECKPOINTS = Object.freeze([
+  { x: 0.19, y: 0.04 },
+  { x: 0.81, y: 0.11 },
+  { x: 0.2, y: 0.18 },
+  { x: 0.79, y: 0.25 },
+  { x: 0.21, y: 0.32 },
+  { x: 0.82, y: 0.39 },
+  { x: 0.2, y: 0.47 },
+  { x: 0.79, y: 0.55 },
+  { x: 0.2, y: 0.63 },
+  { x: 0.82, y: 0.71 },
+  { x: 0.22, y: 0.79 },
+  { x: 0.8, y: 0.87 },
+  { x: 0.21, y: 0.95 },
+]);
 
 function qs(param) {
   return new URLSearchParams(window.location.search).get(param);
@@ -217,6 +239,167 @@ function burstConfetti(sourceEl) {
 function stableNoise(seed) {
   const value = Math.sin(seed * 91.177) * 10000;
   return value - Math.floor(value);
+}
+
+function toFiniteNumber(value, fallback) {
+  const next = Number(value);
+  return Number.isFinite(next) ? next : fallback;
+}
+
+function clamp01(value) {
+  return Math.min(1, Math.max(0, value));
+}
+
+function normalizeCheckpoint(point) {
+  if (!point || typeof point !== "object") return null;
+  const x = clamp01(toFiniteNumber(point.x, NaN));
+  const y = clamp01(toFiniteNumber(point.y, NaN));
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+  return { x, y };
+}
+
+function normalizeCheckpointTrackConfig(rawTrackConfig) {
+  const imageRaw = rawTrackConfig?.image || {};
+  const image = {
+    width: Math.max(1, Math.round(toFiniteNumber(imageRaw.width, DEFAULT_MAP_IMAGE_SIZE.width))),
+    height: Math.max(1, Math.round(toFiniteNumber(imageRaw.height, DEFAULT_MAP_IMAGE_SIZE.height))),
+  };
+
+  const rawCheckpoints = Array.isArray(rawTrackConfig?.checkpoints) ? rawTrackConfig.checkpoints : [];
+  const checkpoints = rawCheckpoints.map(normalizeCheckpoint).filter(Boolean);
+  const safeCheckpoints = checkpoints.length ? checkpoints : DEFAULT_MAP_CHECKPOINTS.map((point) => ({ ...point }));
+
+  return { image, checkpoints: safeCheckpoints };
+}
+
+function normalizeCheckpointConfig(rawConfig) {
+  if (!rawConfig || typeof rawConfig !== "object") {
+    return {
+      default: normalizeCheckpointTrackConfig({}),
+    };
+  }
+
+  const normalized = {};
+  Object.entries(rawConfig).forEach(([trackId, config]) => {
+    normalized[trackId] = normalizeCheckpointTrackConfig(config);
+  });
+
+  if (!normalized.default) {
+    normalized.default = normalizeCheckpointTrackConfig({});
+  }
+
+  return normalized;
+}
+
+async function loadCheckpointConfig() {
+  try {
+    const raw = await loadJSON("./data/checkpoints.json");
+    return normalizeCheckpointConfig(raw);
+  } catch (_error) {
+    return normalizeCheckpointConfig({});
+  }
+}
+
+function getTrackCheckpointConfig(trackId) {
+  if (!checkpointsCache || typeof checkpointsCache !== "object") {
+    return normalizeCheckpointTrackConfig({});
+  }
+
+  const trackConfig = checkpointsCache[trackId];
+  if (trackConfig?.checkpoints?.length) {
+    return trackConfig;
+  }
+  return checkpointsCache.default || normalizeCheckpointTrackConfig({});
+}
+
+function sampleCheckpointPath(points, count) {
+  if (!Array.isArray(points) || !points.length || count <= 0) return [];
+  if (count === 1) {
+    return [{ ...points[0] }];
+  }
+  if (points.length === 1) {
+    return Array.from({ length: count }, () => ({ ...points[0] }));
+  }
+
+  const lengths = [0];
+  let totalLength = 0;
+
+  for (let i = 1; i < points.length; i += 1) {
+    const previous = points[i - 1];
+    const current = points[i];
+    totalLength += Math.hypot(current.x - previous.x, current.y - previous.y);
+    lengths.push(totalLength);
+  }
+
+  if (totalLength <= 0.000001) {
+    return Array.from({ length: count }, () => ({ ...points[0] }));
+  }
+
+  const sampled = [];
+  for (let i = 0; i < count; i += 1) {
+    const targetDistance = (i / (count - 1)) * totalLength;
+
+    let segmentIndex = 1;
+    while (segmentIndex < lengths.length && lengths[segmentIndex] < targetDistance) {
+      segmentIndex += 1;
+    }
+
+    const safeIndex = Math.min(lengths.length - 1, Math.max(1, segmentIndex));
+    const startDistance = lengths[safeIndex - 1];
+    const endDistance = lengths[safeIndex];
+    const segmentLength = Math.max(0.000001, endDistance - startDistance);
+    const t = clamp01((targetDistance - startDistance) / segmentLength);
+    const from = points[safeIndex - 1];
+    const to = points[safeIndex];
+
+    sampled.push({
+      x: from.x + (to.x - from.x) * t,
+      y: from.y + (to.y - from.y) * t,
+    });
+  }
+
+  return sampled;
+}
+
+function computeContainedViewport(containerWidth, containerHeight, imageWidth, imageHeight) {
+  const safeContainerWidth = Math.max(1, containerWidth);
+  const safeContainerHeight = Math.max(1, containerHeight);
+  const safeImageWidth = Math.max(1, imageWidth);
+  const safeImageHeight = Math.max(1, imageHeight);
+  const scale = safeContainerHeight / safeImageHeight;
+  const width = safeImageWidth * scale;
+  const height = safeContainerHeight;
+  return {
+    x: (safeContainerWidth - width) / 2,
+    y: 0,
+    width,
+    height,
+    scale,
+  };
+}
+
+function buildImageRoutePoints(trackId, lessonCount, stageWidth) {
+  const safeCount = Math.max(0, lessonCount);
+  const config = getTrackCheckpointConfig(trackId);
+  const imageWidth = Math.max(1, toFiniteNumber(config.image?.width, DEFAULT_MAP_IMAGE_SIZE.width));
+  const imageHeight = Math.max(1, toFiniteNumber(config.image?.height, DEFAULT_MAP_IMAGE_SIZE.height));
+  const ratioHeight = Math.round((stageWidth * imageHeight) / imageWidth);
+  const checkpointSpacing = Math.round(Math.max(72, Math.min(112, stageWidth * 0.22)));
+  const edgePadding = Math.round(checkpointSpacing * 1.5);
+  const minHeightByLessons = safeCount > 1 ? edgePadding * 2 + (safeCount - 1) * checkpointSpacing : 360;
+  const stageHeight = Math.max(360, ratioHeight, minHeightByLessons);
+  const viewport = computeContainedViewport(stageWidth, stageHeight, imageWidth, imageHeight);
+  const sampled = sampleCheckpointPath(config.checkpoints, safeCount);
+
+  return {
+    stageWidth,
+    stageHeight,
+    points: sampled.map((point) => ({
+      x: viewport.x + point.x * viewport.width,
+      y: viewport.y + point.y * viewport.height,
+      side: point.x >= 0.5 ? "right" : "left",
+    })),
+  };
 }
 
 const MAP_BG_TILE_SIZE = 1024;
@@ -457,60 +640,724 @@ function renderTrackListFallback(list, track, lessons, progress) {
   });
 }
 
-function renderMapCompanion(mapStage, activePoint, activeSide, activeLessonId) {
-  if (!mapStage) return;
+const MAP_COMPANION_STATES = Object.freeze({
+  IDLE: "idle",
+  PATROL_ROUTE: "patrol_route",
+  MICRO_RANDOM: "micro_random",
+  EVENT_REACT: "event_react",
+  RETURN_TO_ROUTE: "return_to_route",
+  FAILSAFE: "failsafe",
+});
 
-  let companion = mapStage.querySelector(".map-companion");
-  if (!activePoint) {
-    if (companion) {
-      companion.classList.remove("is-visible", "is-arriving");
-      companion.dataset.lessonId = "";
+const MAP_COMPANION_CONFIG = Object.freeze({
+  patrolSpeedPxPerSec: 84,
+  speedVariance: 0.26,
+  waypointWaitMinMs: 760,
+  waypointWaitMaxMs: 1800,
+  microRandomChance: 0.28,
+  detourMinRadiusPx: 22,
+  detourMaxRadiusPx: 54,
+  reactionDurationMs: 1400,
+  reactionCooldownMs: 460,
+  replanTimeoutMs: 5000,
+  stuckThresholdMs: 8000,
+  maxReplanAttempts: 3,
+});
+
+const MAP_COMPANION_CHAT = Object.freeze({
+  patrol: [
+    "Jom sambung belajar!",
+    "Sikit lagi boleh siap ⭐",
+    "Tekan node kalau nak mula.",
+    "Mantap! Kita teruskan route.",
+    "Saya ronda dulu, awak pilih lesson 😊",
+  ],
+  inspect: ["Nak tengok lesson ni?", "Saya boleh temankan kat sini.", "Klik kalau nak mula."],
+  open: ["Yes, jom masuk lesson!", "Terbaik, kita pergi!", "Nice! Teruskan momentum."],
+  locked: ["Ops, yang ni masih kunci 🔒", "Selesai lesson sebelum ni dulu ya.", "Lagi sikit je, nanti terbuka!"],
+  reroute: ["Sekejap, saya balik route dulu.", "Saya rejoin laluan kejap."],
+  failsafe: ["Oops, saya reset laluan sekejap."],
+});
+
+let mapCompanionController = null;
+
+function randomBetween(min, max) {
+  return min + Math.random() * (max - min);
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function pickCompanionMessage(controller, pool, fallback = "") {
+  const choices = Array.isArray(pool) ? pool.filter((item) => typeof item === "string" && item.trim()) : [];
+  if (!choices.length) return fallback;
+
+  let index = Math.floor(Math.random() * choices.length);
+  if (controller && choices.length > 1 && choices[index] === controller.lastChatMessage) {
+    index = (index + 1 + Math.floor(Math.random() * (choices.length - 1))) % choices.length;
+  }
+  return choices[index];
+}
+
+function buildCompanionRoute(points, anchorIndex) {
+  if (!points.length) return { waypoints: [], focusIndex: -1 };
+
+  const safeAnchor = clamp(Math.round(anchorIndex || 0), 0, points.length - 1);
+  let start = Math.max(0, safeAnchor - 1);
+  let end = Math.min(points.length - 1, safeAnchor + 2);
+  const targetSpan = Math.min(points.length, 4);
+
+  while (end - start + 1 < targetSpan) {
+    if (start > 0) {
+      start -= 1;
+      continue;
     }
-    return;
+    if (end < points.length - 1) {
+      end += 1;
+      continue;
+    }
+    break;
   }
 
+  const waypoints = [];
+  for (let i = start; i <= end; i += 1) {
+    const node = points[i];
+    const side = node.side === "right" ? "right" : "left";
+    const offsetX = side === "left" ? -24 : 24;
+    waypoints.push({
+      x: node.x + offsetX,
+      y: node.y - 14,
+      side,
+      nodeIndex: i,
+    });
+  }
+
+  return { waypoints, focusIndex: safeAnchor - start };
+}
+
+function toCompanionReactionPoint(point, sideHint) {
+  const side = sideHint === "right" ? "right" : "left";
+  const offsetX = side === "left" ? -40 : 40;
+  return {
+    x: point.x + offsetX,
+    y: point.y - 18,
+    side,
+  };
+}
+
+function ensureMapCompanionElement(mapStage) {
+  let companion = mapStage.querySelector(".map-companion");
   if (!companion) {
     companion = document.createElement("span");
     companion.className = "map-companion";
     companion.setAttribute("aria-hidden", "true");
     companion.innerHTML = `
       <span class="map-companion-shadow"></span>
-      <img src="./assets/pbot.png?v=2" alt="" class="map-companion-bot" />
+      <span class="map-companion-sprite">
+        <img src="./assets/pbot.png?v=2" alt="" class="map-companion-bot" />
+      </span>
+      <span class="map-companion-chat" role="status" aria-live="polite"></span>
     `;
     mapStage.append(companion);
   }
 
-  const side = activeSide === "right" ? "right" : "left";
-  const offsetX = side === "left" ? -58 : 58;
-  const offsetY = -16;
-  const stageWidth = mapStage.clientWidth || 0;
-  const stageHeight = mapStage.clientHeight || 0;
-  const companionSize = companion.offsetWidth || 64;
+  companion.dataset.face ||= "right";
+  companion.dataset.state ||= MAP_COMPANION_STATES.IDLE;
+  return companion;
+}
+
+function getMapCompanionChatEl(controller) {
+  return controller?.companion?.querySelector(".map-companion-chat") || null;
+}
+
+function maybeHideCompanionChat(controller, now) {
+  const chatEl = getMapCompanionChatEl(controller);
+  if (!chatEl) return;
+  if (controller.chatUntil > 0 && now >= controller.chatUntil) {
+    chatEl.classList.remove("is-visible");
+    controller.chatUntil = 0;
+  }
+}
+
+function showCompanionChat(controller, message, options = {}) {
+  if (!controller) return;
+  const chatEl = getMapCompanionChatEl(controller);
+  if (!chatEl) return;
+
+  const text = String(message || "").trim();
+  if (!text) return;
+
+  const now = Number.isFinite(options.now) ? options.now : performance.now();
+  const durationMs = clamp(Number(options.durationMs) || 2100, 900, 5200);
+  const priority = Boolean(options.priority);
+
+  if (!priority && controller.chatUntil > now + 240) return;
+
+  chatEl.textContent = text;
+  chatEl.classList.add("is-visible");
+  controller.lastChatMessage = text;
+  controller.chatUntil = now + durationMs;
+  controller.nextChatAt = controller.chatUntil + randomBetween(900, 2300);
+}
+
+function triggerCompanionArrival(companion) {
+  if (!companion) return;
+  if (companion._arriveTimer) {
+    window.clearTimeout(companion._arriveTimer);
+  }
+  companion.classList.remove("is-arriving");
+  void companion.offsetWidth;
+  companion.classList.add("is-arriving");
+  companion._arriveTimer = window.setTimeout(() => {
+    companion.classList.remove("is-arriving");
+    companion._arriveTimer = null;
+  }, 240);
+}
+
+function clampCompanionPosition(controller, x, y) {
+  const mapStage = controller.mapStage;
+  const companion = controller.companion;
+  const stageWidth = mapStage?.clientWidth || 0;
+  const stageHeight = mapStage?.clientHeight || 0;
+  const companionSize = companion?.offsetWidth || 64;
   const halfSize = companionSize / 2;
   const edgePadding = 6;
   const minX = halfSize + edgePadding;
   const minY = halfSize + edgePadding;
   const maxX = stageWidth > 0 ? stageWidth - halfSize - edgePadding : Number.POSITIVE_INFINITY;
   const maxY = stageHeight > 0 ? stageHeight - halfSize - edgePadding : Number.POSITIVE_INFINITY;
-  const targetX = Math.min(maxX, Math.max(minX, activePoint.x + offsetX));
-  const targetY = Math.min(maxY, Math.max(minY, activePoint.y + offsetY));
-  const previousLessonId = companion.dataset.lessonId || "";
-  const nextLessonId = activeLessonId || "";
-  companion.style.left = `${targetX}px`;
-  companion.style.top = `${targetY}px`;
-  companion.dataset.side = side;
-  companion.dataset.lessonId = nextLessonId;
-  companion.classList.add("is-visible");
+  return {
+    x: clamp(x, minX, maxX),
+    y: clamp(y, minY, maxY),
+  };
+}
 
-  const isLessonChanged = previousLessonId && nextLessonId && previousLessonId !== nextLessonId;
-  const isFirstReveal = !companion.classList.contains("is-ready");
-  companion.classList.add("is-ready");
-  if (isLessonChanged || isFirstReveal) {
-    companion.classList.remove("is-arriving");
-    void companion.offsetWidth;
-    companion.classList.add("is-arriving");
-    window.setTimeout(() => companion.classList.remove("is-arriving"), 240);
+function setCompanionState(controller, nextState) {
+  if (!controller || controller.state === nextState) return;
+  controller.state = nextState;
+  if (controller.companion) {
+    controller.companion.dataset.state = nextState;
   }
+}
+
+function setCompanionSpeed(controller, multiplier = 1) {
+  const variance = 1 + randomBetween(-MAP_COMPANION_CONFIG.speedVariance, MAP_COMPANION_CONFIG.speedVariance);
+  controller.speedPxPerSec = MAP_COMPANION_CONFIG.patrolSpeedPxPerSec * multiplier * variance;
+}
+
+function setCompanionPosition(controller, x, y, faceHint) {
+  if (!controller?.companion || !controller.mapStage) return;
+  const clampedPos = clampCompanionPosition(controller, x, y);
+  controller.position = clampedPos;
+  controller.companion.style.left = `${clampedPos.x}px`;
+  controller.companion.style.top = `${clampedPos.y}px`;
+  if (faceHint) {
+    controller.companion.dataset.face = faceHint;
+  }
+  controller.companion.classList.add("is-visible");
+}
+
+function findNearestWaypointIndex(waypoints, position) {
+  if (!waypoints.length || !position) return -1;
+  let bestIndex = 0;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (let i = 0; i < waypoints.length; i += 1) {
+    const node = waypoints[i];
+    const distance = Math.hypot(node.x - position.x, node.y - position.y);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = i;
+    }
+  }
+
+  return bestIndex;
+}
+
+function clearMapCompanionAnimationLoop(controller) {
+  if (controller?.rafId) {
+    window.cancelAnimationFrame(controller.rafId);
+    controller.rafId = 0;
+  }
+  if (controller) {
+    controller.lastTickAt = 0;
+  }
+}
+
+function getNextPatrolTarget(controller) {
+  const { route } = controller;
+  if (!route.length) return null;
+  if (route.length === 1) {
+    return { ...route[0], routeIndex: 0 };
+  }
+
+  let nextIndex = controller.waypointIndex + controller.waypointDirection;
+  if (nextIndex >= route.length || nextIndex < 0) {
+    controller.waypointDirection *= -1;
+    nextIndex = controller.waypointIndex + controller.waypointDirection;
+  }
+  nextIndex = clamp(nextIndex, 0, route.length - 1);
+  const waypoint = route[nextIndex];
+  return {
+    x: waypoint.x,
+    y: waypoint.y,
+    side: waypoint.side,
+    routeIndex: nextIndex,
+  };
+}
+
+function moveCompanionToward(controller, target, deltaSeconds, now) {
+  if (!target) return true;
+  if (!controller.position) {
+    setCompanionPosition(controller, target.x, target.y, target.side || "right");
+    controller.lastProgressAt = now;
+    return true;
+  }
+
+  const dx = target.x - controller.position.x;
+  const dy = target.y - controller.position.y;
+  const distance = Math.hypot(dx, dy);
+
+  if (distance <= 0.8) {
+    setCompanionPosition(controller, target.x, target.y, target.side || (dx >= 0 ? "right" : "left"));
+    controller.lastProgressAt = now;
+    return true;
+  }
+
+  const maxStep = Math.max(0.001, controller.speedPxPerSec * deltaSeconds);
+  const step = Math.min(distance, maxStep);
+  const nextX = controller.position.x + (dx / distance) * step;
+  const nextY = controller.position.y + (dy / distance) * step;
+  const faceHint = Math.abs(dx) < 0.8 ? controller.companion.dataset.face || target.side || "right" : dx >= 0 ? "right" : "left";
+  setCompanionPosition(controller, nextX, nextY, faceHint);
+
+  if (step > 0.35) {
+    controller.lastProgressAt = now;
+  }
+
+  return step >= distance - 0.001;
+}
+
+function pickDetourTarget(controller) {
+  if (!controller.position) return null;
+
+  for (let tries = 0; tries < 10; tries += 1) {
+    const radius = randomBetween(MAP_COMPANION_CONFIG.detourMinRadiusPx, MAP_COMPANION_CONFIG.detourMaxRadiusPx);
+    const angle = randomBetween(0, Math.PI * 2);
+    const sampleX = controller.position.x + Math.cos(angle) * radius;
+    const sampleY = controller.position.y + Math.sin(angle) * radius * 0.74;
+    const clampedSample = clampCompanionPosition(controller, sampleX, sampleY);
+    const delta = Math.hypot(clampedSample.x - controller.position.x, clampedSample.y - controller.position.y);
+    if (delta < MAP_COMPANION_CONFIG.detourMinRadiusPx * 0.55) continue;
+
+    return {
+      x: clampedSample.x,
+      y: clampedSample.y,
+      side: clampedSample.x >= controller.position.x ? "right" : "left",
+    };
+  }
+
+  return null;
+}
+
+function enterReturnToRouteState(controller, now, reason = "") {
+  if (!controller.route.length) return;
+  const routeIndex = Math.max(0, findNearestWaypointIndex(controller.route, controller.position || controller.route[0]));
+  const waypoint = controller.route[routeIndex];
+  controller.target = {
+    x: waypoint.x,
+    y: waypoint.y,
+    side: waypoint.side,
+    routeIndex,
+  };
+  controller.detourOrigin = null;
+  controller.detourPhase = "outbound";
+  controller.waitUntil = 0;
+  setCompanionState(controller, MAP_COMPANION_STATES.RETURN_TO_ROUTE);
+  setCompanionSpeed(controller, 1.06);
+  controller.lastProgressAt = now;
+  if (reason === "failsafe") {
+    showCompanionChat(controller, pickCompanionMessage(controller, MAP_COMPANION_CHAT.failsafe), {
+      now,
+      durationMs: 1800,
+      priority: true,
+    });
+  } else if (reason === "reroute") {
+    showCompanionChat(controller, pickCompanionMessage(controller, MAP_COMPANION_CHAT.reroute), {
+      now,
+      durationMs: 1700,
+      priority: true,
+    });
+  }
+}
+
+function enterEventReactState(controller, reactionPoint, now) {
+  if (!reactionPoint) return;
+  controller.pendingReaction = null;
+  const reactionMessage = controller.pendingReactionMessage || pickCompanionMessage(controller, MAP_COMPANION_CHAT.inspect);
+  controller.pendingReactionMessage = "";
+  controller.target = {
+    x: reactionPoint.x,
+    y: reactionPoint.y,
+    side: reactionPoint.side,
+  };
+  controller.reactionUntil = now + MAP_COMPANION_CONFIG.reactionDurationMs;
+  controller.nextReactionAllowedAt = now + MAP_COMPANION_CONFIG.reactionCooldownMs;
+  controller.waitUntil = 0;
+  setCompanionState(controller, MAP_COMPANION_STATES.EVENT_REACT);
+  setCompanionSpeed(controller, 1.2);
+  controller.lastProgressAt = now;
+  showCompanionChat(controller, reactionMessage, {
+    now,
+    durationMs: 1650,
+    priority: true,
+  });
+}
+
+function enterMicroRandomState(controller, now) {
+  const detour = pickDetourTarget(controller);
+  if (!detour) return false;
+
+  controller.detourOrigin = controller.position ? { ...controller.position } : null;
+  controller.detourPhase = "outbound";
+  controller.target = detour;
+  controller.waitUntil = 0;
+  setCompanionState(controller, MAP_COMPANION_STATES.MICRO_RANDOM);
+  setCompanionSpeed(controller, 1.12);
+  controller.lastProgressAt = now;
+  return true;
+}
+
+function maybeRunCompanionFailsafe(controller, now) {
+  if (!controller.target) return;
+
+  const stalledFor = now - controller.lastProgressAt;
+  if (stalledFor < MAP_COMPANION_CONFIG.replanTimeoutMs) return;
+
+  if (stalledFor >= MAP_COMPANION_CONFIG.stuckThresholdMs) {
+    setCompanionState(controller, MAP_COMPANION_STATES.FAILSAFE);
+    controller.replanAttempts += 1;
+
+    if (controller.replanAttempts > MAP_COMPANION_CONFIG.maxReplanAttempts) {
+      const home = controller.route[0];
+      if (home) {
+        setCompanionPosition(controller, home.x, home.y, home.side || "right");
+        controller.waypointIndex = 0;
+        controller.waypointDirection = 1;
+      }
+      controller.replanAttempts = 0;
+      controller.target = null;
+      controller.waitUntil = now + 420;
+      setCompanionState(controller, MAP_COMPANION_STATES.PATROL_ROUTE);
+      controller.lastProgressAt = now;
+      return;
+    }
+
+    enterReturnToRouteState(controller, now, "failsafe");
+    return;
+  }
+
+  if (controller.state !== MAP_COMPANION_STATES.RETURN_TO_ROUTE) {
+    controller.replanAttempts += 1;
+    enterReturnToRouteState(controller, now, "reroute");
+  }
+}
+
+function updateMapCompanionState(controller, timestamp) {
+  if (!controller || controller.reducedMotion || !controller.route.length) return;
+
+  const now = timestamp || performance.now();
+  if (!controller.lastTickAt) {
+    controller.lastTickAt = now;
+  }
+  const deltaSeconds = Math.max(0, Math.min((now - controller.lastTickAt) / 1000, 0.064));
+  controller.lastTickAt = now;
+
+  if (controller.pendingReaction && now >= controller.nextReactionAllowedAt) {
+    enterEventReactState(controller, controller.pendingReaction, now);
+  }
+
+  switch (controller.state) {
+    case MAP_COMPANION_STATES.IDLE: {
+      controller.waitUntil = now + randomBetween(180, 420);
+      setCompanionState(controller, MAP_COMPANION_STATES.PATROL_ROUTE);
+      break;
+    }
+    case MAP_COMPANION_STATES.PATROL_ROUTE: {
+      if (now < controller.waitUntil) break;
+
+      if (!controller.target) {
+        const nextTarget = getNextPatrolTarget(controller);
+        if (!nextTarget) break;
+        controller.target = nextTarget;
+        setCompanionSpeed(controller, 1);
+        controller.lastProgressAt = now;
+      }
+
+      if (moveCompanionToward(controller, controller.target, deltaSeconds, now)) {
+        if (typeof controller.target.routeIndex === "number") {
+          controller.waypointIndex = controller.target.routeIndex;
+          controller.waypointDirection = controller.waypointIndex >= controller.route.length - 1 ? -1 : 1;
+        }
+
+        controller.target = null;
+        controller.replanAttempts = 0;
+
+        const shouldDetour = Math.random() < MAP_COMPANION_CONFIG.microRandomChance;
+        if (!shouldDetour || !enterMicroRandomState(controller, now)) {
+          controller.waitUntil = now + randomBetween(MAP_COMPANION_CONFIG.waypointWaitMinMs, MAP_COMPANION_CONFIG.waypointWaitMaxMs);
+        }
+      }
+      break;
+    }
+    case MAP_COMPANION_STATES.MICRO_RANDOM: {
+      if (!controller.target) {
+        enterReturnToRouteState(controller, now);
+        break;
+      }
+
+      if (moveCompanionToward(controller, controller.target, deltaSeconds, now)) {
+        if (controller.detourPhase === "outbound" && controller.detourOrigin) {
+          controller.detourPhase = "return";
+          controller.target = {
+            x: controller.detourOrigin.x,
+            y: controller.detourOrigin.y,
+            side: controller.target.side === "right" ? "left" : "right",
+          };
+          controller.lastProgressAt = now;
+        } else {
+          controller.target = null;
+          controller.detourOrigin = null;
+          enterReturnToRouteState(controller, now);
+        }
+      }
+      break;
+    }
+    case MAP_COMPANION_STATES.EVENT_REACT: {
+      if (controller.target && moveCompanionToward(controller, controller.target, deltaSeconds, now)) {
+        controller.target = null;
+      }
+
+      if (!controller.target && now >= controller.reactionUntil) {
+        enterReturnToRouteState(controller, now);
+      }
+      break;
+    }
+    case MAP_COMPANION_STATES.RETURN_TO_ROUTE: {
+      if (!controller.target) {
+        enterReturnToRouteState(controller, now);
+        break;
+      }
+
+      if (moveCompanionToward(controller, controller.target, deltaSeconds, now)) {
+        if (typeof controller.target.routeIndex === "number") {
+          controller.waypointIndex = controller.target.routeIndex;
+          controller.waypointDirection = controller.waypointIndex >= controller.route.length - 1 ? -1 : 1;
+        }
+        controller.target = null;
+        controller.waitUntil = now + randomBetween(260, 680);
+        setCompanionState(controller, MAP_COMPANION_STATES.PATROL_ROUTE);
+        controller.lastProgressAt = now;
+      }
+      break;
+    }
+    case MAP_COMPANION_STATES.FAILSAFE: {
+      enterReturnToRouteState(controller, now, "failsafe");
+      break;
+    }
+    default:
+      setCompanionState(controller, MAP_COMPANION_STATES.PATROL_ROUTE);
+      break;
+  }
+
+  if (controller.target) {
+    maybeRunCompanionFailsafe(controller, now);
+  }
+
+  if (controller.state === MAP_COMPANION_STATES.PATROL_ROUTE && !controller.target && now >= controller.nextChatAt) {
+    const patrolMessage =
+      pickCompanionMessage(controller, MAP_COMPANION_CHAT.patrol) || pickCompanionMessage(controller, TRACK_HUD_TIPS, "Jom teruskan!");
+    showCompanionChat(controller, patrolMessage, {
+      now,
+      durationMs: randomBetween(1500, 2400),
+    });
+  }
+
+  maybeHideCompanionChat(controller, now);
+}
+
+function startMapCompanionAnimationLoop(controller) {
+  if (!controller || controller.rafId || controller.reducedMotion || controller.route.length <= 1) return;
+
+  const frame = (timestamp) => {
+    updateMapCompanionState(controller, timestamp);
+    controller.rafId = window.requestAnimationFrame(frame);
+  };
+  controller.rafId = window.requestAnimationFrame(frame);
+}
+
+function stopMapCompanionController() {
+  if (!mapCompanionController) return;
+  clearMapCompanionAnimationLoop(mapCompanionController);
+  mapCompanionController.target = null;
+  mapCompanionController.pendingReaction = null;
+  mapCompanionController.pendingReactionMessage = "";
+  mapCompanionController.route = [];
+  mapCompanionController.routeSignature = "";
+  mapCompanionController.position = null;
+  mapCompanionController.lastProgressAt = 0;
+  mapCompanionController.waitUntil = 0;
+  mapCompanionController.detourOrigin = null;
+  mapCompanionController.detourPhase = "outbound";
+  mapCompanionController.replanAttempts = 0;
+  mapCompanionController.chatUntil = 0;
+  mapCompanionController.nextChatAt = 0;
+  mapCompanionController.lastChatMessage = "";
+  mapCompanionController.state = MAP_COMPANION_STATES.IDLE;
+  if (mapCompanionController.companion) {
+    mapCompanionController.companion.classList.remove("is-visible", "is-arriving");
+    mapCompanionController.companion.dataset.state = MAP_COMPANION_STATES.IDLE;
+    mapCompanionController.companion.dataset.lessonId = "";
+    const chatEl = mapCompanionController.companion.querySelector(".map-companion-chat");
+    if (chatEl) {
+      chatEl.classList.remove("is-visible");
+      chatEl.textContent = "";
+    }
+  }
+}
+
+function queueMapCompanionReaction(mapStage, point, sideHint, message = "") {
+  if (!point || !mapCompanionController) return;
+  if (mapCompanionController.mapStage !== mapStage) return;
+  if (!mapCompanionController.route.length) return;
+
+  const fallbackMessage = pickCompanionMessage(mapCompanionController, MAP_COMPANION_CHAT.inspect, "Nak tengok lesson ni?");
+  mapCompanionController.pendingReactionMessage = message || fallbackMessage;
+
+  if (mapCompanionController.reducedMotion) {
+    showCompanionChat(mapCompanionController, mapCompanionController.pendingReactionMessage, {
+      durationMs: 1700,
+      priority: true,
+    });
+    return;
+  }
+
+  mapCompanionController.pendingReaction = toCompanionReactionPoint(point, sideHint || point.side);
+}
+
+function syncMapCompanionPatrol(mapStage, points, { anchorIndex = 0, activeLessonId = "" } = {}) {
+  if (!mapStage || !points.length) {
+    stopMapCompanionController();
+    return;
+  }
+
+  if (!mapCompanionController) {
+    mapCompanionController = {
+      mapStage,
+      companion: null,
+      route: [],
+      routeSignature: "",
+      state: MAP_COMPANION_STATES.IDLE,
+      position: null,
+      target: null,
+      waypointIndex: 0,
+      waypointDirection: 1,
+      waitUntil: 0,
+      speedPxPerSec: MAP_COMPANION_CONFIG.patrolSpeedPxPerSec,
+      detourOrigin: null,
+      detourPhase: "outbound",
+      reactionUntil: 0,
+      pendingReaction: null,
+      pendingReactionMessage: "",
+      nextReactionAllowedAt: 0,
+      lastProgressAt: 0,
+      replanAttempts: 0,
+      chatUntil: 0,
+      nextChatAt: 0,
+      lastChatMessage: "",
+      reducedMotion: prefersReducedMotion(),
+      rafId: 0,
+      lastTickAt: 0,
+    };
+  }
+
+  if (mapCompanionController.mapStage !== mapStage) {
+    clearMapCompanionAnimationLoop(mapCompanionController);
+    mapCompanionController.mapStage = mapStage;
+    mapCompanionController.position = null;
+  }
+
+  const controller = mapCompanionController;
+  controller.companion = ensureMapCompanionElement(mapStage);
+  controller.reducedMotion = prefersReducedMotion();
+
+  const { waypoints, focusIndex } = buildCompanionRoute(points, anchorIndex);
+  if (!waypoints.length) {
+    stopMapCompanionController();
+    return;
+  }
+
+  const now = performance.now();
+  const previousLessonId = controller.companion.dataset.lessonId || "";
+  const nextLessonId = activeLessonId || "";
+  const isLessonChanged = previousLessonId && nextLessonId && previousLessonId !== nextLessonId;
+  const isFirstReveal = !controller.companion.classList.contains("is-ready");
+  controller.companion.dataset.lessonId = nextLessonId;
+  controller.companion.classList.add("is-ready");
+  if (isFirstReveal || isLessonChanged) {
+    triggerCompanionArrival(controller.companion);
+    const introMessage = isLessonChanged
+      ? pickCompanionMessage(controller, MAP_COMPANION_CHAT.patrol, "Jom sambung lesson seterusnya!")
+      : pickCompanionMessage(controller, MAP_COMPANION_CHAT.inspect, "Hi, saya pbot 👋");
+    showCompanionChat(controller, introMessage, {
+      now,
+      durationMs: 1900,
+      priority: true,
+    });
+  }
+
+  const routeSignature = waypoints
+    .map((waypoint) => `${waypoint.nodeIndex}:${Math.round(waypoint.x)}:${Math.round(waypoint.y)}`)
+    .join("|");
+  const routeChanged = controller.routeSignature !== routeSignature;
+  controller.routeSignature = routeSignature;
+  controller.route = waypoints;
+
+  const safeFocusIndex = clamp(focusIndex, 0, waypoints.length - 1);
+
+  if (!controller.position || routeChanged) {
+    if (controller.position && routeChanged) {
+      const nearestRouteIndex = findNearestWaypointIndex(waypoints, controller.position);
+      controller.waypointIndex = nearestRouteIndex >= 0 ? nearestRouteIndex : safeFocusIndex;
+    } else {
+      controller.waypointIndex = safeFocusIndex;
+    }
+    const spawn = waypoints[controller.waypointIndex] || waypoints[0];
+    setCompanionPosition(controller, spawn.x, spawn.y, spawn.side || "right");
+    controller.target = null;
+    controller.waitUntil = now + randomBetween(220, 640);
+    controller.lastProgressAt = now;
+    controller.replanAttempts = 0;
+    controller.nextChatAt = now + randomBetween(900, 1900);
+    setCompanionState(controller, waypoints.length > 1 ? MAP_COMPANION_STATES.PATROL_ROUTE : MAP_COMPANION_STATES.IDLE);
+  } else {
+    const nearestRouteIndex = findNearestWaypointIndex(waypoints, controller.position);
+    controller.waypointIndex = nearestRouteIndex >= 0 ? nearestRouteIndex : safeFocusIndex;
+  }
+
+  controller.waypointDirection = controller.waypointIndex >= waypoints.length - 1 ? -1 : 1;
+  controller.companion.classList.add("is-visible");
+
+  if (controller.reducedMotion || waypoints.length <= 1) {
+    clearMapCompanionAnimationLoop(controller);
+    const hold = waypoints[safeFocusIndex] || waypoints[0];
+    setCompanionPosition(controller, hold.x, hold.y, hold.side || "right");
+    setCompanionState(controller, MAP_COMPANION_STATES.PATROL_ROUTE);
+    return;
+  }
+
+  startMapCompanionAnimationLoop(controller);
 }
 
 function renderZigzagMap(track, lessons, progress) {
@@ -520,58 +1367,25 @@ function renderZigzagMap(track, lessons, progress) {
   const mapStage = mapCard?.querySelector(".map-stage");
 
   if (!mapCard || !mapSvg || !nodesLayer || !mapStage || typeof SVGPathElement === "undefined") {
+    stopMapCompanionController();
     return { rendered: false };
   }
 
   const width = Math.max(320, Math.round(mapStage.clientWidth || mapCard.clientWidth || 760));
-  const points = generateZigzagPoints(lessons.length, width);
-  const height = points.length ? Math.round(points[points.length - 1].y + 120) : 320;
+  const checkpointLayout = buildImageRoutePoints(track.id, lessons.length, width);
+  const points = checkpointLayout.points;
+  const height = checkpointLayout.stageHeight;
   const currentIndex = findCurrentIndex(lessons, progress);
   const completedIndex = findCompletedIndex(lessons, progress);
-  // Route clear should reach current node ("You're here"), not stop at last done node.
-  const traversedEndIndex = currentIndex === -1 ? completedIndex : currentIndex;
-  const donePathD = traversedEndIndex >= 1 ? buildMapPath(points.slice(0, traversedEndIndex + 1)) : "";
-  const futureStartIndex = traversedEndIndex >= 0 ? traversedEndIndex : 0;
-  const futurePathD = futureStartIndex < points.length - 1 ? buildMapPath(points.slice(futureStartIndex)) : "";
 
   mapStage.style.height = `${height}px`;
+  mapStage.style.setProperty("--map-image-width", String(width));
+  mapStage.style.setProperty("--map-image-height", String(height));
   mapSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-  mapSvg.innerHTML = `
-    <defs>
-      <pattern id="map-stone-road-future" patternUnits="userSpaceOnUse" width="144" height="127">
-        <rect width="144" height="127" fill="#64615c" />
-        <image href="./assets/road-stone-texture.jpg" x="0" y="0" width="144" height="127" preserveAspectRatio="xMidYMid slice" />
-        <rect width="144" height="127" fill="#302f2c" fill-opacity="0.56" />
-        <rect width="144" height="127" fill="#8e8a83" fill-opacity="0.06" />
-      </pattern>
-      <pattern id="map-stone-road-done" patternUnits="userSpaceOnUse" width="144" height="127">
-        <rect width="144" height="127" fill="#76806d" />
-        <image href="./assets/road-stone-texture.jpg" x="0" y="0" width="144" height="127" preserveAspectRatio="xMidYMid slice" />
-        <rect width="144" height="127" fill="#465146" fill-opacity="0.12" />
-        <rect width="144" height="127" fill="#72b980" fill-opacity="0.1" />
-        <rect width="144" height="127" fill="#d7f5df" fill-opacity="0.03" />
-      </pattern>
-    </defs>
-    ${
-      futurePathD
-        ? `<path class="map-path-shadow map-path-future-shadow" d="${futurePathD}" />
-           <path class="map-path-rim map-path-rim-future" d="${futurePathD}" />
-           <path class="map-path-road map-path-future-road" d="${futurePathD}" stroke="url(#map-stone-road-future)" />`
-        : ""
-    }
-    ${
-      donePathD
-        ? `<path class="map-path-shadow map-path-done-shadow" d="${donePathD}" />
-           <path class="map-path-rim map-path-rim-done" d="${donePathD}" />
-           <path class="map-path-road map-path-done-road" d="${donePathD}" stroke="url(#map-stone-road-done)" />
-           <path class="map-path-progress" d="${donePathD}" />`
-        : ""
-    }
-  `;
+  mapSvg.innerHTML = "";
 
   nodesLayer.innerHTML = "";
   let activePoint = null;
-  let activeSide = "left";
   let activeLessonId = "";
 
   const openLesson = (lessonId) => {
@@ -598,7 +1412,6 @@ function renderZigzagMap(track, lessons, progress) {
     if (active) item.classList.add("is-active");
     if (active) {
       activePoint = point;
-      activeSide = point.side;
       activeLessonId = lesson.lesson_id;
     }
     item.style.left = `${point.x}px`;
@@ -647,14 +1460,20 @@ function renderZigzagMap(track, lessons, progress) {
       window.setTimeout(() => el.classList.remove(className), ms);
     };
 
+    const inspectMessage = () => pickCompanionMessage(mapCompanionController, MAP_COMPANION_CHAT.inspect, "Nak tengok lesson ni?");
+    const openMessage = () => pickCompanionMessage(mapCompanionController, MAP_COMPANION_CHAT.open, "Jom mula lesson ni!");
+    const lockedMessage = () => pickCompanionMessage(mapCompanionController, MAP_COMPANION_CHAT.locked, "Yang ni masih kunci 🔒");
+
     const onTap = (event) => {
       event.preventDefault();
       if (locked) {
+        queueMapCompanionReaction(mapStage, point, point.side, lockedMessage());
         addTempClass(nodeBtn, "shake", 260);
         addTempClass(labelBtn, "shake", 260);
         showToast("Selesaikan pelajaran sebelum ini untuk buka 😊");
         return;
       }
+      queueMapCompanionReaction(mapStage, point, point.side, openMessage());
       addTempClass(nodeBtn, "is-pressed", 180);
       addTempClass(labelBtn, "is-pressed", 180);
       addTempClass(nodeBtn, "is-bounce", 200);
@@ -670,6 +1489,10 @@ function renderZigzagMap(track, lessons, progress) {
 
     nodeBtn.addEventListener("click", onTap);
     labelBtn.addEventListener("click", onTap);
+    nodeBtn.addEventListener("pointerenter", () => queueMapCompanionReaction(mapStage, point, point.side, inspectMessage()));
+    labelBtn.addEventListener("pointerenter", () => queueMapCompanionReaction(mapStage, point, point.side, inspectMessage()));
+    nodeBtn.addEventListener("focus", () => queueMapCompanionReaction(mapStage, point, point.side, inspectMessage()));
+    labelBtn.addEventListener("focus", () => queueMapCompanionReaction(mapStage, point, point.side, inspectMessage()));
 
     item.append(nodeBtn, labelBtn);
     nodesLayer.append(item);
@@ -693,7 +1516,12 @@ function renderZigzagMap(track, lessons, progress) {
     nodesLayer.append(here);
   }
 
-  renderMapCompanion(mapStage, activePoint, activeSide, activeLessonId);
+  const companionAnchorIndex = currentIndex === -1 ? Math.max(0, completedIndex) : currentIndex;
+  const companionLessonId = activeLessonId || lessons[companionAnchorIndex]?.lesson_id || "";
+  syncMapCompanionPatrol(mapStage, points, {
+    anchorIndex: companionAnchorIndex,
+    activeLessonId: companionLessonId,
+  });
 
   return { rendered: true };
 }
@@ -793,13 +1621,8 @@ function renderTrack() {
   const chipsWrap = document.getElementById("track-hud-chips");
   const chipCompleteEl = document.getElementById("track-chip-complete");
   const chipStarsEl = document.getElementById("track-chip-stars");
-  const tipTextEl = document.getElementById("track-tip-text");
 
   header.innerHTML = `<p class="meta">${getTrackIcon(track.id)} ${track.desc}</p><h1>${track.title}</h1>`;
-  if (tipTextEl) {
-    const tip = TRACK_HUD_TIPS[Math.floor(Math.random() * TRACK_HUD_TIPS.length)];
-    tipTextEl.textContent = tip;
-  }
 
   const lessons = lessonsCache
     .filter((lesson) => lesson.track_id === track.id)
@@ -829,6 +1652,7 @@ function renderTrack() {
     if (!lessons.length) {
       if (mapCard) mapCard.hidden = true;
       list.hidden = true;
+      stopMapCompanionController();
       return;
     }
 
@@ -840,6 +1664,7 @@ function renderTrack() {
     } else {
       if (mapCard) mapCard.hidden = true;
       list.hidden = false;
+      stopMapCompanionController();
       renderTrackListFallback(list, track, lessons, progress);
     }
   }
@@ -1415,7 +2240,11 @@ function renderLesson() {
 
 async function init() {
   try {
-    [tracksCache, lessonsCache] = await Promise.all([loadJSON("./data/tracks.json"), loadJSON("./data/lessons.json")]);
+    [tracksCache, lessonsCache, checkpointsCache] = await Promise.all([
+      loadJSON("./data/tracks.json"),
+      loadJSON("./data/lessons.json"),
+      loadCheckpointConfig(),
+    ]);
 
     applyMascotTips();
 
