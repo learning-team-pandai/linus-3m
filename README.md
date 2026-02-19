@@ -30,6 +30,10 @@ Platform pembelajaran asas 3M dengan aliran ringkas: pilih track, buat lesson, d
 - Setiap track (`bm`, `mt`) ada:
   - `image.width` dan `image.height` (saiz asal gambar route)
   - `checkpoints` dalam nilai normal (`x`, `y` antara `0` hingga `1`)
+- Optional: `nodeOverrides` untuk laras node tertentu ikut nombor lesson (1-based), contoh:
+  - `"nodeOverrides": { "7": { "x": 0.49, "y": 0.224 }, "18": { "x": 0.57, "y": 0.515 } }`
+- Optional: `uniformVerticalSpacing` (default `true`) untuk samakan jarak menegak semua node dari awal hingga akhir.
+- Nota: bila `uniformVerticalSpacing: true`, override `y` dalam `nodeOverrides` diabaikan (hanya `x` dipakai) supaya jarak menegak kekal konsisten.
 - Sistem akan auto-resample checkpoint ikut jumlah lesson track dan adjust untuk desktop + mobile.
 
 ## Simpanan Progress

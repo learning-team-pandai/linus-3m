@@ -258,6 +258,21 @@ function normalizeCheckpoint(point) {
   return { x, y };
 }
 
+function normalizeNodeOverrides(rawNodeOverrides) {
+  if (!rawNodeOverrides || typeof rawNodeOverrides !== "object") return {};
+  const normalized = {};
+
+  Object.entries(rawNodeOverrides).forEach(([lessonNoRaw, point]) => {
+    const lessonNo = Math.round(toFiniteNumber(lessonNoRaw, NaN));
+    if (!Number.isFinite(lessonNo) || lessonNo < 1) return;
+    const normalizedPoint = normalizeCheckpoint(point);
+    if (!normalizedPoint) return;
+    normalized[lessonNo] = normalizedPoint;
+  });
+
+  return normalized;
+}
+
 function normalizeCheckpointTrackConfig(rawTrackConfig) {
   const imageRaw = rawTrackConfig?.image || {};
   const image = {
@@ -268,8 +283,10 @@ function normalizeCheckpointTrackConfig(rawTrackConfig) {
   const rawCheckpoints = Array.isArray(rawTrackConfig?.checkpoints) ? rawTrackConfig.checkpoints : [];
   const checkpoints = rawCheckpoints.map(normalizeCheckpoint).filter(Boolean);
   const safeCheckpoints = checkpoints.length ? checkpoints : DEFAULT_MAP_CHECKPOINTS.map((point) => ({ ...point }));
+  const nodeOverrides = normalizeNodeOverrides(rawTrackConfig?.nodeOverrides || rawTrackConfig?.node_overrides);
+  const useUniformVerticalSpacing = rawTrackConfig?.uniformVerticalSpacing !== false;
 
-  return { image, checkpoints: safeCheckpoints };
+  return { image, checkpoints: safeCheckpoints, nodeOverrides, useUniformVerticalSpacing };
 }
 
 function normalizeCheckpointConfig(rawConfig) {
@@ -361,6 +378,47 @@ function sampleCheckpointPath(points, count) {
   return sampled;
 }
 
+function buildUniformNodeYPositions(count, stageHeight, minGap, minEdgePadding) {
+  if (count <= 0) return [];
+  if (count === 1) return [stageHeight / 2];
+
+  const safeHeight = Math.max(1, stageHeight);
+  const safeGap = Math.max(1, minGap);
+  const safePadding = Math.max(0, minEdgePadding);
+  const usableHeight = Math.max(0, safeHeight - safePadding * 2);
+  const gap = Math.max(safeGap, usableHeight / (count - 1));
+  const occupiedHeight = gap * (count - 1);
+  const top = Math.max(0, (safeHeight - occupiedHeight) / 2);
+
+  return Array.from({ length: count }, (_value, idx) => top + idx * gap);
+}
+
+function interpolateCheckpointXByY(points, targetY) {
+  if (!Array.isArray(points) || !points.length) return 0.5;
+  if (points.length === 1) return clamp01(toFiniteNumber(points[0].x, 0.5));
+
+  const safeTargetY = clamp01(toFiniteNumber(targetY, 0));
+  const ordered = [...points].sort((a, b) => a.y - b.y);
+  const first = ordered[0];
+  const last = ordered[ordered.length - 1];
+  if (safeTargetY <= first.y) return clamp01(toFiniteNumber(first.x, 0.5));
+  if (safeTargetY >= last.y) return clamp01(toFiniteNumber(last.x, 0.5));
+
+  for (let i = 1; i < ordered.length; i += 1) {
+    const from = ordered[i - 1];
+    const to = ordered[i];
+    if (safeTargetY > to.y) continue;
+    const span = to.y - from.y;
+    if (Math.abs(span) < 0.000001) {
+      return clamp01(toFiniteNumber(to.x, from.x));
+    }
+    const t = clamp01((safeTargetY - from.y) / span);
+    return clamp01(from.x + (to.x - from.x) * t);
+  }
+
+  return clamp01(toFiniteNumber(last.x, 0.5));
+}
+
 function computeContainedViewport(containerWidth, containerHeight, imageWidth, imageHeight) {
   const safeContainerWidth = Math.max(1, containerWidth);
   const safeContainerHeight = Math.max(1, containerHeight);
@@ -384,19 +442,46 @@ function buildImageRoutePoints(trackId, lessonCount, stageWidth) {
   const imageWidth = Math.max(1, toFiniteNumber(config.image?.width, DEFAULT_MAP_IMAGE_SIZE.width));
   const imageHeight = Math.max(1, toFiniteNumber(config.image?.height, DEFAULT_MAP_IMAGE_SIZE.height));
   const ratioHeight = Math.round((stageWidth * imageHeight) / imageWidth);
-  const checkpointSpacing = Math.round(Math.max(72, Math.min(112, stageWidth * 0.22)));
-  const edgePadding = Math.round(checkpointSpacing * 1.5);
-  const minHeightByLessons = safeCount > 1 ? edgePadding * 2 + (safeCount - 1) * checkpointSpacing : 360;
+  const isCompact = stageWidth < 640;
+  const targetVerticalGap = isCompact ? 94 : 112;
+  const edgePadding = Math.round(targetVerticalGap * 1.45);
+  const minHeightByLessons = safeCount > 1 ? edgePadding * 2 + (safeCount - 1) * targetVerticalGap : 360;
   const stageHeight = Math.max(360, ratioHeight, minHeightByLessons);
   const viewport = computeContainedViewport(stageWidth, stageHeight, imageWidth, imageHeight);
+  const nodeOverrides = config.nodeOverrides && typeof config.nodeOverrides === "object" ? config.nodeOverrides : {};
+  const uniformYPositions = config.useUniformVerticalSpacing ? buildUniformNodeYPositions(safeCount, stageHeight, targetVerticalGap, edgePadding) : null;
+
+  if (uniformYPositions) {
+    return {
+      stageWidth,
+      stageHeight,
+      points: uniformYPositions.map((y, idx) => {
+        const yNorm = viewport.height > 0 ? clamp01((y - viewport.y) / viewport.height) : 0;
+        const overridePoint = nodeOverrides[idx + 1];
+        const baseX = interpolateCheckpointXByY(config.checkpoints, yNorm);
+        const xNorm = overridePoint ? clamp01(toFiniteNumber(overridePoint.x, baseX)) : baseX;
+
+        return {
+          x: viewport.x + xNorm * viewport.width,
+          y,
+          side: xNorm >= 0.5 ? "right" : "left",
+        };
+      }),
+    };
+  }
+
   const sampled = sampleCheckpointPath(config.checkpoints, safeCount);
+  const routedPoints = sampled.map((point, idx) => {
+    const overridePoint = nodeOverrides[idx + 1];
+    return overridePoint ? { x: overridePoint.x, y: overridePoint.y } : point;
+  });
 
   return {
     stageWidth,
     stageHeight,
-    points: sampled.map((point) => ({
+    points: routedPoints.map((point, idx) => ({
       x: viewport.x + point.x * viewport.width,
-      y: viewport.y + point.y * viewport.height,
+      y: uniformYPositions ? uniformYPositions[idx] : viewport.y + point.y * viewport.height,
       side: point.x >= 0.5 ? "right" : "left",
     })),
   };
