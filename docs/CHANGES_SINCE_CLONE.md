@@ -206,3 +206,38 @@ Fail terlibat:
 - Offset Y khusus ditambah untuk node 5 dan node 6 bagi menolak kedudukan ke bawah mengikut maklum balas pengguna.
 - Fail terlibat:
   - `src/utils/path.js`
+
+## 20) Kemaskini terbaru: single-image map tanpa repeat/extension
+
+- Sistem map ditukar supaya semua node dimuatkan dalam SATU imej background sahaja.
+- Posisi node kini guna koordinat peratus:
+  - `x` = peratus lebar imej
+  - `y` = peratus tinggi imej
+- `PathMap` dikemas kini untuk:
+  - `backgroundRepeat: no-repeat`
+  - `backgroundSize: 100% 100%`
+  - `aspect-ratio` berdasarkan nisbah imej asal
+- Tujuan: elakkan duplikasi/extension image dan pastikan node kekal relatif kepada imej sama pada semua saiz skrin.
+- Fail terlibat:
+  - `src/components/path/PathMap.jsx`
+  - `src/utils/path.js`
+
+## 21) Kemaskini terbaru: node anchors ikut red-dot reference
+
+- Posisi node ditukar daripada corak zigzag automatik kepada anchor tetap berasaskan red dots yang ditanda pada imej.
+- Senarai anchor disusun untuk 31 node (order 1-31).
+- Beberapa siri fine-tuning dibuat pada nilai `x` node terpilih berdasarkan maklum balas berperingkat pengguna.
+- Nilai `y` majoriti dikekalkan selepas padanan dirasakan memuaskan.
+- Fail terlibat:
+  - `src/utils/path.js`
+
+## 22) Kemaskini terbaru: pelarasan UI mobile untuk node
+
+- Mobile-only scaling untuk node diperkecilkan:
+  - bulatan node lebih kecil
+  - panel info node lebih kompak
+  - saiz teks panel direndahkan sedikit
+- Ikon status pada node (tick/plus/lock) juga diperkecilkan untuk mobile sahaja.
+- Saiz nombor dalam node dikekalkan.
+- Fail terlibat:
+  - `src/components/path/LessonNode.jsx`

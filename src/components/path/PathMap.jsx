@@ -4,22 +4,16 @@ import {
   buildNodePositions,
   getCurrentLessonId,
   getLessonStatus,
-  PATHWAY_MAP_HEIGHT,
 } from '../../utils/path.js'
 
 function PathMap({ lessons, progress, onSelectLesson }) {
   const containerRef = useRef(null)
-  const mapFrameRef = useRef(null)
-  const [mapWidth, setMapWidth] = useState(0)
   const [bgAspectRatio, setBgAspectRatio] = useState(0.66)
   const completedIds = progress.completedLessons
   const currentLessonId = getCurrentLessonId(lessons, completedIds)
   const completedResources = progress.completedResources || {}
 
-  const tileHeight = Math.max(420, Math.round((mapWidth || 720) * bgAspectRatio))
-  const points = buildNodePositions(lessons, { tileHeight })
-  const lastPoint = points[points.length - 1]
-  const pathHeight = Math.max(PATHWAY_MAP_HEIGHT, (lastPoint?.y || 0) + 220)
+  const points = buildNodePositions(lessons)
 
   useEffect(() => {
     const img = new Image()
@@ -29,18 +23,6 @@ function PathMap({ lessons, progress, onSelectLesson }) {
         setBgAspectRatio(img.naturalHeight / img.naturalWidth)
       }
     }
-  }, [])
-
-  useEffect(() => {
-    if (!mapFrameRef.current || typeof ResizeObserver === 'undefined') return
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0]
-      if (entry?.contentRect?.width) {
-        setMapWidth(entry.contentRect.width)
-      }
-    })
-    observer.observe(mapFrameRef.current)
-    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
@@ -59,16 +41,16 @@ function PathMap({ lessons, progress, onSelectLesson }) {
       className="group relative"
     >
       <div
-        ref={mapFrameRef}
         className="relative overflow-hidden rounded-2xl p-3 shadow-[0_12px_0_rgba(15,23,42,0.12)] sm:p-6"
         style={{
+          aspectRatio: `${1 / bgAspectRatio}`,
           backgroundImage: "url('/images/pathway-bg.png.webp')",
-          backgroundSize: '100% auto',
+          backgroundSize: '100% 100%',
           backgroundPosition: 'top center',
-          backgroundRepeat: 'repeat-y',
+          backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="relative" style={{ height: pathHeight }}>
+        <div className="relative h-full w-full">
           {lessons.map((lesson, index) => {
             const point = points[index]
             const status = getLessonStatus(lesson, completedIds, currentLessonId)
@@ -86,7 +68,7 @@ function PathMap({ lessons, progress, onSelectLesson }) {
               cardSide={point.x >= 52 ? 'left' : 'right'}
               style={{
                 left: `${point.x}%`,
-                top: `${point.y}px`,
+                top: `${point.y}%`,
                   transform: 'translate(-50%, -50%)',
                 }}
                 dataLessonId={lesson.id}

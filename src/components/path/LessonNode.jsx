@@ -2,7 +2,7 @@ const icons = {
   locked: (
     <svg
       viewBox="0 0 24 24"
-      className="h-4 w-4"
+      className="h-3 w-3 sm:h-4 sm:w-4"
       aria-hidden="true"
       fill="none"
       stroke="currentColor"
@@ -17,7 +17,7 @@ const icons = {
   completed: (
     <svg
       viewBox="0 0 24 24"
-      className="h-4 w-4"
+      className="h-3 w-3 sm:h-4 sm:w-4"
       aria-hidden="true"
       fill="none"
       stroke="currentColor"
@@ -31,7 +31,7 @@ const icons = {
   current: (
     <svg
       viewBox="0 0 24 24"
-      className="h-4 w-4"
+      className="h-3 w-3 sm:h-4 sm:w-4"
       aria-hidden="true"
       fill="none"
       stroke="currentColor"
@@ -89,7 +89,7 @@ function LessonNode({
         type="button"
         onClick={action}
         className={
-          'peer btn-3d relative z-20 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-4 border-white text-xl font-bold shadow-[0_8px_0_rgba(15,23,42,0.25)] sm:h-16 sm:w-16 ' +
+          'peer btn-3d relative z-20 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-4 border-white text-base font-bold shadow-[0_8px_0_rgba(15,23,42,0.25)] sm:h-16 sm:w-16 sm:text-xl ' +
           circleStyle +
           ' ' +
           (isClickable ? 'cursor-pointer' : 'cursor-not-allowed')
@@ -97,7 +97,7 @@ function LessonNode({
         aria-disabled={!isClickable}
       >
         {lesson.order}
-        <span className="absolute -bottom-1 -right-1 rounded-full border-2 border-white bg-white p-0.5 text-slate-500">
+        <span className="absolute -bottom-1 -right-1 rounded-full border-2 border-white bg-white p-[2px] text-slate-500 sm:p-0.5">
           {icons[status]}
         </span>
       </button>
@@ -106,7 +106,7 @@ function LessonNode({
         type="button"
         onClick={action}
         className={
-          'btn-3d pointer-events-none absolute top-1/2 z-10 min-h-16 w-[10.5rem] -translate-y-1/2 rounded-2xl border-2 p-2 text-left text-slate-800 shadow-[0_6px_0_rgba(15,23,42,0.15)] transition-all duration-200 sm:w-[13rem] sm:p-3 ' +
+          'btn-3d pointer-events-none absolute top-1/2 z-10 min-h-14 w-[9rem] -translate-y-1/2 rounded-2xl border-2 p-1.5 text-left text-slate-800 shadow-[0_6px_0_rgba(15,23,42,0.15)] transition-all duration-200 sm:min-h-16 sm:w-[13rem] sm:p-3 ' +
           cardPositionClass +
           ' ' +
           cardVisibilityClass +
@@ -117,11 +117,11 @@ function LessonNode({
         }
         aria-disabled={!isClickable}
       >
-        <p className="max-h-10 overflow-hidden text-sm font-bold leading-tight sm:text-base">
+        <p className="max-h-10 overflow-hidden text-xs font-bold leading-tight sm:text-base">
           {lesson.title}
         </p>
         <div className="mt-2 flex items-center justify-between">
-          <span className="inline-flex rounded-full bg-slate-200/75 px-2 py-0.5 text-[11px] font-semibold text-slate-600">
+          <span className="inline-flex rounded-full bg-slate-200/75 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 sm:px-2 sm:text-[11px]">
             {lesson.duration}
           </span>
           {totalStars > 0 && (
