@@ -1,25 +1,47 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import LessonNode from './LessonNode.jsx'
-import PathLine from './PathLine.jsx'
 import {
   buildNodePositions,
   getCurrentLessonId,
   getLessonStatus,
+  PATHWAY_MAP_HEIGHT,
 } from '../../utils/path.js'
 
 function PathMap({ lessons, progress, onSelectLesson }) {
   const containerRef = useRef(null)
+  const mapFrameRef = useRef(null)
+  const [mapWidth, setMapWidth] = useState(0)
+  const [bgAspectRatio, setBgAspectRatio] = useState(0.66)
   const completedIds = progress.completedLessons
   const currentLessonId = getCurrentLessonId(lessons, completedIds)
   const completedResources = progress.completedResources || {}
 
-  const points = buildNodePositions(lessons)
+  const tileHeight = Math.max(420, Math.round((mapWidth || 720) * bgAspectRatio))
+  const points = buildNodePositions(lessons, { tileHeight })
   const lastPoint = points[points.length - 1]
-  const pathHeight = lastPoint ? lastPoint.y + 80 : 200
-  const currentIndex = currentLessonId
-    ? lessons.findIndex((lesson) => lesson.id === currentLessonId)
-    : lessons.length - 1
-  const activeCount = currentIndex >= 0 ? currentIndex + 1 : 1
+  const pathHeight = Math.max(PATHWAY_MAP_HEIGHT, (lastPoint?.y || 0) + 220)
+
+  useEffect(() => {
+    const img = new Image()
+    img.src = '/images/pathway-bg.png.webp'
+    img.onload = () => {
+      if (img.naturalWidth && img.naturalHeight) {
+        setBgAspectRatio(img.naturalHeight / img.naturalWidth)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!mapFrameRef.current || typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0]
+      if (entry?.contentRect?.width) {
+        setMapWidth(entry.contentRect.width)
+      }
+    })
+    observer.observe(mapFrameRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     if (!currentLessonId || !containerRef.current) return
@@ -34,41 +56,44 @@ function PathMap({ lessons, progress, onSelectLesson }) {
   return (
     <div
       ref={containerRef}
-      className="path-forest relative overflow-hidden rounded-2xl p-6 shadow-[0_12px_0_rgba(15,23,42,0.12)]"
+      className="group relative"
     >
-      <span className="path-ornament path-ornament--a" aria-hidden="true" />
-      <span className="path-ornament path-ornament--b" aria-hidden="true" />
-      <span className="path-ornament path-ornament--c" aria-hidden="true" />
-      <PathLine
-        points={points}
-        activeCount={activeCount}
-        height={pathHeight}
-        className="absolute left-0 top-0 h-full w-full"
-      />
-      <div className="relative" style={{ height: pathHeight }}>
-        {lessons.map((lesson, index) => {
-          const point = points[index]
-          const status = getLessonStatus(lesson, completedIds, currentLessonId)
-          const isMilestone = lesson.order % 5 === 0
+      <div
+        ref={mapFrameRef}
+        className="relative overflow-hidden rounded-2xl p-3 shadow-[0_12px_0_rgba(15,23,42,0.12)] sm:p-6"
+        style={{
+          backgroundImage: "url('/images/pathway-bg.png.webp')",
+          backgroundSize: '100% auto',
+          backgroundPosition: 'top center',
+          backgroundRepeat: 'repeat-y',
+        }}
+      >
+        <div className="relative" style={{ height: pathHeight }}>
+          {lessons.map((lesson, index) => {
+            const point = points[index]
+            const status = getLessonStatus(lesson, completedIds, currentLessonId)
+            const isMilestone = lesson.order % 5 === 0
 
-          return (
-            <LessonNode
-              key={lesson.id}
-              lesson={lesson}
-              status={status}
-              onClick={() => onSelectLesson(lesson.id)}
-              isMilestone={isMilestone}
-              collectedStars={Object.entries(completedResources[lesson.id] || {}).filter(([key, value]) => value && key !== 'Video').length}
+            return (
+              <LessonNode
+                key={lesson.id}
+                lesson={lesson}
+                status={status}
+                onClick={() => onSelectLesson(lesson.id)}
+                isMilestone={isMilestone}
+                collectedStars={Object.entries(completedResources[lesson.id] || {}).filter(([key, value]) => value && key !== 'Video').length}
               totalStars={(lesson.content?.resources || []).filter((section) => section.title !== 'Video').length}
+              cardSide={point.x >= 52 ? 'left' : 'right'}
               style={{
                 left: `${point.x}%`,
                 top: `${point.y}px`,
-                transform: 'translate(-50%, -50%)',
-              }}
-              dataLessonId={lesson.id}
-            />
-          )
-        })}
+                  transform: 'translate(-50%, -50%)',
+                }}
+                dataLessonId={lesson.id}
+              />
+            )
+          })}
+        </div>
       </div>
     </div>
   )

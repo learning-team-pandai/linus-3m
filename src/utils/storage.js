@@ -98,6 +98,34 @@ export const markResourceComplete = (lessonId, resourceKey) => {
   })
 }
 
+export const markResourceIncomplete = (lessonId, resourceKey) => {
+  const progress = loadProgress()
+  const lessonResources = { ...(progress.completedResources?.[lessonId] || {}) }
+  if (!lessonResources[resourceKey]) return progress
+
+  delete lessonResources[resourceKey]
+  const nextCompletedResources = { ...(progress.completedResources || {}) }
+  if (Object.keys(lessonResources).length === 0) {
+    delete nextCompletedResources[lessonId]
+  } else {
+    nextCompletedResources[lessonId] = lessonResources
+  }
+
+  return saveProgress({
+    ...progress,
+    completedResources: nextCompletedResources,
+  })
+}
+
+export const markLessonIncomplete = (lessonId) => {
+  const progress = loadProgress()
+  if (!progress.completedLessons.includes(lessonId)) return progress
+  return saveProgress({
+    ...progress,
+    completedLessons: progress.completedLessons.filter((id) => id !== lessonId),
+  })
+}
+
 export const resetProgress = () => {
   try {
     localStorage.removeItem(STORAGE_KEY)

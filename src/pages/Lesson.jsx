@@ -8,7 +8,9 @@ import {
 import {
   loadProgress,
   markLessonComplete,
+  markLessonIncomplete,
   markResourceComplete,
+  markResourceIncomplete,
   markLessonCelebrated,
   setCurrentLesson,
 } from '../utils/storage.js'
@@ -21,6 +23,10 @@ import { playCelebrate } from '../utils/sfx.js'
 import Skeleton from '../components/ui/Skeleton.jsx'
 import { getStrings } from '../utils/i18n.js'
 import FullscreenEmbed from '../components/lesson/FullscreenEmbed.jsx'
+import {
+  getCompletedLessonIdsByResources,
+  isLessonCompleteByResources,
+} from '../utils/progress.js'
 
 const buildTabs = (content) => {
   const tabs = []
@@ -39,6 +45,12 @@ function Lesson({ lessonId }) {
     () => (lesson ? getModuleById(lesson.moduleId) : null),
     [lesson]
   )
+  const levelNumber = useMemo(() => {
+    if (!lesson) return null
+    if (typeof lesson.order === 'number') return lesson.order
+    const idx = ORDERED_LESSONS.findIndex((item) => item.id === lesson.id)
+    return idx >= 0 ? idx + 1 : null
+  }, [lesson])
 
   if (!lesson) {
     return (
@@ -61,7 +73,10 @@ function Lesson({ lessonId }) {
     )
   }
 
-  const isCompleted = progress.completedLessons.includes(lesson.id)
+  const isCompleted = isLessonCompleteByResources(
+    lesson,
+    progress.completedResources || {}
+  )
   const nextLessonId = getNextLessonId(lesson.id)
   const tabs = buildTabs(lesson.content)
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || 'slides')
@@ -77,7 +92,19 @@ function Lesson({ lessonId }) {
   const nonVideoSections = resourceSections.filter(
     (section) => section.title !== 'Video'
   )
+  const allActivitySections = resourceSections
   const completedSections = progress.completedResources?.[lesson.id] || {}
+  const completedLessonIds = useMemo(
+    () =>
+      getCompletedLessonIdsByResources(
+        ORDERED_LESSONS,
+        progress.completedResources || {}
+      ),
+    [progress.completedResources]
+  )
+  const allActivitiesCompleted =
+    allActivitySections.length > 0 &&
+    allActivitySections.every((section) => completedSections[section.title])
   const totalStars = nonVideoSections.length || 0
   const collectedStars = nonVideoSections.reduce(
     (sum, section) => sum + (completedSections[section.title] ? 1 : 0),
@@ -92,19 +119,22 @@ function Lesson({ lessonId }) {
   }, [activeTab])
 
   const handleComplete = () => {
+    if (!allActivitiesCompleted) return
     const nextProgress = markLessonComplete(lesson.id)
     setProgress(nextProgress)
   }
 
-  const handleSectionComplete = (sectionTitle) => {
-    const nextProgress = markResourceComplete(lesson.id, sectionTitle)
+  const handleSectionStatusChange = (sectionTitle, shouldComplete) => {
+    const nextProgress = shouldComplete
+      ? markResourceComplete(lesson.id, sectionTitle)
+      : markResourceIncomplete(lesson.id, sectionTitle)
     setProgress(nextProgress)
     const nextCompleted = nextProgress.completedResources?.[lesson.id] || {}
-    const doneCount = nonVideoSections.reduce(
+    const doneCount = allActivitySections.reduce(
       (sum, section) => sum + (nextCompleted[section.title] ? 1 : 0),
       0
     )
-    if (nonVideoSections.length > 0 && doneCount === nonVideoSections.length) {
+    if (allActivitySections.length > 0 && doneCount === allActivitySections.length) {
       const updated = markLessonComplete(lesson.id)
       setProgress(updated)
       if (
@@ -117,6 +147,12 @@ function Lesson({ lessonId }) {
         const celebrated = markLessonCelebrated(lesson.id)
         setProgress(celebrated)
       }
+      return
+    }
+
+    if (!shouldComplete && isCompleted) {
+      const updated = markLessonIncomplete(lesson.id)
+      setProgress(updated)
     }
   }
 
@@ -148,6 +184,7 @@ function Lesson({ lessonId }) {
       window.location.hash = '#/'
       return
     }
+    if (!allActivitiesCompleted) return
     const nextProgress = setCurrentLesson(nextLessonId)
     setProgress(nextProgress)
     window.location.hash = `#/lesson/${nextLessonId}`
@@ -180,15 +217,22 @@ function Lesson({ lessonId }) {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-        <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-5">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 font-playpen">
-              {module ? module.name : 'Module'}
-            </p>
-          <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100 font-playpen">
-            {lesson.title}
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{lesson.duration}</p>
+        <div className="mx-auto flex max-w-2xl items-start justify-between gap-3 px-4 py-5">
+          <div className="flex min-w-0 items-start gap-3 sm:gap-4">
+            {levelNumber ? (
+              <span className="shrink-0 text-4xl font-bold leading-none text-slate-900 dark:text-slate-100 sm:text-5xl">
+                {levelNumber}
+              </span>
+            ) : null}
+            <div className="min-w-0 pt-0.5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 font-playpen">
+                {module ? module.name : 'Module'}
+              </p>
+              <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-100 font-playpen sm:text-xl">
+                {lesson.title}
+              </h1>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{lesson.duration}</p>
+            </div>
           </div>
           <button
             type="button"
@@ -274,7 +318,7 @@ function Lesson({ lessonId }) {
             <ResourceLinks
               sections={nonVideoSections}
               completedSections={completedSections}
-              onSectionComplete={handleSectionComplete}
+              onSectionStatusChange={handleSectionStatusChange}
             />
           </section>
         )}
@@ -304,18 +348,14 @@ function Lesson({ lessonId }) {
           </div>
           <button
             type="button"
-            onClick={handleComplete}
-            className={
-              'btn-3d rounded-lg px-4 py-2 text-sm font-semibold text-white ' +
-              (isCompleted ? 'bg-emerald-400' : 'bg-emerald-500')
-            }
-          >
-            {isCompleted ? strings.lessonCompleted : strings.markComplete}
-          </button>
-          <button
-            type="button"
             onClick={handleContinue}
-            className="btn-3d rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-slate-800 dark:text-slate-300"
+            disabled={Boolean(nextLessonId) && !allActivitiesCompleted}
+            className={
+              'btn-3d w-full rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold sm:w-auto dark:border-slate-800 ' +
+              (Boolean(nextLessonId) && !allActivitiesCompleted
+                ? 'cursor-not-allowed text-slate-400 dark:text-slate-500'
+                : 'text-slate-700 dark:text-slate-300')
+            }
           >
             {nextLessonId ? strings.nextLesson : strings.backToPath}
           </button>
@@ -336,7 +376,7 @@ function Lesson({ lessonId }) {
             {strings.progressSnapshot}
           </h2>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-            {progress.completedLessons.length} / {ORDERED_LESSONS.length} {strings.completed}
+            {completedLessonIds.length} / {ORDERED_LESSONS.length} {strings.completed}
           </p>
         </section>
       </main>
@@ -357,14 +397,23 @@ function Lesson({ lessonId }) {
             activeVideo?.openedAt &&
             Date.now() - activeVideo.openedAt >= 10000
           ) {
-            const updated = markLessonComplete(lesson.id)
-            setProgress(updated)
-            if (!updated.celebratedLessons?.includes(lesson.id)) {
-              hasCelebratedRef.current = true
-              setShowCelebration(true)
-              playCelebrate()
-              const celebrated = markLessonCelebrated(lesson.id)
-              setProgress(celebrated)
+            const nextProgress = markResourceComplete(lesson.id, 'Video')
+            setProgress(nextProgress)
+            const nextCompleted = nextProgress.completedResources?.[lesson.id] || {}
+            const doneCount = allActivitySections.reduce(
+              (sum, section) => sum + (nextCompleted[section.title] ? 1 : 0),
+              0
+            )
+            if (allActivitySections.length > 0 && doneCount === allActivitySections.length) {
+              const updated = markLessonComplete(lesson.id)
+              setProgress(updated)
+              if (!updated.celebratedLessons?.includes(lesson.id)) {
+                hasCelebratedRef.current = true
+                setShowCelebration(true)
+                playCelebrate()
+                const celebrated = markLessonCelebrated(lesson.id)
+                setProgress(celebrated)
+              }
             }
           }
           setActiveVideo(null)

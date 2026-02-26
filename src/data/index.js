@@ -9,7 +9,7 @@ export const APP_DATA = {
   tagline: "Bahan Percuma Literasi 3M untuk Kanak-Kanak"
 };
 
-// Bahasa Melayu - Membaca dan Menulis (24 lessons)
+// Bahasa Melayu - Membaca dan Menulis (31 lessons)
 export const MEMBACA_MENULIS_LESSONS = [
   {
     id: "3m-bm-pembelajaran-01",
@@ -118,10 +118,17 @@ export const MEMBACA_MENULIS_LESSONS_EXTRA = [
   { id: "3m-bm-pembelajaran-21", number: 21, title: "Perkataan 3 Suku Kata (Bahagian 5)" },
   { id: "3m-bm-pembelajaran-22", number: 22, title: "Perkataan 3 Suku Kata (Bahagian 6)" },
   { id: "3m-bm-pembelajaran-23", number: 23, title: "Perkataan 3 Suku Kata (Bahagian 7)" },
-  { id: "3m-bm-pembelajaran-24", number: 24, title: "Perkataan 3 Suku Kata (Bahagian 8)" }
+  { id: "3m-bm-pembelajaran-24", number: 24, title: "Perkataan 3 Suku Kata (Bahagian 8)" },
+  { id: "3m-bm-pembelajaran-25", number: 25, title: "Perkataan 3 Suku Kata (Bahagian 9)" },
+  { id: "3m-bm-pembelajaran-26", number: 26, title: "Perkataan 3 Suku Kata (Bahagian 10)" },
+  { id: "3m-bm-pembelajaran-27", number: 27, title: "Perkataan 3 Suku Kata (Bahagian 11)" },
+  { id: "3m-bm-pembelajaran-28", number: 28, title: "Diftong" },
+  { id: "3m-bm-pembelajaran-29", number: 29, title: "Vokal Berganding" },
+  { id: "3m-bm-pembelajaran-30", number: 30, title: "Konsonan Bergabung" },
+  { id: "3m-bm-pembelajaran-31", number: 31, title: "Awalan Vokal Konsonan" }
 ];
 
-// Matematik - Mengira (23 lessons)
+// Matematik - Mengira (31 lessons)
 export const MENGIRA_LESSONS = [
   {
     id: "3m-mt-pembelajaran-01",
@@ -209,7 +216,15 @@ export const MENGIRA_LESSONS_EXTRA = [
   { id: "3m-mt-pembelajaran-20", number: 20, title: "Operasi Darab 2 Digit" },
   { id: "3m-mt-pembelajaran-21", number: 21, title: "Operasi Bahagi 1 Digit" },
   { id: "3m-mt-pembelajaran-22", number: 22, title: "Operasi Bahagi 2 Digit" },
-  { id: "3m-mt-pembelajaran-23", number: 23, title: "Gabungan Operasi Tambah & Tolak" }
+  { id: "3m-mt-pembelajaran-23", number: 23, title: "Gabungan Operasi Tambah & Tolak" },
+  { id: "3m-mt-pembelajaran-24", number: 24, title: "Gabungan Operasi Darab & Bahagi" },
+  { id: "3m-mt-pembelajaran-25", number: 25, title: "Aplikasi BODMAS" },
+  { id: "3m-mt-pembelajaran-26", number: 26, title: "Kenali Mata Wang & Nilai" },
+  { id: "3m-mt-pembelajaran-27", number: 27, title: "Operasi Asas Wang hingga RM10" },
+  { id: "3m-mt-pembelajaran-28", number: 28, title: "Nilai dan Tukaran Wang RM100" },
+  { id: "3m-mt-pembelajaran-29", number: 29, title: "Tambah Tolak Masalah Wang RM100" },
+  { id: "3m-mt-pembelajaran-30", number: 30, title: "Operasi Tambah Tolak Wang RM1000" },
+  { id: "3m-mt-pembelajaran-31", number: 31, title: "Operasi Darab Bahagi Wang RM1000" }
 ];
 
 // Combined all lessons
@@ -236,18 +251,18 @@ export const CATEGORIES = [
   {
     id: "membaca-menulis",
     name: "Membaca & Menulis",
-    description: "Bahasa Melayu - 24 lessons",
+    description: "Bahasa Melayu - 31 pembelajaran",
     icon: "book",
     color: "#4F46E5",
-    lessonCount: 24
+    lessonCount: 31
   },
   {
     id: "mengira",
     name: "Mengira",
-    description: "Matematik - 23 lessons",
+    description: "Matematik - 31 pembelajaran",
     icon: "calculator",
     color: "#059669",
-    lessonCount: 23
+    lessonCount: 31
   }
 ];
 
@@ -261,9 +276,9 @@ export const getLessonById = (id) => {
 };
 
 export const getLessonCount = () => ({
-  membacaMenulis: 24,
-  mengira: 23,
-  total: 47
+  membacaMenulis: 31,
+  mengira: 31,
+  total: 62
 });
 
 // Storage helpers for user progress

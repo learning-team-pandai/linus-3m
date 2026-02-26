@@ -39,7 +39,8 @@ const icons = {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v20" />
+      <path d="M2 12h20" />
     </svg>
   ),
 }
@@ -49,68 +50,89 @@ function LessonNode({
   status,
   onClick,
   style,
-  isMilestone,
   collectedStars = 0,
   totalStars = 0,
   dataLessonId,
+  cardSide = 'left',
 }) {
   const isClickable = status !== 'locked'
+  const isCurrent = status === 'current'
+  const isBm = lesson.moduleId === 'membaca-menulis'
 
-  const statusStyles = {
-    completed:
-      'bg-emerald-500 text-white',
-    current:
-      'bg-orange-400 text-white animate-pulse',
-    locked:
-      'bg-slate-400 text-white',
+  const circleStyle =
+    status === 'completed'
+      ? isBm
+        ? 'text-white path-node-circle--completed-bm'
+        : 'text-white path-node-circle--completed-math'
+      : status === 'current'
+        ? 'text-white path-node-circle--current-purple'
+        : 'text-white path-node-circle--locked'
+
+  const cardStyles = {
+    completed: 'path-node-card--completed border-[#9BCFF2]',
+    current: 'path-node-card--current border-[#8AD7B8]',
+    locked: 'path-node-card--locked border-[#bcc5b5]',
   }
 
-  const labelStyles = {
-    completed: 'text-slate-800 dark:text-slate-100',
-    current: 'text-slate-900 dark:text-slate-100',
-    locked: 'text-slate-400 dark:text-slate-500',
-  }
-
-  const milestoneRing = isMilestone
-    ? 'after:absolute after:inset-0 after:rounded-full after:border after:border-dashed after:border-amber-400 after:content-[""] dark:after:border-amber-300'
-    : ''
+  const action = isClickable ? onClick : undefined
+  const cardVisibilityClass = isCurrent
+    ? 'opacity-100 sm:opacity-0 sm:peer-hover:pointer-events-auto sm:peer-hover:opacity-100 sm:peer-focus-visible:pointer-events-auto sm:peer-focus-visible:opacity-100'
+    : 'opacity-0 sm:peer-hover:pointer-events-auto sm:peer-hover:opacity-100 sm:peer-focus-visible:pointer-events-auto sm:peer-focus-visible:opacity-100'
+  const cardPositionClass =
+    cardSide === 'left'
+      ? 'right-[calc(100%+0.5rem)] sm:right-[calc(100%+0.75rem)]'
+      : 'left-[calc(100%+0.5rem)] sm:left-[calc(100%+0.75rem)]'
 
   return (
-    <div className="absolute" style={style} data-lesson-id={dataLessonId}>
+    <div className="absolute z-10" style={style} data-lesson-id={dataLessonId}>
       <button
         type="button"
-        onClick={isClickable ? onClick : undefined}
+        onClick={action}
         className={
-          'group flex flex-col items-center gap-2 text-center transition ' +
-          (isClickable ? 'hover:-translate-y-1' : 'cursor-not-allowed')
+          'peer btn-3d relative z-20 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-4 border-white text-xl font-bold shadow-[0_8px_0_rgba(15,23,42,0.25)] sm:h-16 sm:w-16 ' +
+          circleStyle +
+          ' ' +
+          (isClickable ? 'cursor-pointer' : 'cursor-not-allowed')
         }
         aria-disabled={!isClickable}
       >
-        <span
-          className={
-            'relative flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full border-4 border-white text-xs font-semibold shadow-[0_6px_0_rgba(15,23,42,0.22)] motion-reduce:animate-none ' +
-            statusStyles[status] +
-            ' ' +
-            milestoneRing
-          }
-        >
-          <span className="absolute top-1 right-1 text-white">
-            {icons[status]}
+        {lesson.order}
+        <span className="absolute -bottom-1 -right-1 rounded-full border-2 border-white bg-white p-0.5 text-slate-500">
+          {icons[status]}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        onClick={action}
+        className={
+          'btn-3d pointer-events-none absolute top-1/2 z-10 min-h-16 w-[10.5rem] -translate-y-1/2 rounded-2xl border-2 p-2 text-left text-slate-800 shadow-[0_6px_0_rgba(15,23,42,0.15)] transition-all duration-200 sm:w-[13rem] sm:p-3 ' +
+          cardPositionClass +
+          ' ' +
+          cardVisibilityClass +
+          ' ' +
+          cardStyles[status] +
+          ' ' +
+          (isClickable ? 'cursor-pointer' : 'cursor-not-allowed')
+        }
+        aria-disabled={!isClickable}
+      >
+        <p className="max-h-10 overflow-hidden text-sm font-bold leading-tight sm:text-base">
+          {lesson.title}
+        </p>
+        <div className="mt-2 flex items-center justify-between">
+          <span className="inline-flex rounded-full bg-slate-200/75 px-2 py-0.5 text-[11px] font-semibold text-slate-600">
+            {lesson.duration}
           </span>
-          <span>{lesson.order}</span>
           {totalStars > 0 && (
-            <span className="flex items-center gap-0.5">
+            <span className="inline-flex items-center gap-0.5 rounded-full bg-white/70 px-1.5 py-0.5">
               {Array.from({ length: totalStars }).map((_, index) => {
                 const isCollected = index < collectedStars
                 return (
                   <svg
                     key={`node-star-${lesson.id}-${index}`}
                     viewBox="0 0 24 24"
-                    className={`h-2.5 w-2.5 ${
-                      isCollected
-                        ? 'text-amber-300'
-                        : 'text-slate-300/70 dark:text-slate-600'
-                    }`}
+                    className={`h-3 w-3 ${isCollected ? 'text-amber-500' : 'text-slate-300'}`}
                     aria-hidden="true"
                     fill="currentColor"
                   >
@@ -120,18 +142,7 @@ function LessonNode({
               })}
             </span>
           )}
-        </span>
-        <span className="w-24 text-xs font-semibold leading-tight">
-          <span className={labelStyles[status]}>{lesson.title}</span>
-          <span className="mt-1 block text-[11px] text-slate-500 dark:text-slate-400">
-            {lesson.duration}
-          </span>
-          {isMilestone && (
-            <span className="mt-1 block text-[10px] font-semibold text-amber-500 dark:text-amber-300">
-              Milestone
-            </span>
-          )}
-        </span>
+        </div>
       </button>
     </div>
   )

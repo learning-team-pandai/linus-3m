@@ -1,17 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { LESSONS, MODULES } from '../data/content.js'
 import { loadProgress, resetCategoryProgress, setCurrentLesson } from '../utils/storage.js'
 import PathMap from '../components/path/PathMap.jsx'
 import Skeleton from '../components/ui/Skeleton.jsx'
 import ConfirmModal from '../components/ui/ConfirmModal.jsx'
 import { getStrings } from '../utils/i18n.js'
+import { getCompletedLessonIdsByResources } from '../utils/progress.js'
 
 function CategoryPath({ categoryId }) {
   const [progress, setProgress] = useState(() => loadProgress())
   const [isLoading, setIsLoading] = useState(true)
   const [showResetModal, setShowResetModal] = useState(false)
-  const [isSticky, setIsSticky] = useState(false)
-  const stickySentinelRef = useRef(null)
+  const [isProgressPanelOpen, setIsProgressPanelOpen] = useState(false)
   const strings = getStrings()
   const pathThemes = {
     'membaca-menulis': {
@@ -43,41 +43,24 @@ function CategoryPath({ categoryId }) {
     title: '#1E293B',
   }
   const completedInCategory = useMemo(() => {
-    const lessonIds = new Set(lessons.map((lesson) => lesson.id))
-    return progress.completedLessons.filter((id) => lessonIds.has(id))
-  }, [lessons, progress.completedLessons])
-  const starsInCategory = useMemo(() => {
-    const completedResources = progress.completedResources || {}
-    return lessons.reduce(
-      (acc, lesson) => {
-        const total = lesson.content?.resources?.length || 0
-        const collected = Object.values(
-          completedResources[lesson.id] || {}
-        ).filter(Boolean).length
-        return {
-          total: acc.total + total,
-          collected: acc.collected + collected,
-        }
-      },
-      { total: 0, collected: 0 }
+    return getCompletedLessonIdsByResources(
+      lessons,
+      progress.completedResources || {}
     )
   }, [lessons, progress.completedResources])
-
+  const progressPercent = useMemo(() => {
+    if (!lessons.length) return 0
+    return Math.round((completedInCategory.length / lessons.length) * 100)
+  }, [completedInCategory.length, lessons.length])
+  const progressPercentColor =
+    progressPercent < 50
+      ? '#ef4444'
+      : progressPercent < 80
+        ? '#f59e0b'
+        : '#10b981'
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 200)
     return () => clearTimeout(timer)
-  }, [])
-
-  useEffect(() => {
-    if (!stickySentinelRef.current) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsSticky(!entry.isIntersecting)
-      },
-      { threshold: 0 }
-    )
-    observer.observe(stickySentinelRef.current)
-    return () => observer.disconnect()
   }, [])
 
   const handleSelectLesson = (lessonId) => {
@@ -128,63 +111,42 @@ function CategoryPath({ categoryId }) {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <header className="bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
-        <div className="mx-auto max-w-3xl px-4 py-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
+      <header className="sticky top-0 z-30 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+        <div className="mx-auto max-w-3xl px-4 py-5 sm:py-6">
+          <div className="flex items-start justify-between gap-3 sm:gap-4">
+            <div className="min-w-0">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 font-playpen">
                 {strings.appName}
               </p>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 font-playpen">
+              <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 font-playpen sm:text-2xl">
                 {category.name}
               </h1>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400 sm:text-sm">
                 {category.description}
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                window.location.hash = '#/'
-              }}
-              className="btn-3d btn-3d--icon rounded-full border border-slate-300 p-2 text-emerald-500 dark:border-slate-600 dark:text-emerald-300"
-              aria-label="Back"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                className="h-4 w-4"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            <div className="relative flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsProgressPanelOpen((prev) => !prev)}
+                className="peer btn-3d btn-3d--icon rounded-full border border-slate-300 p-2 text-slate-600 hover:text-slate-700 dark:border-slate-600 dark:text-slate-300"
+                aria-label={isProgressPanelOpen ? 'Hide progress panel' : 'Show progress panel'}
               >
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-3xl px-4 py-6">
-        <div ref={stickySentinelRef} className="h-0" />
-        <section
-          className="card-hover sticky top-0 z-10 mb-6 rounded-xl border p-4 backdrop-blur"
-          style={{
-            borderColor: pathTheme.border,
-            backgroundColor: pathTheme.background,
-            boxShadow: `0 10px 0 ${pathTheme.border}, 0 18px 30px rgba(15, 23, 42, 0.08)`,
-          }}
-        >
-          <div className="flex items-center gap-4">
-            <div>
-              <p className="text-sm text-slate-600">{strings.progress}</p>
-              <p className="text-lg font-semibold" style={{ color: pathTheme.title }}>
-                {completedInCategory.length} of {lessons.length} {strings.completed}
-              </p>
-            </div>
-            <div className="ml-auto flex items-center gap-2">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 20V10" />
+                  <path d="M18 20V4" />
+                  <path d="M6 20v-6" />
+                </svg>
+              </button>
               <button
                 type="button"
                 onClick={() => setShowResetModal(true)}
@@ -205,47 +167,69 @@ function CategoryPath({ categoryId }) {
                   <path d="M3 4v4h4" />
                 </svg>
               </button>
-              {isSticky && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.location.hash = '#/'
-                  }}
-                  className="btn-3d btn-3d--icon rounded-full border border-slate-300 p-2 text-emerald-500 dark:border-slate-600 dark:text-emerald-300"
-                  aria-label="Back"
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.hash = '#/'
+                }}
+                className="btn-3d btn-3d--icon rounded-full border border-slate-300 p-2 text-emerald-500 dark:border-slate-600 dark:text-emerald-300"
+                aria-label="Back"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M15 18l-6-6 6-6" />
-                  </svg>
-                </button>
-              )}
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <div
+                className={
+                  'pointer-events-none fixed left-2 right-2 top-20 rounded-xl border p-3 opacity-0 backdrop-blur-md transition-all duration-200 sm:absolute sm:left-auto sm:right-16 sm:top-12 sm:w-[22rem] sm:p-4 ' +
+                  (isProgressPanelOpen
+                    ? 'pointer-events-auto translate-y-0 opacity-100'
+                    : 'peer-hover:pointer-events-auto peer-hover:translate-y-0 peer-hover:opacity-100 peer-focus-visible:pointer-events-auto peer-focus-visible:translate-y-0 peer-focus-visible:opacity-100')
+                }
+                style={{
+                  borderColor: pathTheme.border,
+                  backgroundColor: 'rgba(255,255,255,0.92)',
+                  boxShadow: '0 8px 20px rgba(15, 23, 42, 0.12)',
+                }}
+              >
+                <p className="text-xs text-slate-600 sm:text-sm">{strings.progress}</p>
+                <p
+                  className="text-base font-semibold sm:text-lg"
+                  style={{ color: pathTheme.title }}
+                >
+                  {completedInCategory.length} / {lessons.length} {strings.completed}{' '}
+                  <span style={{ color: progressPercentColor }}>({progressPercent}%)</span>
+                </p>
+                <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-slate-200/80">
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{
+                      backgroundColor: pathTheme.accent,
+                      width: `${
+                        lessons.length === 0
+                          ? 0
+                          : (completedInCategory.length / lessons.length) * 100
+                      }%`,
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/60">
-            <div
-              className="h-full rounded-full transition-all"
-              style={{
-                backgroundColor: pathTheme.accent,
-                width: `${
-                  lessons.length === 0
-                    ? 0
-                    : (completedInCategory.length / lessons.length) * 100
-                }%`,
-              }}
-            />
-          </div>
-        </section>
+        </div>
+      </header>
 
-        <section className="card-hover rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+      <main className="mx-auto max-w-3xl px-4 py-5 sm:py-6">
+        <section className="relative rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
           {isLoading ? (
             <div className="space-y-3">
               <Skeleton className="h-5 w-40" />
@@ -256,7 +240,10 @@ function CategoryPath({ categoryId }) {
           ) : (
             <PathMap
               lessons={lessons}
-              progress={progress}
+              progress={{
+                ...progress,
+                completedLessons: completedInCategory,
+              }}
               onSelectLesson={handleSelectLesson}
             />
           )}

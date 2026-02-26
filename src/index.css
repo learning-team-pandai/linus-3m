@@ -32,6 +32,11 @@ html.dark {
   filter: brightness(1.08);
 }
 
+/* Keep neutral colors stable (e.g., gray progress bar) on clickable card containers. */
+.btn-3d[role="button"]:hover {
+  filter: none;
+}
+
 .btn-3d[class*="bg-emerald"] {
   box-shadow: 0 6px 0 rgba(4, 120, 87, 0.85);
 }
@@ -63,9 +68,89 @@ html.dark {
   transition: transform 200ms ease, filter 200ms ease, box-shadow 200ms ease;
 }
 
-.card-hover:hover {
+.card-hover:is(button, a, [role="button"], [role="link"]):hover {
   transform: translateY(-2px) scale(1.01);
   filter: brightness(1.06);
+}
+
+@keyframes nodePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 8px 0 rgba(15, 23, 42, 0.25), 0 0 0 0 rgba(249, 115, 22, 0.55); }
+  50% { transform: scale(1.03); box-shadow: 0 8px 0 rgba(15, 23, 42, 0.25), 0 0 0 10px rgba(249, 115, 22, 0); }
+}
+
+@keyframes nodeCoreShift {
+  0%, 100% { background-size: 120% 120%; background-position: 50% 45%; }
+  50% { background-size: 140% 140%; background-position: 50% 55%; }
+}
+
+@keyframes nodeGlowBreath {
+  0%, 100% {
+    box-shadow:
+      0 8px 0 rgba(15, 23, 42, 0.25),
+      0 0 0 8px rgba(139, 92, 246, 0.30),
+      0 0 24px rgba(167, 139, 250, 0.55),
+      0 0 42px rgba(167, 139, 250, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 8px 0 rgba(15, 23, 42, 0.25),
+      0 0 0 16px rgba(139, 92, 246, 0.18),
+      0 0 36px rgba(167, 139, 250, 0.65),
+      0 0 62px rgba(167, 139, 250, 0.42);
+  }
+}
+
+@keyframes cardSweep {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes lockedBreath {
+  0%, 100% { filter: saturate(0.65) brightness(0.95); }
+  50% { filter: saturate(0.75) brightness(1); }
+}
+
+.path-node-circle--current-purple {
+  background:
+    radial-gradient(circle at 50% 42%, #c4b5fd 0%, #a78bfa 28%, #8b5cf6 60%, #6d28d9 100%);
+  color: #1e1b4b;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  animation:
+    nodePulse 2.2s ease-in-out infinite,
+    nodeCoreShift 2.4s ease-in-out infinite,
+    nodeGlowBreath 2.4s ease-in-out infinite;
+}
+
+.path-node-circle--completed-bm {
+  background: #5cb2f0;
+  box-shadow: 0 8px 0 rgba(15, 23, 42, 0.25), 0 0 0 6px rgba(92, 178, 240, 0.25);
+}
+
+.path-node-circle--completed-math {
+  background: #67c9a4;
+  box-shadow: 0 8px 0 rgba(15, 23, 42, 0.25), 0 0 0 6px rgba(103, 201, 164, 0.25);
+}
+
+.path-node-circle--locked {
+  background: #9ba79a;
+  box-shadow: 0 8px 0 rgba(15, 23, 42, 0.22);
+}
+
+.path-node-card--current {
+  background: linear-gradient(120deg, rgba(245, 255, 250, 0.94), rgba(215, 244, 231, 0.94), rgba(245, 255, 250, 0.94));
+  background-size: 220% 220%;
+  animation: cardSweep 5s linear infinite;
+}
+
+.path-node-card--completed {
+  background: linear-gradient(120deg, rgba(246, 252, 255, 0.95), rgba(225, 242, 253, 0.95), rgba(246, 252, 255, 0.95));
+  background-size: 220% 220%;
+  animation: cardSweep 8s linear infinite;
+}
+
+.path-node-card--locked {
+  background: rgba(226, 232, 220, 0.92);
+  animation: lockedBreath 2.8s ease-in-out infinite;
 }
 
 .path-forest {
