@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" role="img" aria-label="Track map background">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7fff9"/>
+      <stop offset="100%" stop-color="#e7f6ee"/>
+    </linearGradient>
+    <radialGradient id="blobA" cx="0" cy="0" r="1" gradientTransform="translate(410 250) rotate(22) scale(420 260)">
+      <stop offset="0%" stop-color="#89ddb2" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#89ddb2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blobB" cx="0" cy="0" r="1" gradientTransform="translate(1190 350) rotate(-14) scale(390 260)">
+      <stop offset="0%" stop-color="#7fcde2" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#7fcde2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blobC" cx="0" cy="0" r="1" gradientTransform="translate(920 930) rotate(8) scale(450 300)">
+      <stop offset="0%" stop-color="#b7eabf" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#b7eabf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#base)"/>
+  <rect width="1600" height="1200" fill="url(#blobA)"/>
+  <rect width="1600" height="1200" fill="url(#blobB)"/>
+  <rect width="1600" height="1200" fill="url(#blobC)"/>
+
+  <g fill="#d8f0e0" opacity="0.42">
+    <circle cx="110" cy="96" r="3"/>
+    <circle cx="220" cy="150" r="2.4"/>
+    <circle cx="360" cy="98" r="2.8"/>
+    <circle cx="520" cy="158" r="2.4"/>
+    <circle cx="690" cy="112" r="2.6"/>
+    <circle cx="860" cy="158" r="2.4"/>
+    <circle cx="1040" cy="104" r="2.8"/>
+    <circle cx="1210" cy="166" r="2.4"/>
+    <circle cx="1370" cy="110" r="2.8"/>
+    <circle cx="1500" cy="170" r="2.4"/>
+  </g>
+
+  <g stroke="#d4ebdd" stroke-width="2" stroke-linecap="round" opacity="0.52">
+    <path d="M 86 352 C 324 222, 560 420, 812 328 C 1028 252, 1246 348, 1494 262"/>
+    <path d="M 120 730 C 376 612, 592 766, 842 674 C 1054 596, 1256 740, 1500 650"/>
+  </g>
+</svg>
