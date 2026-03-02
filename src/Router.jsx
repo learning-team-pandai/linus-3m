@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
-import Home from './pages/Home.jsx'
-import Lesson from './pages/Lesson.jsx'
-import Profile from './pages/Profile.jsx'
-import Settings from './pages/Settings.jsx'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import CategoryPath from './pages/CategoryPath.jsx'
+
+const Home = lazy(() => import('./pages/Home.jsx'))
+const Lesson = lazy(() => import('./pages/Lesson.jsx'))
+const Profile = lazy(() => import('./pages/Profile.jsx'))
+const Settings = lazy(() => import('./pages/Settings.jsx'))
 
 const parseRoute = () => {
   const hash = window.location.hash.replace('#', '')
@@ -20,23 +21,28 @@ function Router() {
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
+  let element = <Home />
   if (route.startsWith('/lesson/')) {
     const lessonId = route.split('/')[2]
-    return <Lesson lessonId={lessonId} />
-  }
-
-  if (route === '/profile') {
-    return <Profile />
-  }
-  if (route === '/settings') {
-    return <Settings />
-  }
-  if (route.startsWith('/path/')) {
+    element = <Lesson lessonId={lessonId} />
+  } else if (route === '/profile') {
+    element = <Profile />
+  } else if (route === '/settings') {
+    element = <Settings />
+  } else if (route.startsWith('/path/')) {
     const categoryId = route.split('/')[2]
-    return <CategoryPath categoryId={categoryId} />
+    element = <CategoryPath categoryId={categoryId} />
   }
 
-  return <Home />
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950" aria-busy="true" />
+      }
+    >
+      {element}
+    </Suspense>
+  )
 }
 
 export default Router

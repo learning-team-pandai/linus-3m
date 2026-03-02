@@ -101,8 +101,12 @@ function Home() {
     setShowResetModal(false)
   }
 
+  const navigateTo = (hashPath) => {
+    window.location.assign(hashPath)
+  }
+
   const openModulePath = (moduleId) => {
-    window.location.hash = `#/path/${moduleId}`
+    navigateTo(`#/path/${moduleId}`)
   }
 
   return (
@@ -121,7 +125,7 @@ function Home() {
             <button
               type="button"
               onClick={() => {
-                window.location.hash = '#/settings'
+                navigateTo('#/settings')
               }}
               className="btn-3d btn-3d--icon rounded-lg border border-slate-200 p-2 text-slate-600 dark:border-slate-700 dark:text-slate-300"
               aria-label="Settings"
@@ -156,7 +160,19 @@ function Home() {
                 {strings.completed}
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {strings.totalStars}: {totalStars}
+                <span className="inline-flex items-center gap-1.5">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-4 w-4 text-amber-500"
+                    aria-hidden="true"
+                    fill="currentColor"
+                  >
+                    <path d="M12 2l2.9 6.1 6.7.6-5 4.5 1.5 6.6L12 16.9 5.9 19.8 7.4 13 2.4 8.7l6.7-.6L12 2z" />
+                  </svg>
+                  <span>
+                    {totalStars} {strings.collectedStarsLabel}
+                  </span>
+                </span>
               </p>
             </div>
             <button

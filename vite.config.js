@@ -5,4 +5,23 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   // Cloudflare Pages deploys to root, no base path needed
   plugins: [react()],
+  build: {
+    chunkSizeWarningLimit: 1400,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/@react-three/drei')) {
+            return 'drei'
+          }
+          if (id.includes('node_modules/@react-three/fiber')) {
+            return 'r3f'
+          }
+          if (id.includes('node_modules/three')) {
+            return 'three-core'
+          }
+          return null
+        },
+      },
+    },
+  },
 })

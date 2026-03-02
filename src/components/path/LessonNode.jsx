@@ -54,6 +54,8 @@ function LessonNode({
   totalStars = 0,
   dataLessonId,
   cardSide = 'left',
+  onHoverStart,
+  onHoverEnd,
 }) {
   const isClickable = status !== 'locked'
   const isCurrent = status === 'current'
@@ -88,6 +90,10 @@ function LessonNode({
       <button
         type="button"
         onClick={action}
+        onMouseEnter={() => onHoverStart?.(lesson.id)}
+        onMouseLeave={() => onHoverEnd?.(lesson.id)}
+        onFocus={() => onHoverStart?.(lesson.id)}
+        onBlur={() => onHoverEnd?.(lesson.id)}
         className={
           'peer btn-3d relative z-20 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-4 border-white text-base font-bold shadow-[0_8px_0_rgba(15,23,42,0.25)] sm:h-16 sm:w-16 sm:text-xl ' +
           circleStyle +
@@ -105,6 +111,8 @@ function LessonNode({
       <button
         type="button"
         onClick={action}
+        onMouseEnter={() => onHoverStart?.(lesson.id)}
+        onMouseLeave={() => onHoverEnd?.(lesson.id)}
         className={
           'btn-3d pointer-events-none absolute top-1/2 z-10 min-h-14 w-[9rem] -translate-y-1/2 rounded-2xl border-2 p-1.5 text-left text-slate-800 shadow-[0_6px_0_rgba(15,23,42,0.15)] transition-all duration-200 sm:min-h-16 sm:w-[13rem] sm:p-3 ' +
           cardPositionClass +

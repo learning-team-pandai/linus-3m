@@ -16,10 +16,7 @@ function FullscreenEmbed({ isOpen, url, title, onClose, openedAt, durationMs = 1
   }, [isOpen])
 
   useEffect(() => {
-    if (!isOpen || !openedAt) {
-      setProgress(0)
-      return
-    }
+    if (!isOpen || !openedAt) return
     let frame
     const tick = () => {
       const elapsed = Date.now() - openedAt
@@ -36,7 +33,8 @@ function FullscreenEmbed({ isOpen, url, title, onClose, openedAt, durationMs = 1
   if (!isOpen || !url) return null
   if (typeof document === 'undefined') return null
 
-  const offset = circumference * (1 - progress)
+  const effectiveProgress = isOpen && openedAt ? progress : 0
+  const offset = circumference * (1 - effectiveProgress)
 
   return createPortal(
     <div className="fixed inset-0 z-50 bg-slate-950/80">

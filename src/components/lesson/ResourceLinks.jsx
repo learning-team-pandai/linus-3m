@@ -4,6 +4,8 @@ import FullscreenEmbed from './FullscreenEmbed.jsx'
 
 function ResourceLinks({ sections, completedSections, onSectionStatusChange }) {
   const strings = getStrings()
+  const [activeEmbed, setActiveEmbed] = useState(null)
+  const [openMenuSection, setOpenMenuSection] = useState(null)
 
   if (!sections || sections.length === 0) {
     return (
@@ -41,9 +43,6 @@ function ResourceLinks({ sections, completedSections, onSectionStatusChange }) {
       return null
     }
   }
-
-  const [activeEmbed, setActiveEmbed] = useState(null)
-  const [openMenuSection, setOpenMenuSection] = useState(null)
 
   const getSectionIcon = (title) => {
     if (title === 'Video') {

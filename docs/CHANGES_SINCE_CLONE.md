@@ -2,6 +2,15 @@
 
 Dokumen ini merumuskan perubahan yang dibuat dalam sesi ini sejak repo di-clone ke `C:\Users\Faiz Ismail\Desktop\Test3M\linus-3m`.
 
+## Rekod Tarikh & Masa (Sebelum Push Seterusnya)
+
+- (1) Pertama kali buat docs ini + push GitHub pertama:
+  - `2026-02-26 19:22:22 +08:00` (`commit 49c229a`)
+- (2) Baris/kemaskini pertama selepas push pertama:
+  - `2026-02-27 00:37:21 +08:00` (`commit fc438c1`)
+- (3) Baris pertama untuk kemaskini hari ini:
+  - `2026-03-01 13:56:50 +08:00` (kemaskini dokumen ini dibuat sebelum push seterusnya)
+
 ## 1) Setup dan dev workflow
 
 - Betulkan script dev supaya serasi di Windows/PowerShell.
@@ -241,3 +250,18 @@ Fail terlibat:
 - Saiz nombor dalam node dikekalkan.
 - Fail terlibat:
   - `src/components/path/LessonNode.jsx`
+
+## 23) Kemaskini terbaru: Integrasi elemen 3D (Robot Guide)
+
+- Menambah package `three`, `@react-three/fiber`, `@react-three/drei` dalam projek.
+- Menambah komponen `RobotGuide3D.jsx` dan fail model `public/models/robotv3.glb`.
+- Mengemaskini `PathMap.jsx` untuk menunjukkan avatar 3D (`RobotGuide3D`) bergerak di atas laluan (*pathway*).
+- Menambah interaksi hover/klik node supaya avatar bergerak ke node tersebut.
+- Fail `index.html` ditambah preload untuk model 3D `robotv3.glb`.
+- Pelarasan status dan pengumpulan bintang dalam pelbagai antaramuka (seperti UI `Lesson.jsx` dan `ResourceLinks.jsx`).
+- Fail terlibat:
+  - `package.json` & `package-lock.json`
+  - `src/components/path/PathMap.jsx`
+  - `src/components/path/RobotGuide3D.jsx` (baru)
+  - `src/components/path/LessonNode.jsx`
+  - `index.html`

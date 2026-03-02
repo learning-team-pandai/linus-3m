@@ -1,15 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { LESSONS, MODULES } from '../data/content.js'
 import { loadProgress, resetCategoryProgress, setCurrentLesson } from '../utils/storage.js'
 import PathMap from '../components/path/PathMap.jsx'
-import Skeleton from '../components/ui/Skeleton.jsx'
 import ConfirmModal from '../components/ui/ConfirmModal.jsx'
 import { getStrings } from '../utils/i18n.js'
 import { getCompletedLessonIdsByResources } from '../utils/progress.js'
 
 function CategoryPath({ categoryId }) {
   const [progress, setProgress] = useState(() => loadProgress())
-  const [isLoading, setIsLoading] = useState(true)
   const [showResetModal, setShowResetModal] = useState(false)
   const [isProgressPanelOpen, setIsProgressPanelOpen] = useState(false)
   const strings = getStrings()
@@ -58,11 +56,6 @@ function CategoryPath({ categoryId }) {
       : progressPercent < 80
         ? '#f59e0b'
         : '#10b981'
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 200)
-    return () => clearTimeout(timer)
-  }, [])
-
   const handleSelectLesson = (lessonId) => {
     const nextProgress = setCurrentLesson(lessonId)
     setProgress(nextProgress)
@@ -230,23 +223,14 @@ function CategoryPath({ categoryId }) {
 
       <main className="mx-auto max-w-3xl px-4 py-5 sm:py-6">
         <section className="relative rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-          {isLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-5 w-40" />
-              <Skeleton className="h-5 w-56" />
-              <Skeleton className="h-5 w-48" />
-              <Skeleton className="h-5 w-52" />
-            </div>
-          ) : (
-            <PathMap
-              lessons={lessons}
-              progress={{
-                ...progress,
-                completedLessons: completedInCategory,
-              }}
-              onSelectLesson={handleSelectLesson}
-            />
-          )}
+          <PathMap
+            lessons={lessons}
+            progress={{
+              ...progress,
+              completedLessons: completedInCategory,
+            }}
+            onSelectLesson={handleSelectLesson}
+          />
         </section>
       </main>
 

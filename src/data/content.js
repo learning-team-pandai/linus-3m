@@ -123,5 +123,16 @@ export const getNextLessonId = (lessonId) => {
   return list[index + 1].id
 }
 
+export const getPreviousLessonId = (lessonId) => {
+  const current = getLessonById(lessonId)
+  if (!current) return null
+  const list = lessonsByModule[current.moduleId] || []
+  const index = list.findIndex((lesson) => lesson.id === lessonId)
+  if (index <= 0) {
+    return null
+  }
+  return list[index - 1].id
+}
+
 export const getModuleById = (moduleId) =>
   MODULES.find((module) => module.id === moduleId)

@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {
   getLessonById,
   getModuleById,
   getNextLessonId,
+  getPreviousLessonId,
   ORDERED_LESSONS,
 } from '../data/content.js'
 import {
@@ -20,7 +21,6 @@ import Exercise from '../components/lesson/Exercise.jsx'
 import ResourceLinks from '../components/lesson/ResourceLinks.jsx'
 import Celebration from '../components/celebration/Celebration.jsx'
 import { playCelebrate } from '../utils/sfx.js'
-import Skeleton from '../components/ui/Skeleton.jsx'
 import { getStrings } from '../utils/i18n.js'
 import FullscreenEmbed from '../components/lesson/FullscreenEmbed.jsx'
 import {
@@ -52,48 +52,24 @@ function Lesson({ lessonId }) {
     return idx >= 0 ? idx + 1 : null
   }, [lesson])
 
-  if (!lesson) {
-    return (
-      <div className="min-h-screen bg-slate-50">
-        <div className="mx-auto max-w-2xl px-4 py-10">
-          <h1 className="text-xl font-semibold text-slate-900">
-            {strings.lessonNotFound}
-          </h1>
-          <button
-            type="button"
-            onClick={() => {
-              window.location.hash = '#/'
-            }}
-            className="btn-3d mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white"
-          >
-            {strings.backToPath}
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  const isCompleted = isLessonCompleteByResources(
-    lesson,
-    progress.completedResources || {}
-  )
-  const nextLessonId = getNextLessonId(lesson.id)
-  const tabs = buildTabs(lesson.content)
+  const isCompleted = lesson
+    ? isLessonCompleteByResources(lesson, progress.completedResources || {})
+    : false
+  const previousLessonId = lesson ? getPreviousLessonId(lesson.id) : null
+  const nextLessonId = lesson ? getNextLessonId(lesson.id) : null
+  const tabs = useMemo(() => buildTabs(lesson?.content), [lesson?.content])
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || 'slides')
   const [showCelebration, setShowCelebration] = useState(false)
   const hasCelebratedRef = useRef(false)
-  const prevCollectedRef = useRef(0)
-  const hasMountedRef = useRef(false)
-  const [isTabLoading, setIsTabLoading] = useState(false)
   const [activeVideo, setActiveVideo] = useState(null)
 
-  const resourceSections = lesson.content?.resources || []
+  const resourceSections = lesson?.content?.resources || []
   const videoSection = resourceSections.find((section) => section.title === 'Video')
   const nonVideoSections = resourceSections.filter(
     (section) => section.title !== 'Video'
   )
   const allActivitySections = resourceSections
-  const completedSections = progress.completedResources?.[lesson.id] || {}
+  const completedSections = lesson ? progress.completedResources?.[lesson.id] || {} : {}
   const completedLessonIds = useMemo(
     () =>
       getCompletedLessonIdsByResources(
@@ -102,29 +78,37 @@ function Lesson({ lessonId }) {
       ),
     [progress.completedResources]
   )
+  const totalCollectedStars = useMemo(() => {
+    const completedResources = progress.completedResources || {}
+    return Object.values(completedResources).reduce((sum, lessonMap) => {
+      if (!lessonMap || typeof lessonMap !== 'object') return sum
+      return (
+        sum +
+        Object.values(lessonMap).reduce(
+          (lessonSum, isDone) => lessonSum + (isDone ? 1 : 0),
+          0
+        )
+      )
+    }, 0)
+  }, [progress.completedResources])
   const allActivitiesCompleted =
     allActivitySections.length > 0 &&
     allActivitySections.every((section) => completedSections[section.title])
-  const totalStars = nonVideoSections.length || 0
-  const collectedStars = nonVideoSections.reduce(
+  const totalStars = allActivitySections.length || 0
+  const collectedStars = allActivitySections.reduce(
     (sum, section) => sum + (completedSections[section.title] ? 1 : 0),
     0
   )
 
-  useEffect(() => {
-    if (!activeTab) return
-    setIsTabLoading(true)
-    const timer = setTimeout(() => setIsTabLoading(false), 200)
-    return () => clearTimeout(timer)
-  }, [activeTab])
-
   const handleComplete = () => {
+    if (!lesson) return
     if (!allActivitiesCompleted) return
     const nextProgress = markLessonComplete(lesson.id)
     setProgress(nextProgress)
   }
 
   const handleSectionStatusChange = (sectionTitle, shouldComplete) => {
+    if (!lesson) return
     const nextProgress = shouldComplete
       ? markResourceComplete(lesson.id, sectionTitle)
       : markResourceIncomplete(lesson.id, sectionTitle)
@@ -156,30 +140,8 @@ function Lesson({ lessonId }) {
     }
   }
 
-  useEffect(() => {
-    if (!hasMountedRef.current) {
-      hasMountedRef.current = true
-      return
-    }
-    if (!isCompleted || hasCelebratedRef.current) return
-    if (
-      nonVideoSections.length > 0 &&
-      collectedStars === nonVideoSections.length &&
-      !progress.celebratedLessons?.includes(lesson.id)
-    ) {
-      hasCelebratedRef.current = true
-      setShowCelebration(true)
-      playCelebrate()
-      const celebrated = markLessonCelebrated(lesson.id)
-      setProgress(celebrated)
-    }
-  }, [isCompleted, collectedStars, nonVideoSections.length, progress.celebratedLessons, lesson.id])
-
-  useEffect(() => {
-    prevCollectedRef.current = collectedStars
-  }, [collectedStars])
-
   const handleContinue = () => {
+    if (!lesson) return
     if (!nextLessonId) {
       window.location.hash = '#/'
       return
@@ -190,7 +152,16 @@ function Lesson({ lessonId }) {
     window.location.hash = `#/lesson/${nextLessonId}`
   }
 
+  const handlePrevious = () => {
+    if (!lesson) return
+    if (!previousLessonId) return
+    const nextProgress = setCurrentLesson(previousLessonId)
+    setProgress(nextProgress)
+    window.location.hash = `#/lesson/${previousLessonId}`
+  }
+
   const renderTab = () => {
+    if (!lesson) return null
     if (activeTab === 'video') {
       return (
         <VideoPlayer
@@ -214,9 +185,30 @@ function Lesson({ lessonId }) {
     return null
   }
 
+  if (!lesson) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <div className="mx-auto max-w-2xl px-4 py-10">
+          <h1 className="text-xl font-semibold text-slate-900">
+            {strings.lessonNotFound}
+          </h1>
+          <button
+            type="button"
+            onClick={() => {
+              window.location.hash = '#/'
+            }}
+            className="btn-3d mt-4 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white"
+          >
+            {strings.backToPath}
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 sm:static">
         <div className="mx-auto flex max-w-2xl items-start justify-between gap-3 px-4 py-5">
           <div className="flex min-w-0 items-start gap-3 sm:gap-4">
             {levelNumber ? (
@@ -283,15 +275,40 @@ function Lesson({ lessonId }) {
 
         {tabs.length > 0 && (
           <section className="card-hover rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            {isTabLoading ? (
-              <div className="space-y-3">
-                <Skeleton className="h-4 w-40" />
-                <Skeleton className="h-24 w-full" />
-                <Skeleton className="h-4 w-56" />
-              </div>
-            ) : (
-              renderTab()
-            )}
+            {renderTab()}
+          </section>
+        )}
+
+        {totalStars > 0 && (
+          <section className="card-hover mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <div className="relative h-8">
+              <div className="absolute left-0 right-0 top-1/2 h-3 -translate-y-1/2 rounded-full bg-slate-200 dark:bg-slate-800" />
+              <div
+                className="absolute left-0 top-1/2 h-3 -translate-y-1/2 rounded-full bg-emerald-300"
+                style={{ width: `${(collectedStars / totalStars) * 100}%` }}
+              />
+              {Array.from({ length: totalStars }).map((_, index) => {
+                const isCollected = index < collectedStars
+                const leftPercent =
+                  totalStars === 1 ? 50 : (index / (totalStars - 1)) * 100
+                return (
+                  <span
+                    key={`progress-star-${index}`}
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
+                    style={{ left: `${leftPercent}%` }}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      className={`h-7 w-7 ${isCollected ? 'text-amber-400' : 'text-slate-400 dark:text-slate-600'}`}
+                      aria-hidden="true"
+                      fill="currentColor"
+                    >
+                      <path d="M12 2l2.9 6.1 6.7.6-5 4.5 1.5 6.6L12 16.9 5.9 19.8 7.4 13 2.4 8.7l6.7-.6L12 2z" />
+                    </svg>
+                  </span>
+                )
+              })}
+            </div>
           </section>
         )}
 
@@ -324,28 +341,19 @@ function Lesson({ lessonId }) {
         )}
 
         <section className="mt-6 flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-            {strings.stars}:
-            <div className="flex items-center gap-1">
-              {Array.from({ length: totalStars }).map((_, index) => {
-                const isCollected = index < collectedStars
-                return (
-                  <svg
-                    key={`star-${index}`}
-                    viewBox="0 0 24 24"
-                    className={`h-4 w-4 ${isCollected ? 'text-amber-400' : 'text-slate-300 dark:text-slate-600'}`}
-                    aria-hidden="true"
-                    fill="currentColor"
-                  >
-                    <path d="M12 2l2.9 6.1 6.7.6-5 4.5 1.5 6.6L12 16.9 5.9 19.8 7.4 13 2.4 8.7l6.7-.6L12 2z" />
-                  </svg>
-                )
-              })}
-              {totalStars === 0 && (
-                <span className="text-[11px] text-slate-400">{strings.noStars}</span>
-              )}
-            </div>
-          </div>
+          <button
+            type="button"
+            onClick={handlePrevious}
+            disabled={!previousLessonId}
+            className={
+              'btn-3d w-full rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold sm:w-auto dark:border-slate-800 ' +
+              (!previousLessonId
+                ? 'cursor-not-allowed text-slate-400 dark:text-slate-500'
+                : 'text-slate-700 dark:text-slate-300')
+            }
+          >
+            {strings.previousLesson}
+          </button>
           <button
             type="button"
             onClick={handleContinue}
@@ -377,6 +385,21 @@ function Lesson({ lessonId }) {
           </h2>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
             {completedLessonIds.length} / {ORDERED_LESSONS.length} {strings.completed}
+          </p>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <span className="inline-flex items-center gap-1.5">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4 text-amber-500"
+                aria-hidden="true"
+                fill="currentColor"
+              >
+                <path d="M12 2l2.9 6.1 6.7.6-5 4.5 1.5 6.6L12 16.9 5.9 19.8 7.4 13 2.4 8.7l6.7-.6L12 2z" />
+              </svg>
+              <span>
+                {totalCollectedStars} {strings.collectedStarsLabel}
+              </span>
+            </span>
           </p>
         </section>
       </main>
